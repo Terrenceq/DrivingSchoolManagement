@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DrivingSchoolManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DrivingSchoolManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressID" />
@@ -107,6 +107,7 @@
           <Property Name="UserCredentialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Login" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserTypeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserType">
           <Key>
@@ -350,6 +351,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserCredential_UserType">
+          <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
+          <End Role="UserCredential" Type="Self.UserCredential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="UserTypeID" />
+            </Principal>
+            <Dependent Role="UserCredential">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vehicle_VehicleType">
           <End Role="VehicleType" Type="Self.VehicleType" Multiplicity="1" />
           <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
@@ -459,6 +472,10 @@
             <End Role="UserType" EntitySet="UserType" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserCredential_UserType" Association="Self.FK_UserCredential_UserType">
+            <End Role="UserType" EntitySet="UserType" />
+            <End Role="UserCredential" EntitySet="UserCredential" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vehicle_VehicleType" Association="Self.FK_Vehicle_VehicleType">
             <End Role="VehicleType" EntitySet="VehicleType" />
             <End Role="Vehicle" EntitySet="Vehicle" />
@@ -468,8 +485,7 @@
             <End Role="VehicleType" EntitySet="VehicleType" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DrivingSchoolManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -607,6 +623,8 @@
           <NavigationProperty Name="Drivers" Relationship="Self.FK_Driver_UserCredential" FromRole="UserCredential" ToRole="Driver" />
           <NavigationProperty Name="Managers" Relationship="Self.FK_Manager_UserCredential" FromRole="UserCredential" ToRole="Manager" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Student_UserCredential" FromRole="UserCredential" ToRole="Student" />
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserType" Relationship="DrivingSchoolManagementModel.FK_UserCredential_UserType" FromRole="UserCredential" ToRole="UserType" />
         </EntityType>
         <EntityType Name="UserType">
           <Key>
@@ -618,6 +636,7 @@
           <NavigationProperty Name="Managers" Relationship="Self.FK_Manager_UserType" FromRole="UserType" ToRole="Manager" />
           <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_UserType" FromRole="UserType" ToRole="Permission" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Student_UserType" FromRole="UserType" ToRole="Student" />
+          <NavigationProperty Name="UserCredentials" Relationship="DrivingSchoolManagementModel.FK_UserCredential_UserType" FromRole="UserType" ToRole="UserCredential" />
         </EntityType>
         <EntityType Name="Vehicle">
           <Key>
@@ -975,7 +994,23 @@
             <End Role="VehicleType" EntitySet="VehicleTypes" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserCredential_UserType" Association="DrivingSchoolManagementModel.FK_UserCredential_UserType">
+            <End Role="UserType" EntitySet="UserTypes" />
+            <End Role="UserCredential" EntitySet="UserCredentials" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_UserCredential_UserType">
+          <End Type="DrivingSchoolManagementModel.UserType" Role="UserType" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.UserCredential" Role="UserCredential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="UserTypeID" />
+            </Principal>
+            <Dependent Role="UserCredential">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1088,6 +1123,7 @@
           <EntitySetMapping Name="UserCredentials">
             <EntityTypeMapping TypeName="DrivingSchoolManagementModel.UserCredential">
               <MappingFragment StoreEntitySet="UserCredential">
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="UserCredentialID" ColumnName="UserCredentialID" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

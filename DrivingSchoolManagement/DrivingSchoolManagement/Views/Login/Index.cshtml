@@ -20,6 +20,27 @@
         text-align:center;
     }
 </style>
+
+<script>
+    function LoginButtonClick() {
+        if (ASPxClientEdit.AreEditorsValid()) {
+            errorLabel.innerText = "";
+            var data = $('#LoginFormLayout').serialize();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CheckProvidedCredentials", "Login")',
+            data: data,
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                } else {
+                    errorLabel.innerText = response.responseText;
+                }
+            }
+        });
+        }
+}
+</script>
 <h2>Witamy w strefie kursanta!</h2>
 <p><strong>LOGIN:</strong>imie.nazwisko</p>
 <p><strong>HAS£O:</strong>PESEL</p>

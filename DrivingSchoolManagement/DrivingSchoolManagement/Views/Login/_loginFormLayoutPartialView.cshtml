@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-@using (Ajax.BeginForm("CheckProvidedCredentials", "Login", new AjaxOptions { HttpMethod = "POST" }))
+@using (Html.BeginForm("CheckProvidedCredentials", "Login", FormMethod.Post, new { id = "LoginFormLayout" }))
 {
     @Html.DevExpress().FormLayout(settings =>
 {
@@ -44,10 +44,13 @@
         });
         g.Items.Add(i =>
         {
-            i.ClientVisible = false;
+            i.ShowCaption = DefaultBoolean.False;
+            i.HorizontalAlign = FormLayoutHorizontalAlign.Center;
+            i.Paddings.PaddingTop = 10;
             i.NestedExtension().Label(lb =>
             {
                 lb.Name = "errorLabel";
+                lb.ControlStyle.ForeColor = Color.Red;
             });
         });
         g.Items.Add(i =>
@@ -57,9 +60,10 @@
             i.Paddings.PaddingTop = 20;
             i.NestedExtension().Button(s =>
             {
-                s.Name = "LogIn";
+                s.Name = "LoginButton";
                 s.Text = "Zaloguj się";
-                s.UseSubmitBehavior = true;
+                s.UseSubmitBehavior = false;
+                s.ClientSideEvents.Click = "function(s,e) {LoginButtonClick();}";
             });
         });
     });

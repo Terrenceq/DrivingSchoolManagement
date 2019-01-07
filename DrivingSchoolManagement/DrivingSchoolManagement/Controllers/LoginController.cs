@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using DrivingSchoolDb;
 using System.Web.Security;
+using System.Text;
 
 namespace DrivingSchoolManagement.Controllers
 {
@@ -22,19 +23,30 @@ namespace DrivingSchoolManagement.Controllers
             {
                 try
                 {
-                    var user = db.UserCredentials.FirstOrDefault(x => x.Login == item.Login && x.Password == item.Password);
+                    var bytes = new UTF8Encoding().GetBytes(item.Password);
+                    var hashedPassword = System.Security.Cryptography.MD5.Create().ComputeHash(bytes);
+
+                    var password = Convert.ToBase64String(hashedPassword);
+
+                    var user = db.UserCredentials.FirstOrDefault(x => x.Login == item.Login && x.Password == password);
+
                     if (user != null)
                     {
-                        Session["UserID"] = 
+                        Session["UserType"] = user.UserType.UserTypeName;
+                        Session["UserCredentialID"] = user.UserCredentialID;
+
+                        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                     }
-                    db.SaveChanges();
+                    else
+                    {
+                        return Json(new { success = false, responseText = "Podany login lub has³o s¹ nieprawid³owe." }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 catch (Exception e)
                 {
-                    ViewData["EditError"] = "Please, correct all errors.";
+                    return Json(new { success = false, responseText = "Podany login lub has³o s¹ nieprawid³owe." }, JsonRequestBehavior.AllowGet);
                 }
             }
-            return RedirectToAction("Index");
         }
     }
 }

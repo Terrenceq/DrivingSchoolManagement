@@ -37,6 +37,7 @@
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Student_UserCredential" ManuallyRouted="false" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Student_UserType" ManuallyRouted="false" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Vehicle_VehicleType" ManuallyRouted="false" />
+        <AssociationConnector Association="DrivingSchoolManagementModel.FK_UserCredential_UserType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

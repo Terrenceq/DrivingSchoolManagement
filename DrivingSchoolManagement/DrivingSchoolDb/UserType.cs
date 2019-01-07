@@ -21,6 +21,7 @@ namespace DrivingSchoolDb
             this.Managers = new HashSet<Manager>();
             this.Permissions = new HashSet<Permission>();
             this.Students = new HashSet<Student>();
+            this.UserCredentials = new HashSet<UserCredential>();
         }
     
         public int UserTypeID { get; set; }
@@ -34,5 +35,7 @@ namespace DrivingSchoolDb
         public virtual ICollection<Permission> Permissions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Student> Students { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserCredential> UserCredentials { get; set; }
     }
 }
