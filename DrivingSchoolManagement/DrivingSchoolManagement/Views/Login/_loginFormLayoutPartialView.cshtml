@@ -10,17 +10,16 @@
 {
     settings.Name = "loginFormLayout";
     settings.AlignItemCaptionsInAllGroups = true;
-
+    settings.Style.Add("margin", "auto");
+    settings.Style.Add("margin-top", "40px");
     settings.Items.AddGroupItem(g =>
     {
         g.Caption = "Formularz logowania";
         g.ColCount = 1;
-        g.GroupBoxStyle.Caption.ForeColor = Color.White;
-        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+        g.GroupBoxDecoration = GroupBoxDecoration.Box;
         g.Items.Add(m => m.Login, i =>
         {
             i.Caption = "Login";
-            i.CaptionStyle.ForeColor = Color.White;
             i.NestedExtensionSettings.Width = Unit.Percentage(100);
             i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
             i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
@@ -28,13 +27,11 @@
             {
                 t.Properties.ValidationSettings.RequiredField.IsRequired = true;
                 t.Properties.ValidationSettings.Display = Display.Dynamic;
-                t.Properties.NullDisplayText = "imie.nazwisko";
             });
         });
         g.Items.Add(m => m.Password, i =>
         {
             i.Caption = "Hasło";
-
             i.NestedExtensionSettings.Width = Unit.Percentage(100);
             i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
             i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
@@ -43,20 +40,26 @@
                 t.Properties.ValidationSettings.RequiredField.IsRequired = true;
                 t.Properties.ValidationSettings.Display = Display.Dynamic;
                 t.Properties.Password = true;
-                t.Properties.NullDisplayText = "Domyślnie PESEL";
+            });
+        });
+        g.Items.Add(i =>
+        {
+            i.ClientVisible = false;
+            i.NestedExtension().Label(lb =>
+            {
+                lb.Name = "errorLabel";
             });
         });
         g.Items.Add(i =>
         {
             i.ShowCaption = DefaultBoolean.False;
             i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
-            i.Paddings.PaddingBottom = 20;
+            i.Paddings.PaddingTop = 20;
             i.NestedExtension().Button(s =>
             {
-                s.Name = "applyButton";
-                s.Text = "Add Record";
+                s.Name = "LogIn";
+                s.Text = "Zaloguj się";
                 s.UseSubmitBehavior = true;
-                s.ClientSideEvents.Click += "function (s, e) { if(ASPxClientEdit.AreEditorsValid()){HidePopup();}}";
             });
         });
     });

@@ -1,25 +1,29 @@
 @{
-    ViewBag.Title = "Login to Driving School Management";
-    Layout = "~/Views/Login/_mainLayout.cshtml";
+    ViewBag.Title = "Strefa kursanta - OSK";
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
 }
 
 <style>
-    body {
-        background-color: black;
+    .templateTitle{
+        text-align:center!important;
     }
-    .loginForm{
-        float:left;
-        width: 50%;
-        height: 100%;
-    }
+
     .image {
-        width: 50%;
-        height: 100%;
-        float:right;
-        background: url('/Content/Images/background-login.jpg') no-repeat center center;
+        width: 100%;
+        height: 450px;
+        background: url('/Content/Images/YARISwhite.png') no-repeat center center;
+    }
+    h2{
+        text-align: center;
+    }
+    p{
+        text-align:center;
     }
 </style>
-
+<h2>Witamy w strefie kursanta!</h2>
+<p><strong>LOGIN:</strong>imie.nazwisko</p>
+<p><strong>HAS£O:</strong>PESEL</p>
+<p>W polu <b>login</b> proszê nie u¿ywaæ polskich znaków.</p>
 <div class="loginForm">
     @Html.Partial("_loginFormLayoutPartialView")
 </div>
