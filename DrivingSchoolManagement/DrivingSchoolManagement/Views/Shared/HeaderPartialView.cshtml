@@ -1,0 +1,25 @@
+﻿@model HeaderViewRenderMode
+
+@if (Model == HeaderViewRenderMode.Title)
+{
+    <div class="templateTitle">
+        @Html.ActionLink("Home", "Index", "Home")
+    </div>
+}
+else
+{
+    if (Model == HeaderViewRenderMode.Full)
+    {
+        <div class="headerTop">
+            <div class="templateTitle">
+                <a href='@Url.Action("Index", "Home")'>
+                    <img src='@Url.Content("~/Content/Images/logo.png")' style="width:75px" />
+                </a>
+            </div>
+        </div>
+    }
+
+    <div class="headerMenu">
+
+    </div>
+}

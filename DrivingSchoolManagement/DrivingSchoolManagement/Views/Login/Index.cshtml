@@ -1,0 +1,27 @@
+@{
+    ViewBag.Title = "Login to Driving School Management";
+    Layout = "~/Views/Login/_mainLayout.cshtml";
+}
+
+<style>
+    body {
+        background-color: black;
+    }
+    .loginForm{
+        float:left;
+        width: 50%;
+        height: 100%;
+    }
+    .image {
+        width: 50%;
+        height: 100%;
+        float:right;
+        background: url('/Content/Images/background-login.jpg') no-repeat center center;
+    }
+</style>
+
+<div class="loginForm">
+    @Html.Partial("_loginFormLayoutPartialView")
+</div>
+
+<div class="image"></div>

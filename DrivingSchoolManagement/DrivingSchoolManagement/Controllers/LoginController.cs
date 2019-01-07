@@ -8,15 +8,11 @@ using System.Web.Security;
 
 namespace DrivingSchoolManagement.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to DevExpress Extensions for ASP.NET MVC!";
-
             return View();
         }
     }
 }
-
-public enum HeaderViewRenderMode { Full, Title }
