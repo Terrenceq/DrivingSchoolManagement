@@ -12,25 +12,18 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class UserCredential
+    public partial class LessonTime
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserCredential()
+        public LessonTime()
         {
-            this.Drivers = new HashSet<Driver>();
-            this.Managers = new HashSet<Manager>();
-            this.Students = new HashSet<Student>();
+            this.Lessons = new HashSet<Lesson>();
         }
     
-        public int UserCredentialID { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public int LessonTimeID { get; set; }
+        public string Time { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Driver> Drivers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Manager> Managers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
     }
 }

@@ -12,21 +12,31 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Manager
+    public partial class User
     {
-        public int ManagerID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.Passwords = new HashSet<Password>();
+        }
+    
+        public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public System.DateTime DateOfBirth { get; set; }
+        public string PESEL { get; set; }
         public string Email { get; set; }
-        public int UserTypeID { get; set; }
+        public int PermissionLevelID { get; set; }
         public string About { get; set; }
         public System.DateTime DateCreated { get; set; }
         public int AddressID { get; set; }
-        public int UserCredentialID { get; set; }
+        public string Login { get; set; }
     
         public virtual Address Address { get; set; }
-        public virtual UserCredential UserCredential { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual DriverInfo DriverInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Password> Passwords { get; set; }
+        public virtual PermissionLevel PermissionLevel { get; set; }
+        public virtual StudentInfo StudentInfo { get; set; }
     }
 }
