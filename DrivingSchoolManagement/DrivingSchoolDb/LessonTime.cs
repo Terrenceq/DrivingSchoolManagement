@@ -12,22 +12,18 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Address
+    public partial class LessonTime
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Address()
+        public LessonTime()
         {
-            this.Users = new HashSet<User>();
+            this.Lessons = new HashSet<Lesson>();
         }
     
-        public int AddressID { get; set; }
-        public string StreetName { get; set; }
-        public string Number { get; set; }
-        public string City { get; set; }
-        public string PostalCode { get; set; }
-        public string Country { get; set; }
+        public int LessonTimeID { get; set; }
+        public string Time { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿@model DrivingSchoolDb.UserCredential
-@using System.Drawing;
+﻿@using System.Drawing;
+@using DrivingSchoolManagement.ViewModels;
+
+@model LoginViewModel
 @{
     Layout = null;
 }
@@ -15,10 +17,11 @@
     settings.Items.AddGroupItem(g =>
     {
         g.Caption = "Formularz logowania";
-        g.ColCount = 1;
+        g.ColCount = 2;
         g.GroupBoxDecoration = GroupBoxDecoration.Box;
         g.Items.Add(m => m.Login, i =>
         {
+            i.ColumnSpan = 2;
             i.Caption = "Login";
             i.NestedExtensionSettings.Width = Unit.Percentage(100);
             i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
@@ -31,6 +34,7 @@
         });
         g.Items.Add(m => m.Password, i =>
         {
+            i.ColumnSpan = 2;
             i.Caption = "Hasło";
             i.NestedExtensionSettings.Width = Unit.Percentage(100);
             i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
@@ -44,6 +48,7 @@
         });
         g.Items.Add(i =>
         {
+            i.ColumnSpan = 2;
             i.ShowCaption = DefaultBoolean.False;
             i.HorizontalAlign = FormLayoutHorizontalAlign.Center;
             i.Paddings.PaddingTop = 10;
@@ -55,6 +60,20 @@
         });
         g.Items.Add(i =>
         {
+            i.ColumnSpan = 1;
+            i.ShowCaption = DefaultBoolean.False;
+            i.Paddings.PaddingTop = 20;
+            i.HorizontalAlign = FormLayoutHorizontalAlign.Center;
+            i.ClientVisible = false;
+            i.NestedExtension().HyperLink(hl =>
+            {
+                hl.Name = "remindPassword";
+                hl.Properties.Text = "Przypomnij hasło";
+            });
+        });
+        g.Items.Add(i =>
+        {
+            i.ColumnSpan = 1;
             i.ShowCaption = DefaultBoolean.False;
             i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
             i.Paddings.PaddingTop = 20;

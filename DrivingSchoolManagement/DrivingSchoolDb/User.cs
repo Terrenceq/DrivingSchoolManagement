@@ -12,35 +12,35 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Driver
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Driver()
+        public User()
         {
-            this.Lessons = new HashSet<Lesson>();
-            this.Students = new HashSet<Student>();
+            this.Passwords = new HashSet<Password>();
+            this.UserCredentials = new HashSet<UserCredential>();
         }
     
-        public int DriverID { get; set; }
+        public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public System.DateTime DateOfBirth { get; set; }
+        public string PESEL { get; set; }
         public string Email { get; set; }
-        public int UserTypeID { get; set; }
+        public int PermissionLevelID { get; set; }
         public string About { get; set; }
         public System.DateTime DateCreated { get; set; }
         public int AddressID { get; set; }
-        public string LicenceNumber { get; set; }
-        public int UserCredentialID { get; set; }
-        public int CategoryID { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
     
         public virtual Address Address { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual UserCredential UserCredential { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual DriverInfo DriverInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Password> Passwords { get; set; }
+        public virtual PermissionLevel PermissionLevel { get; set; }
+        public virtual StudentInfo StudentInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<UserCredential> UserCredentials { get; set; }
     }
 }

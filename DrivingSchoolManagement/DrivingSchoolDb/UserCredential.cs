@@ -14,25 +14,11 @@ namespace DrivingSchoolDb
     
     public partial class UserCredential
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserCredential()
-        {
-            this.Drivers = new HashSet<Driver>();
-            this.Managers = new HashSet<Manager>();
-            this.Students = new HashSet<Student>();
-        }
-    
         public int UserCredentialID { get; set; }
+        public int UserID { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public int UserTypeID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Driver> Drivers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Manager> Managers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual User User { get; set; }
     }
 }

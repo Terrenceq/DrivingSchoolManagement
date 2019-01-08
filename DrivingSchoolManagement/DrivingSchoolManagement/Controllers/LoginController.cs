@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using DrivingSchoolDb;
 using System.Web.Security;
 using System.Text;
+using DrivingSchoolManagement.ViewModels;
 
 namespace DrivingSchoolManagement.Controllers
 {
@@ -17,24 +18,21 @@ namespace DrivingSchoolManagement.Controllers
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult CheckProvidedCredentials(UserCredential item)
+        public ActionResult CheckProvidedCredentials(LoginViewModel userCredentials)
         {
             using (var db = new DrivingSchoolManagementEntities())
             {
                 try
                 {
-                    var bytes = new UTF8Encoding().GetBytes(item.Password);
+                    var bytes = new UTF8Encoding().GetBytes(userCredentials.Password);
                     var hashedPassword = System.Security.Cryptography.MD5.Create().ComputeHash(bytes);
-
                     var password = Convert.ToBase64String(hashedPassword);
 
-                    var user = db.UserCredentials.FirstOrDefault(x => x.Login == item.Login && x.Password == password);
+                    var userCredential = db.UserCredentials.FirstOrDefault(x => x.Login == userCredentials.Login && x.Password == password);
 
-                    if (user != null)
+                    if (userCredential != null)
                     {
-                        Session["UserType"] = user.UserType.UserTypeName;
-                        Session["UserCredentialID"] = user.UserCredentialID;
-
+                        var user = userCredential.UserID;
                         return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                     }
                     else

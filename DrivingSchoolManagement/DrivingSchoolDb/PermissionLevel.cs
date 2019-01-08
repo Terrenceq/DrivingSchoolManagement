@@ -12,20 +12,16 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Address
+    public partial class PermissionLevel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Address()
+        public PermissionLevel()
         {
             this.Users = new HashSet<User>();
         }
     
-        public int AddressID { get; set; }
-        public string StreetName { get; set; }
-        public string Number { get; set; }
-        public string City { get; set; }
-        public string PostalCode { get; set; }
-        public string Country { get; set; }
+        public int PermissionLevelID { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }

@@ -12,18 +12,25 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class PermissionTemplate
+    public partial class StudentInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PermissionTemplate()
+        public StudentInfo()
         {
-            this.Permissions = new HashSet<Permission>();
+            this.DriverInfoes = new HashSet<DriverInfo>();
+            this.Lessons = new HashSet<Lesson>();
         }
     
-        public int PermissionTemplateID { get; set; }
-        public string PermissionTemplateName { get; set; }
+        public int StudentID { get; set; }
+        public int AssignedDriverID { get; set; }
+        public int CategoryID { get; set; }
     
+        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Permission> Permissions { get; set; }
+        public virtual ICollection<DriverInfo> DriverInfoes { get; set; }
+        public virtual DriverInfo DriverInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual User User { get; set; }
     }
 }

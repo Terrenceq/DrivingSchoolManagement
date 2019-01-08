@@ -20,11 +20,13 @@ namespace DrivingSchoolDb
         public int CategoryID { get; set; }
         public int VehicleID { get; set; }
         public System.DateTime AppointmentDateTime { get; set; }
-        public System.DateTime LessonDateTime { get; set; }
+        public System.DateTime LessonDate { get; set; }
+        public int LessonTimeID { get; set; }
     
         public virtual Category Category { get; set; }
-        public virtual Driver Driver { get; set; }
-        public virtual Student Student { get; set; }
+        public virtual DriverInfo DriverInfo { get; set; }
+        public virtual LessonTime LessonTime { get; set; }
+        public virtual StudentInfo StudentInfo { get; set; }
         public virtual Vehicle Vehicle { get; set; }
     }
 }

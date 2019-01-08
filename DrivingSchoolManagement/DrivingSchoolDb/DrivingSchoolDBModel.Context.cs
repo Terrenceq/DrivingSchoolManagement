@@ -27,14 +27,14 @@ namespace DrivingSchoolDb
     
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Driver> Drivers { get; set; }
+        public virtual DbSet<DriverInfo> DriverInfoes { get; set; }
         public virtual DbSet<Lesson> Lessons { get; set; }
-        public virtual DbSet<Manager> Managers { get; set; }
-        public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<PermissionTemplate> PermissionTemplates { get; set; }
-        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<LessonTime> LessonTimes { get; set; }
+        public virtual DbSet<Password> Passwords { get; set; }
+        public virtual DbSet<PermissionLevel> PermissionLevels { get; set; }
+        public virtual DbSet<StudentInfo> StudentInfoes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserCredential> UserCredentials { get; set; }
-        public virtual DbSet<UserType> UserTypes { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<VehicleType> VehicleTypes { get; set; }
     }

@@ -12,33 +12,26 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Student
+    public partial class DriverInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Student()
+        public DriverInfo()
         {
             this.Lessons = new HashSet<Lesson>();
+            this.StudentInfoes = new HashSet<StudentInfo>();
         }
     
-        public int StudentID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public System.DateTime DateOfBirth { get; set; }
-        public string Email { get; set; }
-        public int UserTypeID { get; set; }
-        public string About { get; set; }
-        public System.DateTime DateCreated { get; set; }
-        public int AddressID { get; set; }
         public int DriverID { get; set; }
-        public int UserCredentialID { get; set; }
+        public int AssignedStudentID { get; set; }
+        public string LicenceNumber { get; set; }
         public int CategoryID { get; set; }
     
-        public virtual Address Address { get; set; }
         public virtual Category Category { get; set; }
-        public virtual Driver Driver { get; set; }
+        public virtual StudentInfo StudentInfo { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lesson> Lessons { get; set; }
-        public virtual UserCredential UserCredential { get; set; }
-        public virtual UserType UserType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudentInfo> StudentInfoes { get; set; }
     }
 }

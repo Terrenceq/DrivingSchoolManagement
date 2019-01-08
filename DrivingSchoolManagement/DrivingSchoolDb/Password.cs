@@ -12,14 +12,13 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Permission
+    public partial class Password
     {
-        public int PermissionID { get; set; }
-        public int PermissionTemplateID { get; set; }
-        public int UserTypeID { get; set; }
-        public bool Access { get; set; }
+        public int PasswordID { get; set; }
+        public int UserID { get; set; }
+        public string PasswordHash { get; set; }
+        public System.DateTime DateCreated { get; set; }
     
-        public virtual PermissionTemplate PermissionTemplate { get; set; }
-        public virtual UserType UserType { get; set; }
+        public virtual User User { get; set; }
     }
 }

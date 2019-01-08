@@ -111,7 +111,7 @@
     <Compile Include="Category.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Driver.cs">
+    <Compile Include="DriverInfo.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DrivingSchoolDBModel.Context.cs">
@@ -132,23 +132,23 @@
     <Compile Include="Lesson.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Manager.cs">
+    <Compile Include="LessonTime.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Permission.cs">
+    <Compile Include="Password.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PermissionTemplate.cs">
+    <Compile Include="PermissionLevel.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Student.cs">
+    <Compile Include="StudentInfo.cs">
+      <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UserCredential.cs">
-      <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserType.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Vehicle.cs">
