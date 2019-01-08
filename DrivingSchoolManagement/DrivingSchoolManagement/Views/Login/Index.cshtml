@@ -25,9 +25,30 @@
     #Input{
         width:100%;
     }
+
+    .dxpcLite_Material .dxpc-mainDiv{
+        border: none !important;
+    }
+
+    .dxpcLite_Material .dxpc-header {
+        padding: 10px 10px 10px 12px !important;
+    }
 </style>
 
 <script>
+    var prevOnLoad = window.onload;
+    window.onload = myOnLoad;
+    function myOnLoad() {
+        if (prevOnLoad != null)
+            prevOnLoad();
+        document.onkeydown = myOnKeyDown;
+    }
+    function myOnKeyDown() {
+        if (event.keyCode == 13) {
+            ASPxClientUtils.PreventEventAndBubble(event); 
+        }
+    }
+
     function LoginButtonClick() {
         if (ASPxClientEdit.AreEditorsValid()) {
             errorLabel.innerText = "";
@@ -58,6 +79,7 @@
             data: data,
             success: function (response) {
                 if (response.success) {
+                    _emailSentSuccess.Show();
                 } else {
                     errorLabelText.innerText = response.responseText;
                 }
@@ -65,9 +87,12 @@
         });
         }
     }
-
     function ShowRemindPasswordForm() {
         document.getElementById("remindPasswordFormLayout").style.display = "block";
+    }
+
+    function HideRemindPasswordForm() {
+        setTimeout(document.getElementById("remindPasswordFormLayout").style.display = "none", 2000);
     }
 
 </script>
@@ -83,25 +108,27 @@
 </div>
 <div class="image"></div>
 
-@Html.DevExpress().PopupControl(
-    settings =>
-    {
-        settings.Name = "popup";
-        settings.Width = 500;
-        settings.MaxWidth = 500;
-        settings.Height = 200;
-        settings.CallbackRouteValues = new { Controller = "Login", Action = "RemindPasswordPopup" };
-        settings.AllowDragging = false;
-        settings.AutoUpdatePosition = true;
-        settings.CloseAction = CloseAction.CloseButton;
-        settings.ShowHeader = true;
-        settings.CloseOnEscape = true;
-        settings.PopupAnimationType = AnimationType.Fade;
-        settings.Modal = true;
-        settings.HeaderText = "Przypomnij has³o";
-        settings.ShowPageScrollbarWhenModal = true;
-        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
-        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
-        settings.Styles.Content.Paddings.Padding = Unit.Pixel(0);
-        settings.ClientSideEvents.EndCallback = "function(s, e){popup.UpdatePosition();}";
-    }).GetHtml()
+<div>
+    @Html.DevExpress().PopupControl(settings =>
+        {
+            settings.Name = "_emailSentSuccess";
+            settings.Width = 400;
+            settings.AllowResize = false;
+            settings.ShowHeader = true;
+            settings.ShowOnPageLoad = false;
+            settings.AllowDragging = false;
+            settings.Styles.Header.BackColor = System.Drawing.Color.FromArgb(0, 150, 136);
+            settings.Styles.Header.ForeColor = System.Drawing.Color.White;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.Modal = true;
+            settings.HeaderText = "Sukces!";
+            settings.PopupElementID = "emailSentSuccess";
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+            settings.ClientSideEvents.CloseButtonClick += "HideRemindPasswordForm";
+            settings.SetContent(() =>
+                {
+                    ViewContext.Writer.Write("<div id='eMailSuccessSendMessage'>Has³o zosta³o wys³ane na Twoj¹ skrzynkê mailow¹!</div></br>");
+                });
+        }).GetHtml()
+</div>
