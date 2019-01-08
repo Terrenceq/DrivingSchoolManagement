@@ -13,7 +13,8 @@
     settings.Name = "loginFormLayout";
     settings.AlignItemCaptionsInAllGroups = true;
     settings.Style.Add("margin", "auto");
-    settings.Style.Add("margin-top", "40px");
+    settings.Style.Add("margin-top", "20px");
+    settings.Width = 350;
     settings.Items.AddGroupItem(g =>
     {
         g.Caption = "Formularz logowania";
@@ -62,13 +63,16 @@
         {
             i.ColumnSpan = 1;
             i.ShowCaption = DefaultBoolean.False;
-            i.Paddings.PaddingTop = 20;
+            i.Paddings.PaddingTop = 10;
             i.HorizontalAlign = FormLayoutHorizontalAlign.Center;
-            i.ClientVisible = false;
             i.NestedExtension().HyperLink(hl =>
             {
+                hl.ClientVisible = false;
+                hl.Style.Add("cursor", "pointer");
                 hl.Name = "remindPassword";
                 hl.Properties.Text = "Przypomnij hasło";
+                hl.Properties.ClientInstanceName = "remindPassword";
+                hl.Properties.ClientSideEvents.Click = "function (s,e) {ShowRemindPasswordForm();}";
             });
         });
         g.Items.Add(i =>
@@ -76,7 +80,7 @@
             i.ColumnSpan = 1;
             i.ShowCaption = DefaultBoolean.False;
             i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
-            i.Paddings.PaddingTop = 20;
+            i.Paddings.PaddingTop = 10;
             i.NestedExtension().Button(s =>
             {
                 s.Name = "LoginButton";

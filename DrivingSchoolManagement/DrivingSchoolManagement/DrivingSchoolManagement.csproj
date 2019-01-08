@@ -267,6 +267,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_rootLayout.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
+    <Content Include="Views\Login\_remindPasswordFormLayoutPartialView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -285,6 +286,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RemindPasswordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

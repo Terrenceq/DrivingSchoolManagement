@@ -15,9 +15,15 @@
     }
     h2{
         text-align: center;
+        margin-top: 10px;
     }
     p{
         text-align:center;
+        margin-top: -5px;
+    }
+
+    #Input{
+        width:100%;
     }
 </style>
 
@@ -35,18 +41,67 @@
                     window.location.href = '@Url.Action("Index", "Home")';
                 } else {
                     errorLabel.innerText = response.responseText;
+                    remindPassword.SetVisible(true);
                 }
             }
         });
         }
-}
+    }
+
+    function SendEmailButtonClick() {
+        debugger;
+        if (ASPxClientEdit.AreEditorsValid()) {
+            var data = $('#RemindPasswordFormLayout').serialize();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendEmailWithPassword", "Login")',
+            data: data,
+            success: function (response) {
+                if (response.success) {
+                } else {
+                    errorLabelText.innerText = response.responseText;
+                }
+            }
+        });
+        }
+    }
+
+    function ShowRemindPasswordForm() {
+        document.getElementById("remindPasswordFormLayout").style.display = "block";
+    }
+
 </script>
 <h2>Witamy w strefie kursanta!</h2>
-<p><strong>LOGIN:</strong>imie.nazwisko</p>
-<p><strong>HAS£O:</strong>PESEL</p>
+<p><strong>LOGIN: </strong>imie.nazwisko</p>
+<p><strong>HAS£O: </strong>PESEL</p>
 <p>W polu <b>login</b> proszê nie u¿ywaæ polskich znaków.</p>
 <div class="loginForm">
     @Html.Partial("_loginFormLayoutPartialView")
 </div>
-
+<div id="remindPasswordFormLayout" style="display:none">
+    @Html.Partial("_remindPasswordFormLayoutPartialView")
+</div>
 <div class="image"></div>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popup";
+        settings.Width = 500;
+        settings.MaxWidth = 500;
+        settings.Height = 200;
+        settings.CallbackRouteValues = new { Controller = "Login", Action = "RemindPasswordPopup" };
+        settings.AllowDragging = false;
+        settings.AutoUpdatePosition = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.ShowHeader = true;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.Fade;
+        settings.Modal = true;
+        settings.HeaderText = "Przypomnij has³o";
+        settings.ShowPageScrollbarWhenModal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.Styles.Content.Paddings.Padding = Unit.Pixel(0);
+        settings.ClientSideEvents.EndCallback = "function(s, e){popup.UpdatePosition();}";
+    }).GetHtml()
