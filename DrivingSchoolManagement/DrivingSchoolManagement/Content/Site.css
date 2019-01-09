@@ -61,6 +61,8 @@ h3
 
 #HeaderMenu {
     background-color: #4ca3df !important;
+    border-style:none!important;
+    border-width:0px!important;
 }
 
 .dxm-separator b {
@@ -128,9 +130,17 @@ a[id^='HeaderMenu_DXI'], a[id*='HeaderMenu_DXI'] {
 }
 
 .dxpnlControl_Material.dxpnl-edge {
-    padding: 4px !important;
+    padding: 0px !important;
 }
 
 .templateTitle {
     float: left;
+}
+
+.dxmLite_Material .dxm-horizontal .dxm-image-l .dxm-content {
+    padding: 27px 22px 15px 19px!important;
+}
+
+.dx-vam {
+    margin-top: -10px !important;
 }

@@ -11,9 +11,9 @@ else
     if (Model == HeaderViewRenderMode.Full)
     {
         <div class="headerTop">
-            <div class="templateTitle">
+            <div class="templateTitle" style="width:300px">
                 <a href='@Url.Action("Index", "Home")'>
-                    <img src='@Url.Content("~/Content/Images/kurs-L-samochodowy.jpg")' style="margin-left: 10px; width:50px; height:50px;" />
+                    <img src='@Url.Content("~/Content/Images/kurs-L-samochodowy.jpg")' style="margin-top:2px;margin-left: 10px; width:50px; height:50px;" />
                 </a>
             </div>
         @if (HttpContext.Current.Session["UserID"] != null)
@@ -27,15 +27,14 @@ else
         </div>
     }
 
-    <div class="headerMenu">
+    <div class="headerMenu" style="float: left; margin-left: 20px; display: flex">
         @Html.DevExpress().Menu(settings =>
 {
     settings.Name = "HeaderMenu";
     settings.ItemAutoWidth = false;
-    settings.ControlStyle.CssClass = "headerMenu";
     settings.Width = Unit.Percentage(100);
     settings.AllowSelectItem = true;
-    if (Session["Source"] != null && (string)Session["Source"] == "GVDB" && user != null)
+    if (Session["UserID"] != null)
     {
         settings.Items.Add(item =>
         {
