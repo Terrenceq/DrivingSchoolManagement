@@ -34,3 +34,99 @@ h3
 {
     padding: 12px 0; 
 }
+
+
+
+.dxm-hovered {
+    background-color: #007cd2 !important;
+
+}
+
+.dxm-selected {
+    /*background-color: #0966B1 !important;*/
+    background-color: #007cd2 !important;
+    /*border-radius: 5px;*/
+}
+
+.headerMenu {
+    width: auto !important;
+    background: none !important;
+}
+
+.headerPane {
+    background-color: #4ca3df !important;
+    background-position: left top !important;
+    background-repeat: no-repeat !important;
+}
+
+#HeaderMenu {
+    background-color: #4ca3df !important;
+}
+
+.dxm-separator b {
+    background-color: #4ca3df !important;
+}
+
+.dxeFocused_Material {
+    border: 1px solid #007cd2 !important;
+}
+
+.dxeButtonEditButtonHover_Material, .dxeListBoxItemSelected_Material, .dxeButtonEditButtonPressed_Material, .dxeSpinIncButtonHover_Material, .dxeSpinDecButtonHover_Material, .dxeSpinLargeIncButtonHover_Material, .dxeSpinLargeDecButtonHover_Material {
+    background-color: #007cd2 !important;
+    color: white !important;
+}
+
+.dxeButtonEditButton_Material.dxeButtonEditClearButton_Material:hover {
+    background-color: transparent !important;
+}
+
+.dxbButton_Material {
+    color: white;
+    background-color: #007cd2 !important;
+}
+
+.dxgvCommandColumn_Material a, .newButton {
+    color: #007cd2 !important;
+    text-decoration: none !important;
+    background-color: transparent !important;
+}
+
+.dxgvCommandColumnItem_Material span {
+    color: #007cd2 !important;
+}
+
+
+.dxeCalendarButtonPressed_Material, .dxeButtonEditButtonPressed_Material, .dxeSpinIncButtonPressed_Material, .dxeSpinDecButtonPressed_Material, .dxeSpinLargeIncButtonPressed_Material, .dxeSpinLargeDecButtonPressed_Material, .dxeColorEditButton_Material:active {
+    background-color: #007cd2 !important;
+    color: white !important;
+}
+
+
+.dxucBrowseButtonHover_Material, .dxucBrowseButtonPressed_Material {
+    background-color: #007cd2 !important;
+}
+
+
+a[id^='HeaderMenu_DXI'], a[id*='HeaderMenu_DXI'] {
+    color: white !important;
+}
+
+#MainSplitter_0 {
+    height: 50px !important;
+}
+
+.dxmLite_Material .dxm-main .dxm-selected {
+    background-color: #007cd2 !important;
+}
+
+.dxsplControl_Material {
+    border: none !important;
+}
+
+.dxpLite_Material .dxp-current, .dxeCalendarHeader_Material {
+    background-color: #007cd2 !important;
+}
+
+.dxpnlControl_Material.dxpnl-edge {
+    padding: 4px !important;
+}

@@ -50,7 +50,8 @@
     }
 
     function LoginButtonClick() {
-        if (ASPxClientEdit.AreEditorsValid()) {
+        debugger;
+        if (ASPxClientEdit.AreEditorsValid(loginFormLayout_0)) {
             errorLabel.innerText = "";
             var data = $('#LoginFormLayout').serialize();
         $.ajax({
@@ -71,7 +72,7 @@
 
     function SendEmailButtonClick() {
         debugger;
-        if (ASPxClientEdit.AreEditorsValid()) {
+        if (ASPxClientEdit.AreEditorsValid(remindPasswordFormLayout_0)) {
             var data = $('#RemindPasswordFormLayout').serialize();
         $.ajax({
             type: "POST",
@@ -117,7 +118,7 @@
             settings.ShowHeader = true;
             settings.ShowOnPageLoad = false;
             settings.AllowDragging = false;
-            settings.Styles.Header.BackColor = System.Drawing.Color.FromArgb(0, 150, 136);
+            settings.Styles.Header.BackColor = System.Drawing.Color.FromArgb(76, 163, 223);
             settings.Styles.Header.ForeColor = System.Drawing.Color.White;
             settings.CloseAction = CloseAction.CloseButton;
             settings.Modal = true;

@@ -20,6 +20,14 @@ namespace DrivingSchoolManagement.Controllers
 
         public ActionResult Index()
         {
+            if (Session["UserID"] != null)
+            {
+                var userId = (int)Session["UserID"];
+                var user = db.Users.FirstOrDefault(x => x.UserID == userId);
+
+                if (user != null)
+                    return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -33,8 +41,8 @@ namespace DrivingSchoolManagement.Controllers
                 var userCredential = db.UserCredentials.FirstOrDefault(x => x.Login == userCredentials.Login && x.Password == password);
 
                 if (userCredential != null)
-                { 
-                    var user = userCredential.UserID;
+                {
+                    Session["UserID"] = userCredential.UserID;
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 else
