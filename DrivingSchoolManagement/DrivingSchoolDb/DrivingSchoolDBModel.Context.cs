@@ -26,11 +26,11 @@ namespace DrivingSchoolDb
         }
     
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<AssignedStudent> AssignedStudents { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<DriverInfo> DriverInfoes { get; set; }
         public virtual DbSet<Lesson> Lessons { get; set; }
         public virtual DbSet<LessonTime> LessonTimes { get; set; }
-        public virtual DbSet<Password> Passwords { get; set; }
         public virtual DbSet<PermissionLevel> PermissionLevels { get; set; }
         public virtual DbSet<StudentInfo> StudentInfoes { get; set; }
         public virtual DbSet<User> Users { get; set; }

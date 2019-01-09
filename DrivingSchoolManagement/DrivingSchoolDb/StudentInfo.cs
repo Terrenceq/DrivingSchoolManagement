@@ -17,7 +17,7 @@ namespace DrivingSchoolDb
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StudentInfo()
         {
-            this.DriverInfoes = new HashSet<DriverInfo>();
+            this.AssignedStudents = new HashSet<AssignedStudent>();
             this.Lessons = new HashSet<Lesson>();
         }
     
@@ -25,9 +25,9 @@ namespace DrivingSchoolDb
         public int AssignedDriverID { get; set; }
         public int CategoryID { get; set; }
     
-        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DriverInfo> DriverInfoes { get; set; }
+        public virtual ICollection<AssignedStudent> AssignedStudents { get; set; }
+        public virtual Category Category { get; set; }
         public virtual DriverInfo DriverInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lesson> Lessons { get; set; }

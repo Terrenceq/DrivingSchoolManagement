@@ -108,6 +108,9 @@
     <Compile Include="Address.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AssignedStudent.cs">
+      <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Category.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
@@ -133,9 +136,6 @@
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="LessonTime.cs">
-      <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Password.cs">
       <DependentUpon>DrivingSchoolDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PermissionLevel.cs">

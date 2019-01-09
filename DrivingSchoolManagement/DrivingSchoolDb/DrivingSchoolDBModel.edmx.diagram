@@ -5,30 +5,30 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bec305a2e17a44b389893dc7c0ea9d44" Name="Diagram1" ZoomLevel="55">
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Address" Width="1.5" PointX="0.75" PointY="3.375" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Category" Width="1.5" PointX="6" PointY="8.625" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.DriverInfo" Width="1.5" PointX="8.25" PointY="6.25" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Lesson" Width="1.5" PointX="12.75" PointY="5.875" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.LessonTime" Width="1.5" PointX="10.5" PointY="10.5" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Password" Width="1.5" PointX="5.25" PointY="5.25" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.PermissionLevel" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.StudentInfo" Width="1.5" PointX="10.5" PointY="6.25" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Address" Width="1.5" PointX="0.75" PointY="3.25" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.AssignedStudent" Width="1.5" PointX="12.75" PointY="6.375" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Category" Width="1.5" PointX="3" PointY="2.375" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.DriverInfo" Width="1.5" PointX="5.25" PointY="6.125" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Lesson" Width="1.5" PointX="9.75" PointY="5.75" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.LessonTime" Width="1.5" PointX="7.5" PointY="3.75" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.PermissionLevel" Width="1.5" PointX="0.75" PointY="6.625" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.StudentInfo" Width="1.5" PointX="7.5" PointY="6.125" />
         <EntityTypeShape EntityType="DrivingSchoolManagementModel.User" Width="1.5" PointX="3" PointY="5.375" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.UserCredential" Width="1.5" PointX="5.25" PointY="11.5" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Vehicle" Width="1.5" PointX="10.5" PointY="2.125" />
-        <EntityTypeShape EntityType="DrivingSchoolManagementModel.VehicleType" Width="1.5" PointX="8.25" PointY="2.625" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.UserCredential" Width="1.5" PointX="5.25" PointY="9.75" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.Vehicle" Width="1.5" PointX="7.5" PointY="13.125" />
+        <EntityTypeShape EntityType="DrivingSchoolManagementModel.VehicleType" Width="1.5" PointX="5.25" PointY="13.75" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_User_Address" />
+        <AssociationConnector Association="DrivingSchoolManagementModel.FK_AssignedStudent_DriverInfo" />
+        <AssociationConnector Association="DrivingSchoolManagementModel.FK_AssignedStudent_StudentInfo" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_DriverInfo_Category" />
-        <AssociationConnector Association="DrivingSchoolManagementModel.FK_Lesson_Category" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_StudentInfo_Category" />
-        <AssociationConnector Association="DrivingSchoolManagementModel.FK_DriverInfo_StudentInfo" />
+        <AssociationConnector Association="DrivingSchoolManagementModel.FK_Vehicle_Category" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_DriverInfo_User" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Lesson_DriverInfo" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_StudentInfo_DriverInfo" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Lesson_LessonTime" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Lesson_StudentInfo" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_Lesson_Vehicle" />
-        <AssociationConnector Association="DrivingSchoolManagementModel.FK_Password_User" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_User_PermissionLevel" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_StudentInfo_User" />
         <AssociationConnector Association="DrivingSchoolManagementModel.FK_UserCredential_User" />

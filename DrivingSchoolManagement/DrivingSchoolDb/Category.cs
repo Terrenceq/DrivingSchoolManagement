@@ -18,8 +18,8 @@ namespace DrivingSchoolDb
         public Category()
         {
             this.DriverInfoes = new HashSet<DriverInfo>();
-            this.Lessons = new HashSet<Lesson>();
             this.StudentInfoes = new HashSet<StudentInfo>();
+            this.Vehicles = new HashSet<Vehicle>();
         }
     
         public int CategoryID { get; set; }
@@ -28,8 +28,8 @@ namespace DrivingSchoolDb
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DriverInfo> DriverInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lesson> Lessons { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StudentInfo> StudentInfoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 }

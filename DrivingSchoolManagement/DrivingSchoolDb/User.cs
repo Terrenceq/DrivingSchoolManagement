@@ -17,7 +17,6 @@ namespace DrivingSchoolDb
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Passwords = new HashSet<Password>();
             this.UserCredentials = new HashSet<UserCredential>();
         }
     
@@ -31,13 +30,9 @@ namespace DrivingSchoolDb
         public string About { get; set; }
         public System.DateTime DateCreated { get; set; }
         public int AddressID { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
     
         public virtual Address Address { get; set; }
         public virtual DriverInfo DriverInfo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Password> Passwords { get; set; }
         public virtual PermissionLevel PermissionLevel { get; set; }
         public virtual StudentInfo StudentInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

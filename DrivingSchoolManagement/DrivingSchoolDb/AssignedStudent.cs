@@ -12,13 +12,13 @@ namespace DrivingSchoolDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Password
+    public partial class AssignedStudent
     {
-        public int PasswordID { get; set; }
-        public int UserID { get; set; }
-        public string PasswordHash { get; set; }
-        public System.DateTime DateCreated { get; set; }
+        public int AssignedStudentID { get; set; }
+        public int DriverID { get; set; }
+        public int StudentID { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual DriverInfo DriverInfo { get; set; }
+        public virtual StudentInfo StudentInfo { get; set; }
     }
 }
