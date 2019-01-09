@@ -230,12 +230,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Images\carlogo.png" />
+    <Content Include="Content\Images\car1.jpg" />
+    <Content Include="Content\Images\car2.jpg" />
+    <Content Include="Content\Images\car3.jpg" />
+    <Content Include="Content\Images\driver1.jpg" />
+    <Content Include="Content\Images\driver2.jpg" />
+    <Content Include="Content\Images\driver3.jpg" />
+    <Content Include="Content\Images\icons8-customer-48.png" />
     <Content Include="Content\Images\kurs-L-samochodowy.jpg" />
-    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\manager1.jpg" />
+    <Content Include="Content\Images\manager2.jpg" />
+    <Content Include="Content\Images\manager3.jpg" />
     <Content Include="Content\Images\YARISwhite.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\materialize.min.css" />
+    <Content Include="Content\owl.theme.css" />
+    <Content Include="Content\owl.transitions.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\ace.js" />
@@ -261,11 +272,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.3.0.debug.js" />
     <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Content\owl.carousel.css" />
     <None Include="packages.config" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\materialize.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\owl.carousel.js" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
@@ -289,6 +303,7 @@
     <Content Include="Views\Shared\_rootLayout.cshtml" />
     <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Login\_remindPasswordFormLayoutPartialView.cshtml" />
+    <Content Include="Views\Home\_homeCardAboutPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -305,14 +320,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\DrivingSchoolDataProvider.cs" />
     <Compile Include="Services\DSMAuthorize.cs" />
+    <Compile Include="ViewModels\HomeCarouselViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\RemindPasswordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DrivingSchoolDb\DrivingSchoolDb.csproj">

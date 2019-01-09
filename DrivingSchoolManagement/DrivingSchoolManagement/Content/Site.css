@@ -130,3 +130,7 @@ a[id^='HeaderMenu_DXI'], a[id*='HeaderMenu_DXI'] {
 .dxpnlControl_Material.dxpnl-edge {
     padding: 4px !important;
 }
+
+.templateTitle {
+    float: left;
+}

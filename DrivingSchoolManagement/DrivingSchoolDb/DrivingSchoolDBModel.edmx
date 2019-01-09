@@ -30,6 +30,7 @@
           </Key>
           <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="About" Type="text" />
         </EntityType>
         <EntityType Name="DriverInfo">
           <Key>
@@ -499,6 +500,7 @@
           <NavigationProperty Name="DriverInfoes" Relationship="DrivingSchoolManagementModel.FK_DriverInfo_Category" FromRole="Category" ToRole="DriverInfo" />
           <NavigationProperty Name="StudentInfoes" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_Category" FromRole="Category" ToRole="StudentInfo" />
           <NavigationProperty Name="Vehicles" Relationship="DrivingSchoolManagementModel.FK_Vehicle_Category" FromRole="Category" ToRole="Vehicle" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DriverInfo">
           <Key>
@@ -833,6 +835,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="DrivingSchoolManagementModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="About" ColumnName="About" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>

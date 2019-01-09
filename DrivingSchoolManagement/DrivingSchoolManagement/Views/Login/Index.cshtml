@@ -6,6 +6,7 @@
 <style>
     .templateTitle{
         text-align:center!important;
+        float: none !important;
     }
 
     .image {
@@ -50,7 +51,6 @@
     }
 
     function LoginButtonClick() {
-        debugger;
         if (ASPxClientEdit.AreEditorsValid(loginFormLayout_0)) {
             errorLabel.innerText = "";
             var data = $('#LoginFormLayout').serialize();
@@ -71,7 +71,6 @@
     }
 
     function SendEmailButtonClick() {
-        debugger;
         if (ASPxClientEdit.AreEditorsValid(remindPasswordFormLayout_0)) {
             var data = $('#RemindPasswordFormLayout').serialize();
         $.ajax({

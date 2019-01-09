@@ -1,7 +1,12 @@
+@using DrivingSchoolManagement.Helpers;
 @{
     ViewBag.Title = "Welcome to our driving school";
+    Layout = "../Shared/_rootLayout.cshtml";
 }
 
-<style>
+<link href="@Url.ContentVersioned("~/Content/materialize.min.css")" rel="stylesheet" />
+<script src="@Url.ContentVersioned("~/Scripts/materialize.min.js")"></script>
 
-</style>
+    <div class="row">
+        @Html.Action("HomeCardPartial")
+    </div>
