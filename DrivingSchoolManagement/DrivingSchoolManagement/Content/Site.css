@@ -140,7 +140,3 @@ a[id^='HeaderMenu_DXI'], a[id*='HeaderMenu_DXI'] {
 .dxmLite_Material .dxm-horizontal .dxm-image-l .dxm-content {
     padding: 27px 22px 15px 19px!important;
 }
-
-.dx-vam {
-    margin-top: -10px !important;
-}
