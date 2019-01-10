@@ -1,12 +1,72 @@
 @using DrivingSchoolManagement.Helpers;
 @{
-    ViewBag.Title = "Welcome to our driving school";
+    ViewBag.Title = "Witamy w naszym OSK!";
     Layout = "../Shared/_rootLayout.cshtml";
 }
 
 <link href="@Url.ContentVersioned("~/Content/materialize.min.css")" rel="stylesheet" />
 <script src="@Url.ContentVersioned("~/Scripts/materialize.min.js")"></script>
 
+<div class="container">
     <div class="row">
         @Html.Action("HomeCardPartial")
+    </div>
+        <div class="row card-content center-align" style="margin-top:150px">
+            <div class="col s3">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Appointment";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/appointment.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Umów wizytê";
+                        settings.ClientSideEvents.Click = "Appointment";
+                    }).GetHtml()
+            </div>
+            <div class="col s3">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Driver";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/driverCard.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Instruktorzy";
+                        settings.ClientSideEvents.Click = "Driver";
+                    }).GetHtml()
+            </div>
+            <div class="col s3">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Vehicle";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/carCard.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Pojazdy";
+                        settings.ClientSideEvents.Click = "Vehicle";
+                    }).GetHtml()
+            </div>
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zarz¹dzaj kontem">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Account";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/account.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Moje konto";
+                        settings.ClientSideEvents.Click = "Account";
+                    }).GetHtml()
+            </div>
+        </div>
     </div>

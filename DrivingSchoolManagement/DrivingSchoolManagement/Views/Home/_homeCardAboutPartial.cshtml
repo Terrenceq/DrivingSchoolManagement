@@ -17,7 +17,7 @@
             @foreach (var driver in Model.OurDrivers)
             {
                 <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "User", new {id=driver.UserID})','_blank')">
-                    <div class="card-image" style="width: 25%;height: 150px">
+                    <div class="card-image" style="width: 25%;">
                         <img src="@Url.Content("~/Content/Images/driver" + driver.UserID + ".jpg")" />
                     </div>
                     <div class="card-stacked">
@@ -42,7 +42,7 @@
             @foreach (var manager in Model.OurManagers)
             {
                 <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "User", new {id=manager.UserID})','_blank')">
-                    <div class="card-image" style="width: 25%;height: 150px">
+                    <div class="card-image" style="width: 25%;">
                         <img src="@Url.Content("~/Content/Images/manager" + manager.UserID + ".jpg")" />
                     </div>
                     <div class="card-stacked">
@@ -67,7 +67,7 @@
            @foreach (var category in Model.OurCategories)
             {
             <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "User", new {id=category.CategoryID})','_blank')">
-                <div class="card-image" style="width: 25%;height: 150px">
+                <div class="card-image" style="width: 25%;">
                     <img src="@Url.Content("~/Content/Images/category" + category.CategoryName + ".jpg")" />
                 </div>
                 <div class="card-stacked">
@@ -92,7 +92,7 @@
             @foreach (var vehicle in Model.OurVehicles)
             {
                 <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "Vehicle", new {id= vehicle.VehicleID})','_blank')">
-                    <div class="card-image" style="width: 25%;height: 150px">
+                    <div class="card-image" style="width: 25%;">
                         <img src="@Url.Content("~/Content/Images/car" + vehicle.VehicleID + ".jpg")" />
                     </div>
                     <div class="card-stacked">
