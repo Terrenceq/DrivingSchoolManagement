@@ -1,105 +1,106 @@
+@using DrivingSchoolManagement.Helpers;
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Witamy w naszym OSK!";
+    Layout = "../Shared/_rootLayout.cshtml";
 }
+<script>
+    function Driver(s, e) {
+        var url = '@Url.Action("Index", "Drivers")';
+        window.location.href = url;
+    }
 
-<h2>Get More Help</h2>
-<p>To help you better use our software, we provide numerous resources describing the best practices for using our controls in real-life applications, as well as different support options to help you solve specific tasks.</p>
-<p>Please choose an appropriate option from the list below.</p>
+    function Manager(s, e) {
+        var url = '@Url.Action("Index", "Managers")';
+        window.location.href = url;
+    }
 
-<h3>Overview</h3>
-<ul>
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Support/Start/#!platform=aspnet">Get Started with DevExpress</a><br/>
-            Choose a platform and view our online tutorials, videos and product documentation.
-        </p>
-    </li>
+    function Vehicle(s, e) {
+        var url = '@Url.Action("Index", "Vehicles")';
+        window.location.href = url;
+    }
 
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Support/Demos/#!platform=aspnet">Online Demos</a><br/>
-            Choose a platform and view and/or download all available demos.
-        </p>
-    </li>
+    function Account(s, e) {
+        var url = '@Url.Action("Index", "Account")';
+        window.location.href = url;
+    }
+</script>
+<link href="@Url.ContentVersioned("~/Content/materialize.min.css")" rel="stylesheet" />
+<script src="@Url.ContentVersioned("~/Scripts/materialize.min.js")"></script>
 
-    <li>
-        <p>
-            <a href="http://www.youtube.com/user/DeveloperExpress/">YouTube Video Channel</a><br/>
-            Subscribe to our video channel to receive first-hand information from DevExpress and explore the featured video content.
-        </p>
-    </li>
-</ul>
-
-<h3>Help Resources</h3>
-<ul>
-    <li>
-        <p>
-            <a href="https://documentation.devexpress.com/#AspNet/CustomDocument7873">Online Documentation</a><br/>
-            Explore the latest edition of the official documentation that is supplied with DevExpress products.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Support/Center/Example/List/">Code Examples</a><br/>
-            Discover hundreds of real-world applications that showcase DevExpress products in various settings and provide robust and reusable code.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <a href="http://search.devexpress.com/">DevExpress Search</a><br/>
-            Rely on a custom search engine to find information about a specific product or technology among varied sources.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Support/Center/">Support Center</a><br/>
-            For direct and urgent assistance, submit an issue in our Support Center or send an e-mail to <a href="mailto:support@devexpress.com">support@devexpress.com</a>.<br/>
-            When reporting a bug, we would greatly appreciate detailed, step-by-step instructions on how to reproduce it, along with a sample project localizing this issue.
-        </p>
-    </li>
-
-</ul>
-
-<h3>Advanced Learning</h3>
-<ul>
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Support/Webinars/">Webinars</a><br/>
-            Join us online and learn more about DevExpress products.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Home/Training/">Classroom Training</a><br/>
-            Check for upcoming workshops scheduled near your location.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/TrainingCenter/">Online Training Center</a><br/>
-            Sign up for our complete online training courses to get the most out of DevExpress products.
-        </p>
-    </li>
-</ul>
-
-<h3>Community Resources</h3>
-<ul>
-    <li>
-        <p>
-            <a href="http://community.devexpress.com/blogs/">Blogs</a><br/>
-            Keep up with industry news and receive the latest information from DevExpress.
-        </p>
-    </li>
-
-    <li>
-        <p>
-            <a href="https://www.devexpress.com/Home/Community/">Events and Tradeshows</a><br/>
-            Join DevExpress at an upcoming industry gathering.
-        </p>
-    </li>
-</ul>
+<div class="container">
+    <div class="row">
+        @Html.Action("HomeCardPartial")
+    </div>
+        <div class="row card-content center-align" style="margin-top:150px">
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Umów nauke praktyczn¹">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Appointment";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/appointment.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Umów wizytê";
+                        settings.ClientSideEvents.Click = "Appointment";
+                    }).GetHtml()
+            </div>
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zobacz naszych instruktorów">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Driver";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/driverCard.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Instruktorzy";
+                        settings.ClientSideEvents.Click = "Driver";
+                    }).GetHtml()
+            </div>
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zobacz naszych menad¿erów">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Manager";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/managerCard.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Menad¿erowie";
+                        settings.ClientSideEvents.Click = "Manager";
+                    }).GetHtml()
+            </div>
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zobacz nasze pojazdy">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Vehicle";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/carCard.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Pojazdy";
+                        settings.ClientSideEvents.Click = "Vehicle";
+                    }).GetHtml()
+            </div>
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zarz¹dzaj kontem">
+                @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btn-Account";
+                        settings.Width = 200;
+                        settings.Height = 100;
+                        settings.EncodeHtml = false;
+                        settings.Images.Image.Url = "~/Content/Images/account.png";
+                        settings.ImagePosition = ImagePosition.Top;
+                        settings.Text = "Moje konto";
+                        settings.ClientSideEvents.Click = "Account";
+                    }).GetHtml()
+            </div>
+        </div>
+    </div>

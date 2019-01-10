@@ -1,0 +1,60 @@
+﻿@using DrivingSchoolManagement.ViewModels;
+@using DevExpress.Data
+@model List<AssignedStudentViewModel>
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "AssignedStudentsGridView";
+        settings.KeyFieldName = "UserID";
+        settings.SettingsBehavior.AllowFocusedRow = false;
+        settings.Style.Add("margin", "0 auto");
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+        settings.CallbackRouteValues = new { Controller = "Account", Action = "AssignedStudentsGridPartial" };
+        settings.SettingsText.Title = "Przypisani kursanci";
+        settings.Settings.ShowTitlePanel = true;
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "UserID";
+            c.Visible = false;
+            c.Width = Unit.Pixel(80);
+            c.SortOrder = ColumnSortOrder.Descending;
+            c.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "FirstName";
+            c.Caption = "Imie";
+            c.Width = Unit.Pixel(80);
+            c.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "LastName";
+            c.Caption = "Nazwisko";
+            c.Width = Unit.Pixel(80);
+            c.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Email";
+            c.Caption = "Adres e-mail";
+            c.Width = Unit.Pixel(80);
+            c.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "DateOfBirth";
+            c.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.Caption = "Data urodzenia";
+            c.Width = Unit.Pixel(150);
+            c.ColumnType = MVCxGridViewColumnType.DateEdit;
+            c.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            c.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy";
+        });
+    });
+}
+@grid.Bind(Model).GetHtml()

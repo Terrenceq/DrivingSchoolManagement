@@ -1,0 +1,966 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DrivingSchoolManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StreetName" Type="varchar" MaxLength="100" />
+          <Property Name="Number" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssignedStudent">
+          <Key>
+            <PropertyRef Name="AssignedStudentID" />
+          </Key>
+          <Property Name="AssignedStudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DriverID" Type="int" Nullable="false" />
+          <Property Name="StudentID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="About" Type="text" />
+        </EntityType>
+        <EntityType Name="DriverInfo">
+          <Key>
+            <PropertyRef Name="DriverID" />
+          </Key>
+          <Property Name="DriverID" Type="int" Nullable="false" />
+          <Property Name="LicenceNumber" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="LessonID" />
+          </Key>
+          <Property Name="LessonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="DriverID" Type="int" Nullable="false" />
+          <Property Name="VehicleID" Type="int" Nullable="false" />
+          <Property Name="AppointmentDateTime" Type="datetime" Nullable="false" />
+          <Property Name="LessonDate" Type="datetime" Nullable="false" />
+          <Property Name="LessonTimeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LessonTime">
+          <Key>
+            <PropertyRef Name="LessonTimeID" />
+          </Key>
+          <Property Name="LessonTimeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissionLevel">
+          <Key>
+            <PropertyRef Name="PermissionLevelID" />
+          </Key>
+          <Property Name="PermissionLevelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentInfo">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="AssignedDriverID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="PESEL" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PermissionLevelID" Type="int" Nullable="false" />
+          <Property Name="About" Type="text" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="AddressID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCredential">
+          <Key>
+            <PropertyRef Name="UserCredentialID" />
+          </Key>
+          <Property Name="UserCredentialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Brand" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Model" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductionDate" Type="date" Nullable="false" />
+          <Property Name="VehicleTypeID" Type="int" Nullable="false" />
+          <Property Name="Mileage" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="About" Type="text" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VehicleType">
+          <Key>
+            <PropertyRef Name="VehicleTypeID" />
+          </Key>
+          <Property Name="VehicleTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleTypeName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AssignedStudent_DriverInfo">
+          <End Role="DriverInfo" Type="Self.DriverInfo" Multiplicity="1" />
+          <End Role="AssignedStudent" Type="Self.AssignedStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="AssignedStudent">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssignedStudent_StudentInfo">
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="1" />
+          <End Role="AssignedStudent" Type="Self.AssignedStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="AssignedStudent">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverInfo_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="DriverInfo" Type="Self.DriverInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="DriverInfo">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverInfo_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DriverInfo" Type="Self.DriverInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_DriverInfo">
+          <End Role="DriverInfo" Type="Self.DriverInfo" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_LessonTime">
+          <End Role="LessonTime" Type="Self.LessonTime" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTime">
+              <PropertyRef Name="LessonTimeID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="LessonTimeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_StudentInfo">
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInfo_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInfo_DriverInfo">
+          <End Role="DriverInfo" Type="Self.DriverInfo" Multiplicity="1" />
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="AssignedDriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInfo_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="StudentInfo" Type="Self.StudentInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_PermissionLevel">
+          <End Role="PermissionLevel" Type="Self.PermissionLevel" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionLevel">
+              <PropertyRef Name="PermissionLevelID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="PermissionLevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCredential_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserCredential" Type="Self.UserCredential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserCredential">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_VehicleType">
+          <End Role="VehicleType" Type="Self.VehicleType" Multiplicity="1" />
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleType">
+              <PropertyRef Name="VehicleTypeID" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="VehicleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DrivingSchoolManagementModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssignedStudent" EntityType="Self.AssignedStudent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverInfo" EntityType="Self.DriverInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LessonTime" EntityType="Self.LessonTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PermissionLevel" EntityType="Self.PermissionLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentInfo" EntityType="Self.StudentInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCredential" EntityType="Self.UserCredential" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleType" EntityType="Self.VehicleType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AssignedStudent_DriverInfo" Association="Self.FK_AssignedStudent_DriverInfo">
+            <End Role="DriverInfo" EntitySet="DriverInfo" />
+            <End Role="AssignedStudent" EntitySet="AssignedStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssignedStudent_StudentInfo" Association="Self.FK_AssignedStudent_StudentInfo">
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+            <End Role="AssignedStudent" EntitySet="AssignedStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverInfo_Category" Association="Self.FK_DriverInfo_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="DriverInfo" EntitySet="DriverInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverInfo_User" Association="Self.FK_DriverInfo_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="DriverInfo" EntitySet="DriverInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_DriverInfo" Association="Self.FK_Lesson_DriverInfo">
+            <End Role="DriverInfo" EntitySet="DriverInfo" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_LessonTime" Association="Self.FK_Lesson_LessonTime">
+            <End Role="LessonTime" EntitySet="LessonTime" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_StudentInfo" Association="Self.FK_Lesson_StudentInfo">
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Vehicle" Association="Self.FK_Lesson_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInfo_Category" Association="Self.FK_StudentInfo_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInfo_DriverInfo" Association="Self.FK_StudentInfo_DriverInfo">
+            <End Role="DriverInfo" EntitySet="DriverInfo" />
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInfo_User" Association="Self.FK_StudentInfo_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="StudentInfo" EntitySet="StudentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Address" Association="Self.FK_User_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_PermissionLevel" Association="Self.FK_User_PermissionLevel">
+            <End Role="PermissionLevel" EntitySet="PermissionLevel" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCredential_User1" Association="Self.FK_UserCredential_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserCredential" EntitySet="UserCredential" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_Category" Association="Self.FK_Vehicle_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Vehicle" EntitySet="Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_VehicleType" Association="Self.FK_Vehicle_VehicleType">
+            <End Role="VehicleType" EntitySet="VehicleType" />
+            <End Role="Vehicle" EntitySet="Vehicle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DrivingSchoolManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DrivingSchoolManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="DrivingSchoolManagementModel.Address" />
+          <EntitySet Name="AssignedStudents" EntityType="DrivingSchoolManagementModel.AssignedStudent" />
+          <EntitySet Name="Categories" EntityType="DrivingSchoolManagementModel.Category" />
+          <EntitySet Name="DriverInfoes" EntityType="DrivingSchoolManagementModel.DriverInfo" />
+          <EntitySet Name="Lessons" EntityType="DrivingSchoolManagementModel.Lesson" />
+          <EntitySet Name="LessonTimes" EntityType="DrivingSchoolManagementModel.LessonTime" />
+          <EntitySet Name="PermissionLevels" EntityType="DrivingSchoolManagementModel.PermissionLevel" />
+          <EntitySet Name="StudentInfoes" EntityType="DrivingSchoolManagementModel.StudentInfo" />
+          <EntitySet Name="Users" EntityType="DrivingSchoolManagementModel.User" />
+          <EntitySet Name="UserCredentials" EntityType="DrivingSchoolManagementModel.UserCredential" />
+          <EntitySet Name="Vehicles" EntityType="DrivingSchoolManagementModel.Vehicle" />
+          <EntitySet Name="VehicleTypes" EntityType="DrivingSchoolManagementModel.VehicleType" />
+          <AssociationSet Name="FK_User_Address" Association="DrivingSchoolManagementModel.FK_User_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssignedStudent_DriverInfo" Association="DrivingSchoolManagementModel.FK_AssignedStudent_DriverInfo">
+            <End Role="DriverInfo" EntitySet="DriverInfoes" />
+            <End Role="AssignedStudent" EntitySet="AssignedStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssignedStudent_StudentInfo" Association="DrivingSchoolManagementModel.FK_AssignedStudent_StudentInfo">
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+            <End Role="AssignedStudent" EntitySet="AssignedStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverInfo_Category" Association="DrivingSchoolManagementModel.FK_DriverInfo_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="DriverInfo" EntitySet="DriverInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInfo_Category" Association="DrivingSchoolManagementModel.FK_StudentInfo_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_Category" Association="DrivingSchoolManagementModel.FK_Vehicle_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverInfo_User" Association="DrivingSchoolManagementModel.FK_DriverInfo_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DriverInfo" EntitySet="DriverInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_DriverInfo" Association="DrivingSchoolManagementModel.FK_Lesson_DriverInfo">
+            <End Role="DriverInfo" EntitySet="DriverInfoes" />
+            <End Role="Lesson" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInfo_DriverInfo" Association="DrivingSchoolManagementModel.FK_StudentInfo_DriverInfo">
+            <End Role="DriverInfo" EntitySet="DriverInfoes" />
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_LessonTime" Association="DrivingSchoolManagementModel.FK_Lesson_LessonTime">
+            <End Role="LessonTime" EntitySet="LessonTimes" />
+            <End Role="Lesson" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_StudentInfo" Association="DrivingSchoolManagementModel.FK_Lesson_StudentInfo">
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+            <End Role="Lesson" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Vehicle" Association="DrivingSchoolManagementModel.FK_Lesson_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="Lesson" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_PermissionLevel" Association="DrivingSchoolManagementModel.FK_User_PermissionLevel">
+            <End Role="PermissionLevel" EntitySet="PermissionLevels" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInfo_User" Association="DrivingSchoolManagementModel.FK_StudentInfo_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCredential_User" Association="DrivingSchoolManagementModel.FK_UserCredential_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserCredential" EntitySet="UserCredentials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_VehicleType" Association="DrivingSchoolManagementModel.FK_Vehicle_VehicleType">
+            <End Role="VehicleType" EntitySet="VehicleTypes" />
+            <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StreetName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="DrivingSchoolManagementModel.FK_User_Address" FromRole="Address" ToRole="User" />
+        </EntityType>
+        <EntityType Name="AssignedStudent">
+          <Key>
+            <PropertyRef Name="AssignedStudentID" />
+          </Key>
+          <Property Name="AssignedStudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DriverID" Type="Int32" Nullable="false" />
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DriverInfo" Relationship="DrivingSchoolManagementModel.FK_AssignedStudent_DriverInfo" FromRole="AssignedStudent" ToRole="DriverInfo" />
+          <NavigationProperty Name="StudentInfo" Relationship="DrivingSchoolManagementModel.FK_AssignedStudent_StudentInfo" FromRole="AssignedStudent" ToRole="StudentInfo" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DriverInfoes" Relationship="DrivingSchoolManagementModel.FK_DriverInfo_Category" FromRole="Category" ToRole="DriverInfo" />
+          <NavigationProperty Name="StudentInfoes" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_Category" FromRole="Category" ToRole="StudentInfo" />
+          <NavigationProperty Name="Vehicles" Relationship="DrivingSchoolManagementModel.FK_Vehicle_Category" FromRole="Category" ToRole="Vehicle" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DriverInfo">
+          <Key>
+            <PropertyRef Name="DriverID" />
+          </Key>
+          <Property Name="DriverID" Type="Int32" Nullable="false" />
+          <Property Name="LicenceNumber" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssignedStudents" Relationship="DrivingSchoolManagementModel.FK_AssignedStudent_DriverInfo" FromRole="DriverInfo" ToRole="AssignedStudent" />
+          <NavigationProperty Name="Category" Relationship="DrivingSchoolManagementModel.FK_DriverInfo_Category" FromRole="DriverInfo" ToRole="Category" />
+          <NavigationProperty Name="User" Relationship="DrivingSchoolManagementModel.FK_DriverInfo_User" FromRole="DriverInfo" ToRole="User" />
+          <NavigationProperty Name="Lessons" Relationship="DrivingSchoolManagementModel.FK_Lesson_DriverInfo" FromRole="DriverInfo" ToRole="Lesson" />
+          <NavigationProperty Name="StudentInfoes" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_DriverInfo" FromRole="DriverInfo" ToRole="StudentInfo" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="LessonID" />
+          </Key>
+          <Property Name="LessonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="DriverID" Type="Int32" Nullable="false" />
+          <Property Name="VehicleID" Type="Int32" Nullable="false" />
+          <Property Name="AppointmentDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LessonDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LessonTimeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DriverInfo" Relationship="DrivingSchoolManagementModel.FK_Lesson_DriverInfo" FromRole="Lesson" ToRole="DriverInfo" />
+          <NavigationProperty Name="LessonTime" Relationship="DrivingSchoolManagementModel.FK_Lesson_LessonTime" FromRole="Lesson" ToRole="LessonTime" />
+          <NavigationProperty Name="StudentInfo" Relationship="DrivingSchoolManagementModel.FK_Lesson_StudentInfo" FromRole="Lesson" ToRole="StudentInfo" />
+          <NavigationProperty Name="Vehicle" Relationship="DrivingSchoolManagementModel.FK_Lesson_Vehicle" FromRole="Lesson" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="LessonTime">
+          <Key>
+            <PropertyRef Name="LessonTimeID" />
+          </Key>
+          <Property Name="LessonTimeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Lessons" Relationship="DrivingSchoolManagementModel.FK_Lesson_LessonTime" FromRole="LessonTime" ToRole="Lesson" />
+        </EntityType>
+        <EntityType Name="PermissionLevel">
+          <Key>
+            <PropertyRef Name="PermissionLevelID" />
+          </Key>
+          <Property Name="PermissionLevelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="DrivingSchoolManagementModel.FK_User_PermissionLevel" FromRole="PermissionLevel" ToRole="User" />
+        </EntityType>
+        <EntityType Name="StudentInfo">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="AssignedDriverID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssignedStudents" Relationship="DrivingSchoolManagementModel.FK_AssignedStudent_StudentInfo" FromRole="StudentInfo" ToRole="AssignedStudent" />
+          <NavigationProperty Name="Category" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_Category" FromRole="StudentInfo" ToRole="Category" />
+          <NavigationProperty Name="DriverInfo" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_DriverInfo" FromRole="StudentInfo" ToRole="DriverInfo" />
+          <NavigationProperty Name="Lessons" Relationship="DrivingSchoolManagementModel.FK_Lesson_StudentInfo" FromRole="StudentInfo" ToRole="Lesson" />
+          <NavigationProperty Name="User" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_User" FromRole="StudentInfo" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PESEL" Type="String" Nullable="false" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PermissionLevelID" Type="Int32" Nullable="false" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AddressID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="DrivingSchoolManagementModel.FK_User_Address" FromRole="User" ToRole="Address" />
+          <NavigationProperty Name="DriverInfo" Relationship="DrivingSchoolManagementModel.FK_DriverInfo_User" FromRole="User" ToRole="DriverInfo" />
+          <NavigationProperty Name="PermissionLevel" Relationship="DrivingSchoolManagementModel.FK_User_PermissionLevel" FromRole="User" ToRole="PermissionLevel" />
+          <NavigationProperty Name="StudentInfo" Relationship="DrivingSchoolManagementModel.FK_StudentInfo_User" FromRole="User" ToRole="StudentInfo" />
+          <NavigationProperty Name="UserCredentials" Relationship="DrivingSchoolManagementModel.FK_UserCredential_User" FromRole="User" ToRole="UserCredential" />
+        </EntityType>
+        <EntityType Name="UserCredential">
+          <Key>
+            <PropertyRef Name="UserCredentialID" />
+          </Key>
+          <Property Name="UserCredentialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="DrivingSchoolManagementModel.FK_UserCredential_User" FromRole="UserCredential" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Mileage" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="DrivingSchoolManagementModel.FK_Vehicle_Category" FromRole="Vehicle" ToRole="Category" />
+          <NavigationProperty Name="Lessons" Relationship="DrivingSchoolManagementModel.FK_Lesson_Vehicle" FromRole="Vehicle" ToRole="Lesson" />
+          <NavigationProperty Name="VehicleType" Relationship="DrivingSchoolManagementModel.FK_Vehicle_VehicleType" FromRole="Vehicle" ToRole="VehicleType" />
+          <Property Name="ProductionDate" Type="DateTime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VehicleType">
+          <Key>
+            <PropertyRef Name="VehicleTypeID" />
+          </Key>
+          <Property Name="VehicleTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleTypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vehicles" Relationship="DrivingSchoolManagementModel.FK_Vehicle_VehicleType" FromRole="VehicleType" ToRole="Vehicle" />
+        </EntityType>
+        <Association Name="FK_User_Address">
+          <End Type="DrivingSchoolManagementModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssignedStudent_DriverInfo">
+          <End Type="DrivingSchoolManagementModel.DriverInfo" Role="DriverInfo" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.AssignedStudent" Role="AssignedStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="AssignedStudent">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssignedStudent_StudentInfo">
+          <End Type="DrivingSchoolManagementModel.StudentInfo" Role="StudentInfo" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.AssignedStudent" Role="AssignedStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="AssignedStudent">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverInfo_Category">
+          <End Type="DrivingSchoolManagementModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.DriverInfo" Role="DriverInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="DriverInfo">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInfo_Category">
+          <End Type="DrivingSchoolManagementModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.StudentInfo" Role="StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_Category">
+          <End Type="DrivingSchoolManagementModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.Vehicle" Role="Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverInfo_User">
+          <End Type="DrivingSchoolManagementModel.User" Role="User" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.DriverInfo" Role="DriverInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_DriverInfo">
+          <End Type="DrivingSchoolManagementModel.DriverInfo" Role="DriverInfo" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.Lesson" Role="Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="DriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInfo_DriverInfo">
+          <End Type="DrivingSchoolManagementModel.DriverInfo" Role="DriverInfo" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.StudentInfo" Role="StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInfo">
+              <PropertyRef Name="DriverID" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="AssignedDriverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_LessonTime">
+          <End Type="DrivingSchoolManagementModel.LessonTime" Role="LessonTime" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.Lesson" Role="Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTime">
+              <PropertyRef Name="LessonTimeID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="LessonTimeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_StudentInfo">
+          <End Type="DrivingSchoolManagementModel.StudentInfo" Role="StudentInfo" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.Lesson" Role="Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentInfo">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lesson_Vehicle">
+          <End Type="DrivingSchoolManagementModel.Vehicle" Role="Vehicle" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.Lesson" Role="Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="VehicleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_PermissionLevel">
+          <End Type="DrivingSchoolManagementModel.PermissionLevel" Role="PermissionLevel" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionLevel">
+              <PropertyRef Name="PermissionLevelID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="PermissionLevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInfo_User">
+          <End Type="DrivingSchoolManagementModel.User" Role="User" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.StudentInfo" Role="StudentInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCredential_User">
+          <End Type="DrivingSchoolManagementModel.User" Role="User" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.UserCredential" Role="UserCredential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserCredential">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_VehicleType">
+          <End Type="DrivingSchoolManagementModel.VehicleType" Role="VehicleType" Multiplicity="1" />
+          <End Type="DrivingSchoolManagementModel.Vehicle" Role="Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleType">
+              <PropertyRef Name="VehicleTypeID" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="VehicleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DrivingSchoolManagementModelStoreContainer" CdmEntityContainer="DrivingSchoolManagementEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="StreetName" ColumnName="StreetName" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssignedStudents">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.AssignedStudent">
+              <MappingFragment StoreEntitySet="AssignedStudent">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="AssignedStudentID" ColumnName="AssignedStudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverInfoes">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.DriverInfo">
+              <MappingFragment StoreEntitySet="DriverInfo">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lessons">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.Lesson">
+              <MappingFragment StoreEntitySet="Lesson">
+                <ScalarProperty Name="LessonTimeID" ColumnName="LessonTimeID" />
+                <ScalarProperty Name="LessonDate" ColumnName="LessonDate" />
+                <ScalarProperty Name="AppointmentDateTime" ColumnName="AppointmentDateTime" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LessonTimes">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.LessonTime">
+              <MappingFragment StoreEntitySet="LessonTime">
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="LessonTimeID" ColumnName="LessonTimeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionLevels">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.PermissionLevel">
+              <MappingFragment StoreEntitySet="PermissionLevel">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PermissionLevelID" ColumnName="PermissionLevelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentInfoes">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.StudentInfo">
+              <MappingFragment StoreEntitySet="StudentInfo">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="AssignedDriverID" ColumnName="AssignedDriverID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="PermissionLevelID" ColumnName="PermissionLevelID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PESEL" ColumnName="PESEL" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCredentials">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.UserCredential">
+              <MappingFragment StoreEntitySet="UserCredential">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserCredentialID" ColumnName="UserCredentialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+                <ScalarProperty Name="VehicleTypeID" ColumnName="VehicleTypeID" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleTypes">
+            <EntityTypeMapping TypeName="DrivingSchoolManagementModel.VehicleType">
+              <MappingFragment StoreEntitySet="VehicleType">
+                <ScalarProperty Name="VehicleTypeName" ColumnName="VehicleTypeName" />
+                <ScalarProperty Name="VehicleTypeID" ColumnName="VehicleTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,85 @@
+﻿@model HeaderViewRenderMode
+<style>
+    #HeaderMenu_DXI0_T span, #HeaderMenu_DXI1_T span, #HeaderMenu_DXI2_T span, #HeaderMenu_DXI3_T span, #HeaderMenu_DXI4_T span {
+        margin-top: -10px !important;
+    }
+</style>
+<script>
+    function LogoutButton() {
+        var url = '@Url.Action("Logout", "Home")';
+        window.location.href = url;
+    }
+</script>
+@if (Model == HeaderViewRenderMode.Title)
+{
+    <div class="templateTitle">
+        @Html.ActionLink("Home", "Index", "Home")
+    </div>
+}
+else
+{
+    if (Model == HeaderViewRenderMode.Full)
+    {
+        <div class="headerTop">
+            <div class="templateTitle" style="width:300px">
+                <a href='@Url.Action("Index", "Home")'>
+                    <img src='@Url.Content("~/Content/Images/kurs-L-samochodowy.jpg")' style="margin-top:2px;margin-left: 10px; width:50px; height:50px;" />
+                </a>
+            </div>
+        @if (HttpContext.Current.Session["UserID"] != null)
+        {
+            <div class="logoutButton" style="float:right; margin-top: 12px; margin-right: 10px">
+                @Html.DevExpress().Button(bt =>
+                    {
+                        bt.Text = "Wyloguj się";
+                        bt.Name = "LogoutButton";
+                        bt.ClientSideEvents.Click = "LogoutButton";
+                    }).GetHtml()
+            </div>
+            <div class="userChip" style="float: right;margin-right: 20px;margin-top: 4px;">
+            
+                    <img src="~/Content/Images/icons8-customer-48.png" alt="User Name" style="vertical-align: middle; height: inherit;">
+                    <span style="color:white">@DrivingSchoolManagement.Models.DrivingSchoolDataProvider.GetUserNameById((int)(Session["UserID"]))</span>
+            </div>   
+        }
+        </div>
+    }
+
+    <div class="headerMenu" style="float: left; margin-left: 20px; display: flex">
+        @Html.DevExpress().Menu(settings =>
+   {
+       settings.Name = "HeaderMenu";
+       settings.ItemAutoWidth = false;
+       settings.Width = Unit.Percentage(100);
+       settings.AllowSelectItem = true;
+       if (Session["UserID"] != null)
+       {
+           settings.Items.Add(item =>
+           {
+               item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home" });
+               item.Text = "Strona główna";
+           });
+           settings.Items.Add(item =>
+           {
+               item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Drivers" });
+               item.Text = "Instruktorzy";
+           });
+           settings.Items.Add(item =>
+           {
+               item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Managers" });
+               item.Text = "Menadżerowie";
+           });
+           settings.Items.Add(item =>
+           {
+               item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Vehicles" });
+               item.Text = "Pojazdy";
+           });
+           settings.Items.Add(item =>
+           {
+               item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account" });
+               item.Text = "Moje konto";
+           });
+       }
+   }).GetHtml()
+    </div>
+}

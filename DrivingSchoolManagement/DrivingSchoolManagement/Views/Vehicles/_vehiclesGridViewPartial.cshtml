@@ -1,0 +1,180 @@
+﻿@using DrivingSchoolDb;
+@using DrivingSchoolManagement.Models;
+@using DrivingSchoolManagement.ViewModels;
+@model List<VehicleViewModel>
+
+@{ 
+    var userId = (int)Session["UserID"];
+}
+@{ 
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "VehiclesGrid";
+        settings.CallbackRouteValues = new { Controller = "Vehicles", Action = "VehiclesGridViewPartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Vehicles", Action = "VehiclesGridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Vehicles", Action = "VehiclesGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Vehicles", Action = "VehiclesGridViewPartialDelete" };
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsPager.PageSize = 25;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.KeyFieldName = "VehicleID";
+        settings.SettingsCommandButton.NewButton.Text = "Dodaj pojazd";
+        settings.SettingsCommandButton.EditButton.Text = "Edytuj";
+        settings.SettingsCommandButton.DeleteButton.Text = "Usuń";
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowFilterRow = true;
+
+        //DevExpress.Web.EditModeCommandLayoutItem commandButtons = new DevExpress.Web.EditModeCommandLayoutItem();
+        //commandButtons.HorizontalAlign = FormLayoutHorizontalAlign.Left;
+        //commandButtons.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
+        //commandButtons.Paddings.PaddingBottom = Unit.Pixel(20);
+        //settings.EditFormLayoutProperties.Items.Add(commandButtons);
+
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+
+        if (DrivingSchoolDataProvider.IsUserManager(userId))
+            settings.CommandColumn.Visible = true;
+        else settings.CommandColumn.Visible = false;
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VehicleID";
+            column.Width = 10;
+            column.Visible = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Brand";
+            column.Caption = "Marka";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Model";
+            column.Caption = "Model";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ProductionDate";
+            column.Caption = "Data produkcji";
+            column.PropertiesEdit.DisplayFormatString = "yyyy";
+            column.Settings.AllowAutoFilter = DefaultBoolean.False;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().DateEdit(de =>
+            {
+                de.DisplayFormatString = "yyyy";
+                de.ValidationSettings.RequiredField.IsRequired = true;
+                de.ValidationSettings.Display = Display.Dynamic;
+            });
+            column.SetDataItemTemplateContent(c =>
+            {
+                var productionDate = (DateTime?)DataBinder.Eval(c.DataItem, "ProductionDate");
+                if (productionDate != null)
+                {
+                    ViewContext.Writer.WriteLine(productionDate.Value.ToString("yyyy"));
+                }
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Mileage";
+            column.Caption = "Przebieg";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VehicleTypeID";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            column.Caption = "Typ pojazdu";
+            column.Width = 50;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().ComboBox(cb =>
+            {
+                cb.TextField = "VehicleTypeName";
+                cb.ValueField = "VehicleTypeID";
+                cb.ValueType = typeof(int);
+                cb.DataSource = DrivingSchoolDataProvider.GetVehiclesTypes();
+                cb.ValidationSettings.Display = Display.Dynamic;
+                cb.ValidationSettings.RequiredField.IsRequired = true;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CategoryID";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            column.Caption = "Kategoria";
+            column.Width = 50;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().ComboBox(cb =>
+            {
+                cb.TextField = "CategoryName";
+                cb.ValueField = "CategoryID";
+                cb.ValueType = typeof(int);
+                cb.DataSource = DrivingSchoolDataProvider.GetCategories();
+                cb.ValidationSettings.Display = Display.Dynamic;
+                cb.ValidationSettings.RequiredField.IsRequired = true;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "About";
+            column.Caption = "Dodatkowe informacje";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = false;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+    });
+
+    if (ViewData["EditError"] != null) {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
+

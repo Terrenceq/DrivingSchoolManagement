@@ -1,0 +1,135 @@
+@{
+    ViewBag.Title = "Strefa kursanta - OSK";
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
+}
+
+<style>
+    .templateTitle{
+        text-align:center!important;
+        float: none !important;
+        width: 100%!important;
+    }
+
+    .image {
+        width: 100%;
+        height: 450px;
+        background: url('/Content/Images/YARISwhite.png') no-repeat center center;
+    }
+    h2{
+        text-align: center;
+        margin-top: 10px;
+    }
+    p{
+        text-align:center;
+        margin-top: -5px;
+    }
+
+    #Input{
+        width:100%;
+    }
+
+    .dxpcLite_Material .dxpc-mainDiv{
+        border: none !important;
+    }
+
+    .dxpcLite_Material .dxpc-header {
+        padding: 10px 10px 10px 12px !important;
+    }
+</style>
+
+<script>
+    var prevOnLoad = window.onload;
+    window.onload = myOnLoad;
+    function myOnLoad() {
+        if (prevOnLoad != null)
+            prevOnLoad();
+        document.onkeydown = myOnKeyDown;
+    }
+    function myOnKeyDown() {
+        if (event.keyCode == 13) {
+            ASPxClientUtils.PreventEventAndBubble(event); 
+        }
+    }
+
+    function LoginButtonClick() {
+        if (ASPxClientEdit.AreEditorsValid(loginFormLayout_0)) {
+            errorLabel.innerText = "";
+            var data = $('#LoginFormLayout').serialize();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CheckProvidedCredentials", "Login")',
+            data: data,
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                } else {
+                    errorLabel.innerText = response.responseText;
+                    remindPassword.SetVisible(true);
+                }
+            }
+        });
+        }
+    }
+
+    function SendEmailButtonClick() {
+        if (ASPxClientEdit.AreEditorsValid(remindPasswordFormLayout_0)) {
+            var data = $('#RemindPasswordFormLayout').serialize();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendEmailWithPassword", "Login")',
+            data: data,
+            success: function (response) {
+                if (response.success) {
+                    _emailSentSuccess.Show();
+                } else {
+                    errorLabelText.innerText = response.responseText;
+                }
+            }
+        });
+        }
+    }
+    function ShowRemindPasswordForm() {
+        document.getElementById("remindPasswordFormLayout").style.display = "block";
+    }
+
+    function HideRemindPasswordForm() {
+        setTimeout(document.getElementById("remindPasswordFormLayout").style.display = "none", 2000);
+    }
+
+</script>
+<h2>Witamy w strefie kursanta!</h2>
+<p><strong>LOGIN: </strong>imie.nazwisko</p>
+<p><strong>HAS£O: </strong>PESEL</p>
+<p>W polu <b>login</b> proszê nie u¿ywaæ polskich znaków.</p>
+<div class="loginForm">
+    @Html.Partial("_loginFormLayoutPartialView")
+</div>
+<div id="remindPasswordFormLayout" style="display:none">
+    @Html.Partial("_remindPasswordFormLayoutPartialView")
+</div>
+<div class="image"></div>
+
+<div>
+    @Html.DevExpress().PopupControl(settings =>
+        {
+            settings.Name = "_emailSentSuccess";
+            settings.Width = 400;
+            settings.AllowResize = false;
+            settings.ShowHeader = true;
+            settings.ShowOnPageLoad = false;
+            settings.AllowDragging = false;
+            settings.Styles.Header.BackColor = System.Drawing.Color.FromArgb(76, 163, 223);
+            settings.Styles.Header.ForeColor = System.Drawing.Color.White;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.Modal = true;
+            settings.HeaderText = "Sukces!";
+            settings.PopupElementID = "emailSentSuccess";
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+            settings.ClientSideEvents.CloseButtonClick += "HideRemindPasswordForm";
+            settings.SetContent(() =>
+                {
+                    ViewContext.Writer.Write("<div id='eMailSuccessSendMessage'>Has³o zosta³o wys³ane na Twoj¹ skrzynkê mailow¹!</div></br>");
+                });
+        }).GetHtml()
+</div>

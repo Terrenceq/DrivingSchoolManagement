@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>DevExpress ASP.NET project</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>@ViewBag.Title - Ośrodek Szkolenia Kierowców</title>
     
     @Html.DevExpress().GetStyleSheets(
         new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
@@ -42,31 +43,43 @@
         new Script { ExtensionSuite = ExtensionSuite.Dashboard }
     )
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
-    <div class="content-wrapper">
-        <div class="header">
-            <h1>DevExpress ASP.NET project</h1>
-            @Html.DevExpress().Menu(settings => {
-                settings.Name = "HeaderMenu";
-                settings.ItemAutoWidth = false;
-                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                settings.Styles.Style.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
-                settings.Styles.Style.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
-                settings.Items.Add("Home");
-                settings.Items.Add("About");
-                settings.Items.Add("Contact");
-            }).GetHtml()
-        </div>
+    @Html.DevExpress().Panel(settings => {
+        settings.Name = "HeaderPane";
+        settings.FixedPosition = PanelFixedPosition.WindowTop;
+        settings.Collapsible = true;
+        settings.SettingsAdaptivity.CollapseAtWindowInnerWidth = 500;
+        settings.ControlStyle.CssClass = "headerPane";
+        settings.Styles.Panel.CssClass = "panel";
+        settings.Styles.ExpandedPanel.CssClass = "expandedPanel";
+        settings.Styles.ExpandBar.CssClass = "bar";
+        settings.SetContent(() => {
+            Html.RenderPartial("HeaderPartialView", HeaderViewRenderMode.Full);
+        });
+        settings.SetExpandBarTemplateContent((c) => {
+            Html.RenderPartial("HeaderPartialView", HeaderViewRenderMode.Title);
+        });
+    }).GetHtml()
 
-        <div class="content">
-            @RenderBody()
-        </div>
+    <script type="text/javascript">
+        function updateHeaderMenuOrientation(){
+            if(!window.HeaderMenu) return;
+            var orientation = HeaderPane.IsExpandable() ? 'Vertical' : 'Horizontal';
+            if(orientation !== HeaderMenu.GetOrientation())
+                HeaderMenu.SetOrientation(orientation);
+        }
+        var collection = ASPxClientControl.GetControlCollection();
+        collection.ControlsInitialized.AddHandler(updateHeaderMenuOrientation);
+        collection.BrowserWindowResized.AddHandler(updateHeaderMenuOrientation);
+    </script>
 
-        <div class="footer">
-            <p>&copy; @DateTime.Now.Year - DevExpress ASP.NET project copyright</p>
-        </div>
-    </div>
+    @Html.DevExpress().Panel(settings => {
+        settings.Name = "MainPane";
+        settings.ControlStyle.CssClass = "mainContentPane";
+        settings.SetContent(RenderBody().ToHtmlString());
+    }).GetHtml()
 </body>
 </html>

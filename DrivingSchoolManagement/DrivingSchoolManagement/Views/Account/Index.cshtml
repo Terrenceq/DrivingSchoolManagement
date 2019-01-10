@@ -1,0 +1,13 @@
+﻿@using DrivingSchoolManagement.Models
+@{
+    ViewBag.Title = "Moje konto";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+    var userId = (int)Session["UserID"];
+}
+
+@Html.Action("UserAccountDetailsFormPartial")
+
+@if (DrivingSchoolDataProvider.IsUserDriver(userId))
+{
+    @Html.Action("AssignedStudentsGridPartial");
+}
