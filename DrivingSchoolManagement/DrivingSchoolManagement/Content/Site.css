@@ -140,3 +140,11 @@ a[id^='HeaderMenu_DXI'], a[id*='HeaderMenu_DXI'] {
 .dxmLite_Material .dxm-horizontal .dxm-image-l .dxm-content {
     padding: 27px 22px 15px 19px!important;
 }
+
+.dxgvEditFormTable_Material a{
+    color:white!important;
+}
+
+.dxeCalendarFastNavItem_Material.dxeCalendarFastNavItemSelected_Material, .dxeCalendarDay_Material.dxeCalendarSelected_Material {
+    background-color: #007cd2 !important;
+}

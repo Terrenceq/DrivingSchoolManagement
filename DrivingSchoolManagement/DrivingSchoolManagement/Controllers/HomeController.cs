@@ -31,6 +31,12 @@ namespace DrivingSchoolManagement.Controllers
            
             return PartialView("_homeCardAboutPartial", result);
         }
+
+        public ActionResult Logout()
+        {
+            Session["UserID"] = null;
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
 

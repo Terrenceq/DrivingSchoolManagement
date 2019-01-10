@@ -16,7 +16,7 @@
             <h5 class="header">Nasi kierowcy</h5>
             @foreach (var driver in Model.OurDrivers)
             {
-                <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "User", new {id=driver.UserID})','_blank')">
+                <div class="card horizontal hoverable">
                     <div class="card-image" style="width: 25%;">
                         <img src="@Url.Content("~/Content/Images/driver" + driver.UserID + ".jpg")" />
                     </div>
@@ -26,7 +26,17 @@
                                 <b>@driver.FirstName @driver.LastName </b><br />
                                 @if (driver.DateOfBirth != null)
                                 {
-                                    ViewContext.Writer.Write(driver.DateOfBirth.ToShortDateString());
+                                    var age = DateTime.Today.Year - driver.DateOfBirth.Year;
+                                    if (driver.DateOfBirth > DateTime.Today.AddYears(-age))
+                                    {
+                                        age--;
+                                    }
+                                    ViewContext.Writer.Write("Urodzony: " + driver.DateOfBirth.ToShortDateString() + " ("+ age +" lat)");
+                                }
+                                 <br/>
+                                @if (driver.About != null)
+                                {
+                                    ViewContext.Writer.Write(driver.About);
                                 }
                                 <br />
                             </p>
@@ -41,7 +51,7 @@
             <h5 class="header">Nasi menadżerowie</h5>
             @foreach (var manager in Model.OurManagers)
             {
-                <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "User", new {id=manager.UserID})','_blank')">
+                <div class="card horizontal hoverable">
                     <div class="card-image" style="width: 25%;">
                         <img src="@Url.Content("~/Content/Images/manager" + manager.UserID + ".jpg")" />
                     </div>
@@ -51,7 +61,17 @@
                                 <b>@manager.FirstName @manager.LastName </b><br />
                                 @if (manager.DateOfBirth != null)
                                 {
-                                    ViewContext.Writer.Write(manager.DateOfBirth.ToShortDateString());
+                                    var age = DateTime.Today.Year - manager.DateOfBirth.Year;
+                                    if (manager.DateOfBirth > DateTime.Today.AddYears(-age))
+                                    {
+                                        age--;
+                                    }
+                                    ViewContext.Writer.Write("Urodzony: " + manager.DateOfBirth.ToShortDateString() + " (" + age + " lat)");
+                                }
+                                <br />
+                                @if (manager.About != null)
+                                {
+                                    ViewContext.Writer.Write(manager.About);
                                 }
                                 <br />
                             </p>
@@ -66,7 +86,7 @@
             <h5 class="header">Kategorie w jakich nauczamy</h5>
            @foreach (var category in Model.OurCategories)
             {
-            <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "User", new {id=category.CategoryID})','_blank')">
+            <div class="card horizontal hoverable">
                 <div class="card-image" style="width: 25%;">
                     <img src="@Url.Content("~/Content/Images/category" + category.CategoryName + ".jpg")" />
                 </div>
@@ -87,18 +107,18 @@
         </div>
     </div>
     <div class="item">
-        <div class="col s12" style="margin: 0 auto; padding-right: 10px">
+        <div class="col s12" style="margin: 0 auto; padding-right: 10px;">
             <h5 class="header">Nasze pojazdy</h5>
             @foreach (var vehicle in Model.OurVehicles)
             {
-                <div class="card horizontal hoverable" onclick="window.open('@Url.Action("Details", "Vehicle", new {id= vehicle.VehicleID})','_blank')">
-                    <div class="card-image" style="width: 25%;">
+                <div class="card horizontal hoverable">
+                    <div class="card-image" style="width: 25%; height: 105px;">
                         <img src="@Url.Content("~/Content/Images/car" + vehicle.VehicleID + ".jpg")" />
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
                             <p>
-                                <b>@vehicle.Brand @vehicle.Model </b><br />
+                                <b>@vehicle.Brand @vehicle.Model </b>
                                 @if (vehicle.About != null)
                                 {
                                     ViewContext.Writer.Write(vehicle.About);

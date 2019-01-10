@@ -1,0 +1,301 @@
+﻿@using DrivingSchoolDb;
+@using DrivingSchoolManagement.Models;
+@using DrivingSchoolManagement.ViewModels;
+@model List<DriverViewModel>
+
+@{ 
+    var userId = (int)Session["UserID"];
+}
+@{ 
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "DriversGrid";
+        settings.CallbackRouteValues = new { Controller = "Drivers", Action = "DriversGridViewPartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Drivers", Action = "DriversGridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Drivers", Action = "DriversGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Drivers", Action = "DriversGridViewPartialDelete" };
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsPager.PageSize = 25;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.KeyFieldName = "UserID";
+        settings.SettingsCommandButton.NewButton.Text = "Dodaj instruktora";
+        settings.SettingsCommandButton.EditButton.Text = "Edytuj";
+        settings.SettingsCommandButton.DeleteButton.Text = "Usuń";
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowFilterRow = true;
+
+        DevExpress.Web.EditModeCommandLayoutItem commandButtons = new DevExpress.Web.EditModeCommandLayoutItem();
+        commandButtons.HorizontalAlign = FormLayoutHorizontalAlign.Left;
+        commandButtons.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
+        commandButtons.Paddings.PaddingBottom = Unit.Pixel(20);
+        settings.EditFormLayoutProperties.Items.Add(commandButtons);
+
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+
+        if (DrivingSchoolDataProvider.IsUserManager(userId))
+            settings.CommandColumn.Visible = true;
+        else settings.CommandColumn.Visible = false;
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UserID";
+            column.Width = 10;
+            column.Visible = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FirstName";
+            column.Caption = "Imie";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LastName";
+            column.Caption = "Nazwisko";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DateOfBirth";
+            column.Caption = "Data urodzenia";
+            column.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().DateEdit(de =>
+            {
+                de.DisplayFormatString = "dd MMMM yyyy";
+                de.ValidationSettings.RequiredField.IsRequired = true;
+                de.ValidationSettings.Display = Display.Dynamic;
+            });
+            column.SetDataItemTemplateContent(c =>
+            {
+                var dateOfBirth = (DateTime?)DataBinder.Eval(c.DataItem, "DateOfBirth");
+                if (dateOfBirth != null)
+                {
+                    ViewContext.Writer.WriteLine(dateOfBirth.Value.ToString("dd MMMM yyyy"));
+                }
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Email";
+            column.Caption = "E-mail";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+                tx.ValidationSettings.RegularExpression.ValidationExpression = @"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+                tx.ValidationSettings.RegularExpression.ErrorText = "Adres e-mail ma niepoprawny format!";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Students";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            column.Caption = "Ilość przypisanych studentów";
+            column.Width = 50;
+            column.ReadOnly = true;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.SetEditItemTemplateContent(c => { });
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(DrivingSchoolDataProvider.GetStudentsAssignedForDriver((int)DataBinder.Eval(c.DataItem, "UserID")));
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CategoryID";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            column.Caption = "Kategoria";
+            column.Width = 50;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().ComboBox(cb =>
+            {
+                cb.TextField = "CategoryName";
+                cb.ValueField = "CategoryID";
+                cb.ValueType = typeof(int);
+                cb.DataSource = DrivingSchoolDataProvider.GetCategories();
+                cb.ValidationSettings.Display = Display.Dynamic;
+                cb.ValidationSettings.RequiredField.IsRequired = true;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "About";
+            column.Caption = "Dodatkowe informacje";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = false;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "PESEL";
+            column.Caption = "PESEL";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+                tx.MaskSettings.Mask = "00000000000";
+
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LicenceNumber";
+            column.Caption = "Numer prawa jazdy";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "StreetName";
+            column.Caption = "Ulica";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = false;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Number";
+            column.Caption = "Numer domu";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "City";
+            column.Caption = "Miejscowośc";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "PostalCode";
+            column.Caption = "Kod pocztowy";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+                tx.MaskSettings.Mask = "00-000";
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Country";
+            column.Caption = "Państwo";
+            column.Visible = false;
+            column.EditFormSettings.Visible = DefaultBoolean.True;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+        settings.EditFormLayoutProperties.Items.AddGroupItem(g =>
+        {
+            g.ColumnCount = 2;
+            g.Caption = "Informacje podstawowe";
+
+            g.Items.Add("FirstName");
+            g.Items.Add("LastName");
+            g.Items.Add("DateOfBirth");
+            g.Items.Add("PESEL");
+            g.Items.Add("Email");
+            g.Items.Add("About");
+            g.Items.Add("CategoryID");
+            g.Items.Add("LicenceNumber");
+        });
+
+        settings.EditFormLayoutProperties.Items.AddGroupItem(g =>
+        {
+            g.ColumnCount = 2;
+            g.Caption = "Adres zamieszkania";
+
+            g.Items.Add("StreetName");
+            g.Items.Add("Number");
+            g.Items.Add("City");
+            g.Items.Add("PostalCode");
+            g.Items.Add("Country");
+        });
+
+    });
+
+    if (ViewData["EditError"] != null) {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
+
