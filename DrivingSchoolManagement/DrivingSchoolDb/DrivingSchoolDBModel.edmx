@@ -105,6 +105,7 @@
           <Property Name="VehicleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Brand" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Model" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductionDate" Type="date" Nullable="false" />
           <Property Name="VehicleTypeID" Type="int" Nullable="false" />
           <Property Name="Mileage" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="About" Type="text" />
@@ -154,7 +155,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DriverInfo_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DriverInfo" Type="Self.DriverInfo" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -604,6 +607,7 @@
           <NavigationProperty Name="Category" Relationship="DrivingSchoolManagementModel.FK_Vehicle_Category" FromRole="Vehicle" ToRole="Category" />
           <NavigationProperty Name="Lessons" Relationship="DrivingSchoolManagementModel.FK_Lesson_Vehicle" FromRole="Vehicle" ToRole="Lesson" />
           <NavigationProperty Name="VehicleType" Relationship="DrivingSchoolManagementModel.FK_Vehicle_VehicleType" FromRole="Vehicle" ToRole="VehicleType" />
+          <Property Name="ProductionDate" Type="DateTime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="VehicleType">
           <Key>
@@ -917,6 +921,7 @@
           <EntitySetMapping Name="Vehicles">
             <EntityTypeMapping TypeName="DrivingSchoolManagementModel.Vehicle">
               <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="About" ColumnName="About" />
                 <ScalarProperty Name="Mileage" ColumnName="Mileage" />

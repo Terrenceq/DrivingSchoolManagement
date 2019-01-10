@@ -174,6 +174,9 @@
     <Reference Include="DevExpress.XtraMap.v18.2, Version=18.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v18.2, Version=18.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraPrinting.v18.2, Version=18.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.1\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
     <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.2.3\lib\net45\WebMatrix.Data.dll</HintPath>
     </Reference>
@@ -195,8 +198,8 @@
     <Content Include="Content\Images\icons8-customer-48.png" />
     <Content Include="Content\Images\kurs-L-samochodowy.jpg" />
     <Content Include="Content\Images\manager2.jpg" />
+    <Content Include="Content\Images\manager20.jpg" />
     <Content Include="Content\Images\manager3.jpg" />
-    <Content Include="Content\Images\manager4.jpg" />
     <Content Include="Content\Images\managerCard.png" />
     <Content Include="Content\Images\YARISwhite.png" />
     <Content Include="Content\jquery-ui.css" />
@@ -267,6 +270,12 @@
     <Content Include="Views\Drivers\_driversGridViewPartial.cshtml" />
     <Content Include="Views\Managers\Index.cshtml" />
     <Content Include="Views\Managers\_managersGridViewPartial.cshtml" />
+    <Content Include="Views\Vehicles\Index.cshtml" />
+    <Content Include="Views\Vehicles\_vehiclesGridViewPartial.cshtml" />
+    <Content Include="Views\Shared\ContentLeftPartialView.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\_userAccountDetailsFormPartial.cshtml" />
+    <Content Include="Views\Account\_assignedStudentsGridViewPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -278,10 +287,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DriversController.cs" />
     <Compile Include="Controllers\ManagersController.cs" />
+    <Compile Include="Controllers\VehiclesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -289,6 +300,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\DrivingSchoolDataProvider.cs" />
     <Compile Include="Services\DSMAuthorize.cs" />
+    <Compile Include="ViewModels\AccountDetailsViewModel.cs" />
+    <Compile Include="ViewModels\AssignedStudentViewModel.cs" />
+    <Compile Include="ViewModels\VehicleViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModel.cs" />
     <Compile Include="ViewModels\DriverViewModel.cs" />
     <Compile Include="ViewModels\HomeCarouselViewModel.cs" />

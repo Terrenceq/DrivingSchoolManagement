@@ -27,6 +27,7 @@ namespace DrivingSchoolDb
         public string Mileage { get; set; }
         public string About { get; set; }
         public int CategoryID { get; set; }
+        public System.DateTime ProductionDate { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -9,8 +9,18 @@
         window.location.href = url;
     }
 
-        function Manager(s, e) {
+    function Manager(s, e) {
         var url = '@Url.Action("Index", "Managers")';
+        window.location.href = url;
+    }
+
+    function Vehicle(s, e) {
+        var url = '@Url.Action("Index", "Vehicles")';
+        window.location.href = url;
+    }
+
+    function Account(s, e) {
+        var url = '@Url.Action("Index", "Account")';
         window.location.href = url;
     }
 </script>
@@ -22,7 +32,7 @@
         @Html.Action("HomeCardPartial")
     </div>
         <div class="row card-content center-align" style="margin-top:150px">
-            <div class="col s3">
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Umów nauke praktyczn¹">
                 @Html.DevExpress().Button(
                     settings =>
                     {
@@ -36,7 +46,7 @@
                         settings.ClientSideEvents.Click = "Appointment";
                     }).GetHtml()
             </div>
-            <div class="col s3">
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zobacz naszych instruktorów">
                 @Html.DevExpress().Button(
                     settings =>
                     {
@@ -50,7 +60,7 @@
                         settings.ClientSideEvents.Click = "Driver";
                     }).GetHtml()
             </div>
-            <div class="col s3">
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zobacz naszych menad¿erów">
                 @Html.DevExpress().Button(
                     settings =>
                     {
@@ -64,7 +74,7 @@
                         settings.ClientSideEvents.Click = "Manager";
                     }).GetHtml()
             </div>
-            <div class="col s3">
+            <div class="col s3 tooltipped" data-position="bottom" data-delay="500" data-tooltip="Zobacz nasze pojazdy">
                 @Html.DevExpress().Button(
                     settings =>
                     {

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using DrivingSchoolDb;
 using System.Web.Security;
+using DrivingSchoolManagement.Models;
 using System.Text;
 using DrivingSchoolManagement.ViewModels;
 using System.Net.Mail;
@@ -15,7 +16,6 @@ namespace DrivingSchoolManagement.Controllers
 {
     public class LoginController : Controller
     {
-        static string key { get; set; } = "A!9HHhi%XjjYY4YP2@Nob009X";
         DrivingSchoolManagementEntities db = new DrivingSchoolManagementEntities();
 
         public ActionResult Index()
@@ -36,7 +36,7 @@ namespace DrivingSchoolManagement.Controllers
         {
             try
             {
-                var password = EncryptPassword(userCredentials.Password);
+                var password = DrivingSchoolDataProvider.EncryptPassword(userCredentials.Password);
 
                 var userCredential = db.UserCredentials.FirstOrDefault(x => x.Login == userCredentials.Login && x.Password == password);
 
@@ -66,7 +66,7 @@ namespace DrivingSchoolManagement.Controllers
 
                 if (providedLoginUser != null)
                 {
-                    var password = DecryptPassword(providedLoginUser.Password);
+                    var password = DrivingSchoolDataProvider.DecryptPassword(providedLoginUser.Password);
                     var email = db.Users.FirstOrDefault(x => x.UserID == providedLoginUser.UserID).Email;
                     SendEmail(email, password);
 
@@ -113,45 +113,6 @@ namespace DrivingSchoolManagement.Controllers
             {
                 smtp.Send(message);
             }
-        }
-
-        public static string EncryptPassword(string password)
-        {
-            using (var md5 = new MD5CryptoServiceProvider())
-            {
-                using (var tdes = new TripleDESCryptoServiceProvider())
-                {
-                    tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
-                    tdes.Mode = CipherMode.ECB;
-                    tdes.Padding = PaddingMode.PKCS7;
-
-                    using (var transform = tdes.CreateEncryptor())
-                    {
-                        var textBytes = UTF8Encoding.UTF8.GetBytes(password);
-                        var bytes = transform.TransformFinalBlock(textBytes, 0, textBytes.Length);
-                        return Convert.ToBase64String(bytes, 0, bytes.Length);
-                    }
-                }
-            }
-        }
-        public static string DecryptPassword(string hashPassword)
-        {
-            using (var md5 = new MD5CryptoServiceProvider())
-            {
-                using (var tdes = new TripleDESCryptoServiceProvider())
-                {
-                    tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
-                    tdes.Mode = CipherMode.ECB;
-                    tdes.Padding = PaddingMode.PKCS7;
-
-                    using (var transform = tdes.CreateDecryptor())
-                    {
-                        var cipherBytes = Convert.FromBase64String(hashPassword);
-                        var bytes = transform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
-                        return UTF8Encoding.UTF8.GetString(bytes);
-                    }
-                }
-            }
-        }
+        }  
     }
 }

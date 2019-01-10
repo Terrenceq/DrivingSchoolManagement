@@ -5,6 +5,7 @@ using System.Web;
 using DrivingSchoolDb;
 using System.Web.Mvc;
 using DrivingSchoolManagement.Services;
+using DrivingSchoolManagement.Models;
 using DrivingSchoolManagement.ViewModels;
 using System.Data.Entity.Migrations;
 
@@ -64,8 +65,16 @@ namespace DrivingSchoolManagement.Controllers
 
                     var newDriverInfo = new DriverInfo() { User = newDriver, LicenceNumber = driver.LicenceNumber, CategoryID = driver.CategoryID };
 
+                    var newDriverUserCredentials = new UserCredential
+                    {
+                        User = newDriver,
+                        Login = DrivingSchoolDataProvider.RemoveSpecialCharacters(newDriver.FirstName + "." + newDriver.LastName).ToLower(),
+                        Password = DrivingSchoolDataProvider.EncryptPassword(newDriver.PESEL)
+                    };
+
                     db.Users.Add(newDriver);
                     db.DriverInfoes.Add(newDriverInfo);
+                    db.UserCredentials.Add(newDriverUserCredentials);
 
                     db.SaveChanges();
                 }
@@ -173,6 +182,5 @@ namespace DrivingSchoolManagement.Controllers
 
             return PartialView("_driversGridViewPartial", model);
         }
-
     }
 }

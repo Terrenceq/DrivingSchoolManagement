@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using DrivingSchoolManagement.ViewModels;
 using DrivingSchoolManagement.Services;
 using System.Data.Entity.Migrations;
+using DrivingSchoolManagement.Models;
 
 namespace DrivingSchoolManagement.Controllers
 {
@@ -56,7 +57,15 @@ namespace DrivingSchoolManagement.Controllers
                     if (manager.About != null)
                         newManager.About = manager.About;
 
+                    var newManagerUserCredentials = new UserCredential
+                    {
+                        User = newManager,
+                        Login = DrivingSchoolDataProvider.RemoveSpecialCharacters(newManager.FirstName + "." + newManager.LastName).ToLower(),
+                        Password = DrivingSchoolDataProvider.EncryptPassword(newManager.PESEL)
+                    };
+
                     db.Users.Add(newManager);
+                    db.UserCredentials.Add(newManagerUserCredentials);
                     db.SaveChanges();
                 }
                 catch (Exception e)
