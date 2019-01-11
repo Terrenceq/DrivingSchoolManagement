@@ -1,6 +1,7 @@
-﻿@model HeaderViewRenderMode
+﻿@using DrivingSchoolManagement.Models;
+@model HeaderViewRenderMode
 <style>
-    #HeaderMenu_DXI0_T span, #HeaderMenu_DXI1_T span, #HeaderMenu_DXI2_T span, #HeaderMenu_DXI3_T span, #HeaderMenu_DXI4_T span {
+    #HeaderMenu_DXI0_T span, #HeaderMenu_DXI1_T span, #HeaderMenu_DXI2_T span, #HeaderMenu_DXI3_T span, #HeaderMenu_DXI4_T span, #HeaderMenu_DXI5_T span {
         margin-top: -10px !important;
     }
 </style>
@@ -79,6 +80,15 @@ else
                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account" });
                item.Text = "Moje konto";
            });
+           if (DrivingSchoolDataProvider.IsUserManager((int)Session["UserID"])){
+               settings.Items.Add(item =>
+               {
+                   item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account" });
+                   item.Text = "Panel administracyjny";
+               });
+           }
+
+
        }
    }).GetHtml()
     </div>
