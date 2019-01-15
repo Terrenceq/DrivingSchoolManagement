@@ -6,6 +6,8 @@ using DrivingSchoolDb;
 using DrivingSchoolManagement.Services;
 using DrivingSchoolManagement.ViewModels;
 using System.Web.Mvc;
+using DrivingSchoolManagement.Models;
+using System.Data.Entity.Migrations;
 
 namespace DrivingSchoolManagement.Controllers
 {
@@ -14,6 +16,12 @@ namespace DrivingSchoolManagement.Controllers
         DrivingSchoolManagementEntities db = new DrivingSchoolManagementEntities();
         [DSMAuthorize("User")]
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [DSMAuthorize("User")]
+        public ActionResult Password()
         {
             return View();
         }
@@ -72,5 +80,35 @@ namespace DrivingSchoolManagement.Controllers
             }
             return PartialView("_assignedStudentsGridViewPartial", model);
         }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult CheckProvidedPasswordData(UserPasswordChangeViewModel passwords)
+        {
+            try
+            {
+                var encryptedPassword = DrivingSchoolDataProvider.EncryptPassword(passwords.OldPassword);
+                var userId = (int)Session["UserID"];
+
+                var userCredential = db.UserCredentials.FirstOrDefault(x => x.UserID == userId && x.Password == encryptedPassword);
+
+                if (userCredential != null)
+                {
+                    userCredential.Password = DrivingSchoolDataProvider.EncryptPassword(passwords.NewPassword);
+                    db.UserCredentials.AddOrUpdate(userCredential);
+                    db.SaveChanges();
+
+                    return Json(new { success = true, responseText = "Hasło zostało zmienione" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, responseText = "Podane hasło jest niepoprawne." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, responseText = "Podane dane są niepoprawne." }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

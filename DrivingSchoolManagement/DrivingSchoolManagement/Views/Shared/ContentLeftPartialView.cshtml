@@ -28,6 +28,11 @@
             item.Text = "Moje dane";
             item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account", Action = "Index" });
         });
+        group.Items.Add(item =>
+        {
+            item.Text = "Zmień hasło";
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account", Action = "Password" });
+        });
     });
 
 }).GetHtml()
