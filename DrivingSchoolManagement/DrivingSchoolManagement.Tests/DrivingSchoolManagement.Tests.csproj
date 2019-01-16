@@ -58,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\EditDriverTest .cs" />
+    <Compile Include="Tests\EditManagerTest.cs" />
+    <Compile Include="Tests\EditVehicleTest.cs" />
+    <Compile Include="Tests\AddNewVehicleTest.cs" />
     <Compile Include="Tests\AddNewManagerTest.cs" />
     <Compile Include="Tests\AddNewDriverTest.cs" />
     <Compile Include="Tests\LoginAndSubpagesTest.cs" />
