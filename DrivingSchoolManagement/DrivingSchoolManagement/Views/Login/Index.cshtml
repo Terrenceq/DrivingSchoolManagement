@@ -13,7 +13,6 @@
     .image {
         width: 100%;
         height: 450px;
-        background: url('/Content/Images/YARISwhite.png') no-repeat center center;
     }
     h2{
         text-align: center;
@@ -107,7 +106,7 @@
 <div id="remindPasswordFormLayout" style="display:none">
     @Html.Partial("_remindPasswordFormLayoutPartialView")
 </div>
-<div class="image"></div>
+<div class="image" style="background:url('@Url.Content("~/Content/Images/YARISwhite.png")') no-repeat center center"></div>
 
 <div>
     @Html.DevExpress().PopupControl(settings =>
