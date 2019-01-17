@@ -255,6 +255,9 @@
     <Content Include="Views\Students\Index.cshtml" />
     <Content Include="Views\Account\Password.cshtml" />
     <Content Include="Views\Account\_userChangePasswordFormPartial.cshtml" />
+    <Content Include="Views\Lessons\ContentLeftPartialView.cshtml" />
+    <Content Include="Views\Lessons\_mainLayout.cshtml" />
+    <Content Include="Views\Lessons\_lessonDatePickerFormLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

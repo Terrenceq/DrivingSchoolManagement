@@ -1,0 +1,39 @@
+﻿@Html.DevExpress().FormLayout(form =>
+{
+    form.Name = "lessonDateForm";
+    form.Style.Add("margin", "auto");
+    form.Items.AddGroupItem(group =>
+    {
+        group.ColCount = 2;
+        group.Caption = "Wybierz datę spotkania";
+        group.Items.Add(item =>
+        {
+            item.Caption = "Data";
+            item.ColSpan = 1;
+            item.NestedExtension().DateEdit(de =>
+            {
+                de.Name = "LessonDate";
+                de.Properties.ClientSideEvents.DateChanged = "function(s,e){ ApplyButton.SetEnabled(true);}";
+                de.Properties.CalendarProperties.ShowTodayButton = true;
+                de.Properties.MinDate = DateTime.Now;
+                de.Properties.MaxDate = DateTime.Now.AddDays(7);
+                de.Properties.EditFormatString = "dd MMMM yyyy";
+                de.Properties.DisplayFormatString = "dd MMMM yyyy";
+            });
+        });
+
+        group.Items.Add(item =>
+        {
+            item.Caption = "";
+            item.ColSpan = 1;
+            item.NestedExtension().Button(button =>
+            {
+                button.Name = "ApplyButton";
+                button.Text = "Dalej";
+                button.UseSubmitBehavior = false;
+                button.ClientSideEvents.Click = "function(s,e) {SaveDateInSession();}";
+                button.ClientEnabled = false;
+            });
+        });
+    });
+}).GetHtml()

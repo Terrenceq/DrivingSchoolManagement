@@ -24,6 +24,11 @@
         var url = '@Url.Action("Index", "Account")';
         window.location.href = url;
     }
+
+    function Lessons(s, e) {
+        var url = '@Url.Action("Index", "Lessons")';
+        window.location.href = url;
+    }
 </script>
 <link href="@Url.ContentVersioned("~/Content/materialize.min.css")" rel="stylesheet" />
 <script src="@Url.ContentVersioned("~/Scripts/materialize.min.js")"></script>
@@ -39,14 +44,14 @@
                 @Html.DevExpress().Button(
                          settings =>
                          {
-                             settings.Name = "btn-Appointment";
+                             settings.Name = "btn-Lessons";
                              settings.Width = 200;
                              settings.Height = 100;
                              settings.EncodeHtml = false;
                              settings.Images.Image.Url = "~/Content/Images/appointment.png";
                              settings.ImagePosition = ImagePosition.Top;
                              settings.Text = "Spotkania";
-                             settings.ClientSideEvents.Click = "Appointment";
+                             settings.ClientSideEvents.Click = "Lessons";
                          }).GetHtml()
             </div>
             }

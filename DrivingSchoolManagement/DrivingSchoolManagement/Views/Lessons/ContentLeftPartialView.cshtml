@@ -1,0 +1,44 @@
+﻿@using System.Drawing
+@using DrivingSchoolManagement.Models;
+<div class="leftPanel">
+    @Html.DevExpress().NavBar(settings =>
+{
+    settings.Name = "LeftNavBar";
+    settings.AutoCollapse = false;
+    settings.EnableAnimation = false;
+    settings.AllowExpanding = false;
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    settings.Styles.GroupContent.BackColor = Color.Transparent;
+    settings.Styles.GroupHeaderCollapsed.BackColor = Color.Transparent;
+    settings.Styles.Item.HoverStyle.BackColor = Color.FromArgb(76, 163, 223);
+    settings.Styles.Item.HoverStyle.ForeColor = Color.White;
+    settings.Styles.Item.SelectedStyle.BackColor = Color.FromArgb(76, 163, 223);
+    settings.Styles.Item.SelectedStyle.ForeColor = Color.White;
+
+    settings.Styles.GroupContent.Border.BorderStyle = BorderStyle.None;
+    settings.Styles.GroupHeader.Border.BorderStyle = BorderStyle.None;
+    settings.Styles.GroupHeaderCollapsed.Border.BorderStyle = BorderStyle.None;
+
+
+    settings.Groups.Add(group =>
+    {
+        group.Text = "Spotkania";
+        if (DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]))
+        {
+            group.Items.Add(item =>
+            {
+                item.Selected = DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]) ? true : false;
+                item.Text = "Umów spotkanie";
+                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Lessons", Action = "Index" });
+            });
+        }
+        group.Items.Add(item =>
+        {
+            item.Text = "Moje spotkania";
+            item.Selected = DrivingSchoolDataProvider.IsUserDriver((int)Session["UserID"]) ? true : false;
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Lessons", Action = "MyLessons" });
+        });
+    });
+
+}).GetHtml()
+</div>

@@ -60,6 +60,14 @@ else
                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home" });
                item.Text = "Strona główna";
            });
+           if (!DrivingSchoolDataProvider.IsUserManager((int)Session["UserID"]))
+           {
+               settings.Items.Add(item =>
+               {
+                   item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Lessons" });
+                   item.Text = "Spotkania";
+               });
+           }
            settings.Items.Add(item =>
            {
                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Drivers" });

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DrivingSchoolManagement.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,17 @@ namespace DrivingSchoolManagement.Controllers
 {
     public class LessonsController : Controller
     {
-        // GET: Lessons
+        [DSMAuthorize("User")]
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult SaveLessonDateInSession(string lessonDate)
+        {
+            Session["LessonDate"] = DateTime.Parse(lessonDate).ToShortDateString();
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

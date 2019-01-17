@@ -31,6 +31,7 @@
             {
                 t.Properties.ValidationSettings.RequiredField.IsRequired = true;
                 t.Properties.ValidationSettings.Display = Display.Dynamic;
+                t.Properties.NullText = "imie.nazwisko";
             });
         });
         g.Items.Add(m => m.Password, i =>
@@ -45,6 +46,7 @@
                 t.Properties.ValidationSettings.RequiredField.IsRequired = true;
                 t.Properties.ValidationSettings.Display = Display.Dynamic;
                 t.Properties.Password = true;
+                t.Properties.NullText = "Domyślnie PESEL";
             });
         });
         g.Items.Add(i =>

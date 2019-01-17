@@ -1,5 +1,26 @@
 ﻿@using DrivingSchoolManagement.Models
 @{
     ViewBag.Title = "Lekcje praktyczne";
-    Layout = "~/Views/Shared/_root.cshtml";
+    Layout = "~/Views/Lessons/_mainLayout.cshtml";
 }
+
+<script>
+    function SaveDateInSession() {
+        if (ASPxClientEdit.AreEditorsValid(lessonDateForm_0)) {
+            $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveLessonDateInSession", "Lessons")',
+            data: { lessonDate: LessonDate.GetDate().toLocaleDateString()},
+            success: function ()
+            {
+
+            }
+        });
+        }
+    }
+</script>
+@Html.Partial("_lessonDatePickerFormLayout")
+
+<div id="appointmentCreateFormLayout" style="display:none">
+    @Html.Partial("_appointmentCreateFormLayout")
+</div>
