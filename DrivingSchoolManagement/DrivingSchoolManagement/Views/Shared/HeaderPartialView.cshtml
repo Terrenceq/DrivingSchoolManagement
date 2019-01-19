@@ -64,7 +64,9 @@ else
            {
                settings.Items.Add(item =>
                {
-                   item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Lessons" });
+                   item.NavigateUrl =  DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]) ?
+                                       DevExpressHelper.GetUrl(new { Controller = "Lessons" }) :
+                                       DevExpressHelper.GetUrl(new { Controller = "Lessons", Action = "MyLessons" });
                    item.Text = "Spotkania";
                });
            }

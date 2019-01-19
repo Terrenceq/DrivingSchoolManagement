@@ -1,0 +1,87 @@
+﻿@using DrivingSchoolManagement.Models;
+@using DevExpress.Data
+@using DrivingSchoolManagement.ViewModels;
+@model List<MyLessonsViewModel>
+@{
+    var user = (int)Session["UserID"];
+}
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "MyLessons";
+        settings.CallbackRouteValues = new { Controller = "Lessons", Action = "MyLessonsGridViewPartial" };
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsPager.PageSize = 50;
+        settings.Styles.CommandColumn.Wrap = DefaultBoolean.True;
+        settings.CommandColumn.Visible = false;
+        settings.KeyFieldName = "LessonID";
+        settings.SettingsPager.Visible = true;
+
+        if (DrivingSchoolDataProvider.IsUserStudent(user))
+        {
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Driver";
+                column.Caption = "Instruktor";
+                column.Settings.AllowCellMerge = DefaultBoolean.True;
+            });
+        }
+        if (DrivingSchoolDataProvider.IsUserDriver(user))
+        {
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Student";
+                column.Caption = "Instruktor";
+                column.Settings.AllowCellMerge = DefaultBoolean.True;
+            });
+        }
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DateCreated";
+            column.Caption = "Data zapisania";
+            column.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy HH:mm";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LessonDate";
+            column.Caption = "Data spotkania";
+            column.SortOrder = ColumnSortOrder.Ascending;
+            column.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy HH:mm";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CancelButton";
+            column.Caption = " ";
+            column.Width = 50;
+
+            column.SetDataItemTemplateContent(tc =>
+            {
+                var isActive = DataBinder.Eval(tc.DataItem, "CancelButton").ToString();
+                var lessonId = tc.KeyValue.ToString();
+
+                Html.DevExpress().Button(bt =>
+                {
+                    bt.Name = "CancelBtn" + lessonId;
+                    bt.Text = "Odwołaj spotkanie";
+                    bt.ClientSideEvents.Click = "function(s,e){CancelLessonButtonClick(s,e,'" + lessonId + "');}";
+                    switch (isActive)
+                    {
+                        case "True":
+                            bt.ClientEnabled = true;
+                            break;
+                        case "False":
+                            bt.ClientEnabled = false;
+                            bt.ControlStyle.CssClass = "buttonDisabled";
+                            break;
+                    }
+                }).Render();
+            });
+        });
+
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

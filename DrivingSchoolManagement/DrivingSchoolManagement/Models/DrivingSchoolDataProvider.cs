@@ -82,6 +82,19 @@ namespace DrivingSchoolManagement.Models
             return DB.AssignedStudents.Count(s => s.DriverID == userId);
         }
 
+        public static List<LessonTime> GetAvailableLessonTimesForSpecifiedDay(string lessonDate)
+        {
+            if (lessonDate == null)
+                return DB.LessonTimes.ToList();
+
+            var date = DateTime.Parse(lessonDate);
+
+            var reservedTimes = DB.Lessons.Where(w => w.LessonDate == date).Select(s => s.LessonTime);
+
+            return DB.LessonTimes.Except(reservedTimes).ToList();
+           
+        }
+
         public static string EncryptPassword(string password)
         {
             using (var md5 = new MD5CryptoServiceProvider())

@@ -17,14 +17,12 @@ namespace DrivingSchoolDb
         public int LessonID { get; set; }
         public int StudentID { get; set; }
         public int DriverID { get; set; }
-        public int VehicleID { get; set; }
-        public System.DateTime AppointmentDateTime { get; set; }
+        public System.DateTime DateCreated { get; set; }
         public System.DateTime LessonDate { get; set; }
         public int LessonTimeID { get; set; }
     
         public virtual DriverInfo DriverInfo { get; set; }
         public virtual LessonTime LessonTime { get; set; }
         public virtual StudentInfo StudentInfo { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
     }
 }

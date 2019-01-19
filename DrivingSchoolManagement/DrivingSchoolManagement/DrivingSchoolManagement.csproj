@@ -258,6 +258,9 @@
     <Content Include="Views\Lessons\ContentLeftPartialView.cshtml" />
     <Content Include="Views\Lessons\_mainLayout.cshtml" />
     <Content Include="Views\Lessons\_lessonDatePickerFormLayout.cshtml" />
+    <Content Include="Views\Lessons\_lessonCreateFormLayout.cshtml" />
+    <Content Include="Views\Lessons\MyLessons.cshtml" />
+    <Content Include="Views\Lessons\_myLessonsGridViewPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -286,7 +289,9 @@
     <Compile Include="Models\DrivingSchoolDataProvider.cs" />
     <Compile Include="Services\DSMAuthorize.cs" />
     <Compile Include="ViewModels\AccountDetailsViewModel.cs" />
+    <Compile Include="ViewModels\LessonCreateViewModel.cs" />
     <Compile Include="ViewModels\AssignedStudentViewModel.cs" />
+    <Compile Include="ViewModels\MyLessonsViewModel.cs" />
     <Compile Include="ViewModels\UserPasswordChangeViewModel.cs" />
     <Compile Include="ViewModels\VehicleViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModel.cs" />

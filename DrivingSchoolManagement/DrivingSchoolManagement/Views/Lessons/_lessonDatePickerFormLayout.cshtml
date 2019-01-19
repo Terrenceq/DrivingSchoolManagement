@@ -13,7 +13,7 @@
             item.NestedExtension().DateEdit(de =>
             {
                 de.Name = "LessonDate";
-                de.Properties.ClientSideEvents.DateChanged = "function(s,e){ ApplyButton.SetEnabled(true);}";
+                de.Properties.ClientSideEvents.DateChanged = "function(s,e){ ApplyButton.SetEnabled(true); document.getElementById(\"appointmentCreateFormLayout\").style.display = \"none\";}";
                 de.Properties.CalendarProperties.ShowTodayButton = true;
                 de.Properties.MinDate = DateTime.Now;
                 de.Properties.MaxDate = DateTime.Now.AddDays(7);
