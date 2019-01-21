@@ -1,0 +1,43 @@
+﻿@using DrivingSchoolManagement.Models
+@{
+    ViewBag.Title = "Lekcje praktyczne";
+    Layout = "~/Views/Lessons/_mainLayout.cshtml";
+}
+<style>
+    .captionAlign {
+        min-width: 70px !important;
+    }
+</style>
+<script>
+    function SaveDateInSession() {
+        if (ASPxClientEdit.AreEditorsValid(lessonDateForm_0)) {
+            $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveLessonDateInSession", "Lessons")',
+            data: { lessonDate: LessonDate.GetDate().toLocaleDateString()},
+            success: function ()
+            {
+                LessonFormCallbackPanel.PerformCallback();
+            }
+        });
+        }
+    }
+
+    function RemoveClasses() {
+        $('#lessonFormLayout_0_0').removeClass('dxflChildInFirstRowSys dxflChildInLastRowSys');
+        $('#lessonFormLayout_0_1').removeClass('dxflChildInFirstRowSys dxflChildInLastRowSys');
+        $('#lessonFormLayout_0_2').removeClass('dxflChildInFirstRowSys dxflChildInLastRowSys');
+    }
+
+    function LessonFormOnEndCallback() {
+        RemoveClasses();
+        LessonTimeID.SetValue(null);
+        document.getElementById("appointmentCreateFormLayout").style.display = "block";
+        ApplyButton.SetEnabled(false);
+    }
+</script>
+@Html.Partial("_lessonDatePickerFormLayout")
+
+<div id="appointmentCreateFormLayout" style="display:none">
+    @Html.Action("LessonCreateFormLayout")
+</div>

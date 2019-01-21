@@ -1,0 +1,88 @@
+﻿@using DrivingSchoolManagement.ViewModels
+@using DrivingSchoolManagement.Models
+@model LessonCreateViewModel
+@{ 
+    var userId = (int)Session["UserID"];
+    var lessonDate = Session["LessonDate"] == null ? null : (string)Session["LessonDate"];
+}
+
+@Html.DevExpress().CallbackPanel(
+    setting =>
+    {
+        setting.Name = "LessonFormCallbackPanel";
+        setting.CallbackRouteValues = new { Controller = "Lessons", Action = "LessonCreateFormLayout" };
+        setting.ClientSideEvents.EndCallback = "LessonFormOnEndCallback";
+        setting.SetContent(() =>
+        {
+            using (Html.BeginForm("SaveLessonInDB", "Lessons"))
+            {
+                @Html.DevExpress().FormLayout(settings =>
+                {
+                    settings.Name = "lessonFormLayout";
+                    settings.Style.Add("margin", "0 auto");
+                    settings.Width = 440;
+                    settings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Uzupełnij pozostałe dane";
+                        g.GroupBoxDecoration = GroupBoxDecoration.Box;
+                        g.Items.Add(m => m.Student, i =>
+                        {
+                            i.Caption = "Kursant";
+                            i.CaptionCellStyle.CssClass = "captionAlign";
+                            i.NestedExtensionSettings.Width = Unit.Percentage(100);
+                            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                            i.NestedExtension().TextBox(t =>
+                            {
+                                t.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                t.Properties.ValidationSettings.Display = Display.Dynamic;
+                                t.ReadOnly = true;
+                            });
+                        });
+                        g.Items.Add(m => m.Driver, i =>
+                        {
+                            i.Caption = "Instruktor";
+                            i.NestedExtensionSettings.Width = Unit.Percentage(100);
+                            i.RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+                            i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                            i.NestedExtension().TextBox(t =>
+                            {
+                                t.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                t.Properties.ValidationSettings.Display = Display.Dynamic;
+                                t.ReadOnly = true;
+                            });
+                        });
+                        g.Items.Add(m => m.LessonTimeID, item =>
+                        {
+                            item.Caption = "Godzina";
+                            item.CaptionCellStyle.CssClass = "captionAlign";
+                            item.NestedExtensionSettings.Width = Unit.Percentage(100);
+                            item.NestedExtension().ComboBox(combo =>
+                            {
+                                combo.Properties.ValueType = typeof(int);
+                                combo.Properties.ValueField = "LessonTimeID";
+                                combo.Properties.TextField = "Time";
+                                combo.Properties.DataSource = DrivingSchoolDataProvider.GetAvailableLessonTimesForSpecifiedDay(lessonDate, userId);
+                                combo.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                                combo.Properties.ValidationSettings.Display = Display.Dynamic;
+                                combo.Properties.NullText = "Wybierz godzinę";
+                                combo.Width = Unit.Percentage(100);
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                            i.NestedExtension().Button(s =>
+                            {
+                                s.Name = "LoginButton";
+                                s.Text = "Zapisz";
+                                s.UseSubmitBehavior = true;
+                            });
+                        });
+                    });
+                }).GetHtml();
+            }
+        });
+    }).GetHtml()

@@ -10,4 +10,4 @@ namespace DrivingSchoolManagement.ViewModels
         public string Login { get; set; }
         public string Password { get; set; }
     }
-}
+} 

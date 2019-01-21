@@ -79,12 +79,12 @@ namespace DrivingSchoolManagement.Controllers
 
                 else
                 {
-                    return Json(new { success = false, responseText = "Podany login lub has³o s¹ nieprawid³owe." }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, responseText = "Podane dane s¹ niepoprawne." }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
             {
-                return Json(new { success = false, responseText = "Podany login lub has³o s¹ nieprawid³owe." }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, responseText = "Podane dane s¹ niepoprawne." }, JsonRequestBehavior.AllowGet);
             }
         }
 

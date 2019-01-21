@@ -1,0 +1,33 @@
+﻿@using DrivingSchoolManagement.Models
+@{
+    ViewBag.Title = "Moje spotkania";
+    Layout = "~/Views/Lessons/_mainLayout.cshtml";
+}
+
+<style>
+    .buttonDisabled {
+        background: #c9cbcc !important;
+        color: #7e7373 !important;
+    }
+</style>
+
+<script>
+    function CancelLessonButtonClick(s, e, lessonId) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CancelLesson", "Lessons")',
+            data: { 'lessonId': lessonId},
+            success: function() {
+                ActualLessons.PerformCallback();
+            }
+        });
+    }
+</script>
+
+<div id="actualLessons">
+    @Html.Action("ActualLessonsGridViewPartial")
+</div>
+
+<div id="historyLessons" style="margin-top:50px">
+    @Html.Action("HistoryLessonsGridViewPartial")
+</div>

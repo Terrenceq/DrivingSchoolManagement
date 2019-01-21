@@ -1,7 +1,26 @@
-﻿@model HeaderViewRenderMode
+﻿@using DrivingSchoolManagement.Models;
+@model HeaderViewRenderMode
 <style>
-    #HeaderMenu_DXI0_T span, #HeaderMenu_DXI1_T span, #HeaderMenu_DXI2_T span, #HeaderMenu_DXI3_T span, #HeaderMenu_DXI4_T span {
+    #HeaderMenu_DXI0_T span, #HeaderMenu_DXI1_T span, #HeaderMenu_DXI2_T span, #HeaderMenu_DXI3_T span, #HeaderMenu_DXI4_T span, #HeaderMenu_DXI5_T span {
         margin-top: -10px !important;
+    }
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #0966b1;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 5px;
+        position: absolute;
+        z-index: 1;
+        top: 6px;
+        left: 125px;
+    }
+
+    .tooltip:hover .tooltiptext{
+        visibility:visible;
     }
 </style>
 <script>
@@ -23,8 +42,21 @@ else
         <div class="headerTop">
             <div class="templateTitle" style="width:300px">
                 <a href='@Url.Action("Index", "Home")'>
-                    <img src='@Url.Content("~/Content/Images/kurs-L-samochodowy.jpg")' style="margin-top:2px;margin-left: 10px; width:50px; height:50px;" />
+                    <img src='@Url.Content("~/Content/Images/kurs-L-samochodowy.jpg")' style="margin-top:2px;margin-left: 10px; width:50px; height:50px; float:left;" />
                 </a>
+                @if (Session["UserID"] != null)
+                {
+                    if (DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]) && DrivingSchoolDataProvider.StudentHasIncomingLesson((int)Session["UserID"]))
+                    {
+                        <a href='@Url.Action("MyLessons", "Lessons")'>
+                            <div class="tooltip"><img src='@Url.Content("~/Content/Images/alert.png")' style="float:left; width:35px; margin-left:25px; margin-top:10px;" />
+                                <span class="tooltiptext">Następna nauka jazdy za mniej niż 12h!</span>
+                            </div>
+                            
+                        </a>
+                    }
+
+                } 
             </div>
         @if (HttpContext.Current.Session["UserID"] != null)
         {
@@ -59,6 +91,16 @@ else
                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Home" });
                item.Text = "Strona główna";
            });
+           if (!DrivingSchoolDataProvider.IsUserManager((int)Session["UserID"]))
+           {
+               settings.Items.Add(item =>
+               {
+                   item.NavigateUrl =  DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]) ?
+                                       DevExpressHelper.GetUrl(new { Controller = "Lessons" }) :
+                                       DevExpressHelper.GetUrl(new { Controller = "Lessons", Action = "MyLessons" });
+                   item.Text = "Spotkania";
+               });
+           }
            settings.Items.Add(item =>
            {
                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Drivers" });
@@ -79,6 +121,15 @@ else
                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account" });
                item.Text = "Moje konto";
            });
+           if (DrivingSchoolDataProvider.IsUserManager((int)Session["UserID"])){
+               settings.Items.Add(item =>
+               {
+                   item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account" });
+                   item.Text = "Panel administracyjny";
+               });
+           }
+
+
        }
    }).GetHtml()
     </div>

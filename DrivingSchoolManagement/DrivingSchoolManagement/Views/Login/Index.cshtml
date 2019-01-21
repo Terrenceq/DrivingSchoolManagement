@@ -10,10 +10,13 @@
         width: 100%!important;
     }
 
+    .templateTitle a img {
+        float:none!important;
+    }
+
     .image {
         width: 100%;
         height: 450px;
-        background: url('/Content/Images/YARISwhite.png') no-repeat center center;
     }
     h2{
         text-align: center;
@@ -98,16 +101,16 @@
 
 </script>
 <h2>Witamy w strefie kursanta!</h2>
-<p><strong>LOGIN: </strong>imie.nazwisko</p>
-<p><strong>HAS£O: </strong>PESEL</p>
-<p>W polu <b>login</b> proszê nie u¿ywaæ polskich znaków.</p>
+<p><strong>LOGIN: </strong><span style="color:dimgray">imie.nazwisko</span></p>
+<p><strong>HAS£O: </strong><span style="color:dimgray">domyœlnie PESEL</span></p>
+<p>W polu <b>login</b> prosimy nie u¿ywaæ polskich znaków.</p>
 <div class="loginForm">
     @Html.Partial("_loginFormLayoutPartialView")
 </div>
 <div id="remindPasswordFormLayout" style="display:none">
     @Html.Partial("_remindPasswordFormLayoutPartialView")
 </div>
-<div class="image"></div>
+<div class="image" style="background:url('@Url.Content("~/Content/Images/YARISwhite.png")') no-repeat center center"></div>
 
 <div>
     @Html.DevExpress().PopupControl(settings =>

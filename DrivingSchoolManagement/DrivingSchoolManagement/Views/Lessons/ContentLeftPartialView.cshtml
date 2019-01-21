@@ -1,4 +1,5 @@
 ﻿@using System.Drawing
+@using DrivingSchoolManagement.Models;
 <div class="leftPanel">
     @Html.DevExpress().NavBar(settings =>
 {
@@ -21,17 +22,21 @@
 
     settings.Groups.Add(group =>
     {
-        group.Text = "Konto";
+        group.Text = "Spotkania";
+        if (DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]))
+        {
+            group.Items.Add(item =>
+            {
+                item.Selected = DrivingSchoolDataProvider.IsUserStudent((int)Session["UserID"]) ? true : false;
+                item.Text = "Umów spotkanie";
+                item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Lessons", Action = "Index" });
+            });
+        }
         group.Items.Add(item =>
         {
-            item.Selected = true;
-            item.Text = "Moje dane";
-            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account", Action = "Index" });
-        });
-        group.Items.Add(item =>
-        {
-            item.Text = "Zmień hasło";
-            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Account", Action = "Password" });
+            item.Text = "Moje spotkania";
+            item.Selected = DrivingSchoolDataProvider.IsUserDriver((int)Session["UserID"]) ? true : false;
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Lessons", Action = "MyLessons" });
         });
     });
 
