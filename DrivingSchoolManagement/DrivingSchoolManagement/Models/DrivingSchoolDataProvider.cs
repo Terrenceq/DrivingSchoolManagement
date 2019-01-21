@@ -82,17 +82,33 @@ namespace DrivingSchoolManagement.Models
             return DB.AssignedStudents.Count(s => s.DriverID == userId);
         }
 
-        public static List<LessonTime> GetAvailableLessonTimesForSpecifiedDay(string lessonDate)
+        public static List<LessonTime> GetAvailableLessonTimesForSpecifiedDay(string lessonDate, int userId)
         {
             if (lessonDate == null)
                 return DB.LessonTimes.ToList();
 
             var date = DateTime.Parse(lessonDate);
+            var driverId = DB.StudentInfoes.FirstOrDefault(x => x.StudentID == userId).AssignedDriverID;
 
-            var reservedTimes = DB.Lessons.Where(w => w.LessonDate == date).Select(s => s.LessonTime);
+            var reservedTimes = DB.Lessons.Where(w => w.LessonDate == date && w.DriverID == driverId).Select(s => s.LessonTime);
 
-            return DB.LessonTimes.Except(reservedTimes).ToList();
-           
+            return DB.LessonTimes.Except(reservedTimes).ToList();       
+        }
+
+        public static bool StudentHasIncomingLesson(int studentId)
+        {
+            var lessons = DB.Lessons.Where(x => x.StudentID == studentId);
+
+            foreach (var lesson in lessons)
+            {
+                var lessonDateTime = GetLessonDateTime(lesson);
+
+                if (lessonDateTime < DateTime.Now) continue;
+                if (lessonDateTime < DateTime.Now.AddHours(14))
+                    return true;
+            }
+
+            return false;
         }
 
         public static string EncryptPassword(string password)
@@ -113,6 +129,13 @@ namespace DrivingSchoolManagement.Models
                     }
                 }
             }
+        }
+
+        public static DateTime GetLessonDateTime(Lesson lesson)
+        {
+            var date = lesson.LessonDate;
+            var time = DateTime.Parse(lesson.LessonTime.Time);
+            return new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
         }
 
         public static string DecryptPassword(string hashPassword)

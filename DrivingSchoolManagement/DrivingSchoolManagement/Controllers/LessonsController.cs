@@ -77,7 +77,7 @@ namespace DrivingSchoolManagement.Controllers
             return PartialView();
         }
 
-        public ActionResult MyLessonsGridViewPartial()
+        public ActionResult ActualLessonsGridViewPartial()
         {
             var model = new List<MyLessonsViewModel>();
             var userId = (int)Session["UserID"];
@@ -90,10 +90,31 @@ namespace DrivingSchoolManagement.Controllers
 
             foreach (var lesson in myLessons)
             {
-                model.Add(new MyLessonsViewModel(lesson));
+                if (DrivingSchoolDataProvider.GetLessonDateTime(lesson) > DateTime.Now)
+                    model.Add(new MyLessonsViewModel(lesson));
             }
 
-            return PartialView("_myLessonsGridViewPartial", model);
+            return PartialView("_actualLessonsGridViewPartial", model);
+        }
+
+        public ActionResult HistoryLessonsGridViewPartial()
+        {
+            var model = new List<MyLessonsViewModel>();
+            var userId = (int)Session["UserID"];
+            List<Lesson> myLessons;
+
+            if (DrivingSchoolDataProvider.IsUserStudent(userId))
+                myLessons = db.Lessons.Where(x => x.StudentID == userId).ToList();
+            else
+                myLessons = db.Lessons.Where(x => x.DriverID == userId).ToList();
+
+            foreach (var lesson in myLessons)
+            {
+                if (DrivingSchoolDataProvider.GetLessonDateTime(lesson) < DateTime.Now)
+                    model.Add(new MyLessonsViewModel(lesson));
+            }
+
+            return PartialView("_historyLessonsGridViewPartial", model);
         }
 
         public void CancelLesson(int lessonId)
@@ -103,5 +124,7 @@ namespace DrivingSchoolManagement.Controllers
             db.Lessons.Remove(deleteLesson);
             db.SaveChanges();
         }
+
+
     }
 }

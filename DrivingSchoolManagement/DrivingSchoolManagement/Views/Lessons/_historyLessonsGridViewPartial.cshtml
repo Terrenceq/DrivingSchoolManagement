@@ -8,14 +8,16 @@
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
-        settings.Name = "MyLessons";
-        settings.CallbackRouteValues = new { Controller = "Lessons", Action = "MyLessonsGridViewPartial" };
+        settings.Name = "HistoryLessons";
+        settings.CallbackRouteValues = new { Controller = "Lessons", Action = "HistoryLessonsGridViewPartial" };
         settings.Width = Unit.Percentage(100);
-        settings.SettingsPager.PageSize = 50;
+        settings.SettingsPager.PageSize = 5;
         settings.Styles.CommandColumn.Wrap = DefaultBoolean.True;
         settings.CommandColumn.Visible = false;
         settings.KeyFieldName = "LessonID";
         settings.SettingsPager.Visible = true;
+        settings.SettingsText.Title = "Historyczne spotkania";
+        settings.Settings.ShowTitlePanel = true;
 
         if (DrivingSchoolDataProvider.IsUserStudent(user))
         {
@@ -48,40 +50,6 @@
             column.SortOrder = ColumnSortOrder.Ascending;
             column.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy HH:mm";
         });
-        settings.Columns.Add(column =>
-        {
-            column.FieldName = "CancelButton";
-            column.Caption = " ";
-            column.Width = 50;
-
-            column.SetDataItemTemplateContent(tc =>
-            {
-                var isActive = DataBinder.Eval(tc.DataItem, "CancelButton").ToString();
-                var lessonId = tc.KeyValue.ToString();
-
-                Html.DevExpress().Button(bt =>
-                {
-                    bt.Name = "CancelBtn" + lessonId;
-                    bt.Text = "Odwołaj spotkanie";
-                    bt.ClientSideEvents.Click = "function(s,e){CancelLessonButtonClick(s,e,'" + lessonId + "');}";
-                    switch (isActive)
-                    {
-                        case "True":
-                            bt.ClientEnabled = true;
-                            break;
-                        case "False":
-                            bt.ClientEnabled = false;
-                            bt.ControlStyle.CssClass = "buttonDisabled";
-                            break;
-                    }
-                }).Render();
-            });
-        });
-
     });
-    if (ViewData["EditError"] != null)
-    {
-        grid.SetEditErrorText((string)ViewData["EditError"]);
-    }
 }
 @grid.Bind(Model).GetHtml()

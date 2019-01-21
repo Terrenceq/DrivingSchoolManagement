@@ -18,10 +18,16 @@
             url: '@Url.Action("CancelLesson", "Lessons")',
             data: { 'lessonId': lessonId},
             success: function() {
-                MyLessons.PerformCallback();
+                ActualLessons.PerformCallback();
             }
         });
     }
 </script>
 
-@Html.Action("MyLessonsGridViewPartial")
+<div id="actualLessons">
+    @Html.Action("ActualLessonsGridViewPartial")
+</div>
+
+<div id="historyLessons" style="margin-top:50px">
+    @Html.Action("HistoryLessonsGridViewPartial")
+</div>

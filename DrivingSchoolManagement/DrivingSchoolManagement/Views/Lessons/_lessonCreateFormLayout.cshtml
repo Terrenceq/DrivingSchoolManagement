@@ -62,7 +62,7 @@
                                 combo.Properties.ValueType = typeof(int);
                                 combo.Properties.ValueField = "LessonTimeID";
                                 combo.Properties.TextField = "Time";
-                                combo.Properties.DataSource = DrivingSchoolDataProvider.GetAvailableLessonTimesForSpecifiedDay(lessonDate);
+                                combo.Properties.DataSource = DrivingSchoolDataProvider.GetAvailableLessonTimesForSpecifiedDay(lessonDate, userId);
                                 combo.Properties.ValidationSettings.RequiredField.IsRequired = true;
                                 combo.Properties.ValidationSettings.Display = Display.Dynamic;
                                 combo.Properties.NullText = "Wybierz godzinę";
