@@ -1,4 +1,5 @@
 ﻿@using DrivingSchoolManagement.ViewModels
+@using System.Drawing
 @using DrivingSchoolManagement.Models
 @model AccountDetailsViewModel
 @{ 
@@ -6,165 +7,194 @@
 }
 
 @Html.DevExpress().FormLayout(fl =>
+{
+    fl.Width = Unit.Percentage(50);
+    fl.Style.Add("margin", "0 auto");
+    fl.Name = "AccountDetailsFormLayout";
+    fl.EncodeHtml = false;
+    var firstGroupItem = fl.Items.AddGroupItem(i =>
+    {
+        i.Caption = "Dane użytkownika";
+        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+        i.ColumnCount = 2;
+    });
+    firstGroupItem.Items.Add(m => m.FirstName, i =>
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "Imię";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    firstGroupItem.Items.Add(m => m.LastName, i =>
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "Nazwisko";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    firstGroupItem.Items.Add(m => m.Login, i =>
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "Login";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    firstGroupItem.Items.Add(m => m.DateOfBirth, i =>
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "Data urodzenia";
+        i.NestedExtension().DateEdit(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+            s.Properties.EditFormat = EditFormat.Custom;
+            s.Properties.EditFormatString = "dd MMMM yyyy";
+        });
+    });
+    firstGroupItem.Items.Add(m => m.PESEL, i =>
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "PESEL";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    firstGroupItem.Items.Add(m => m.Email, i =>
+    {
+        i.ColumnSpan = 1;
+        i.Caption = "Adres e-mail";
+        i.Width = Unit.Percentage(100);
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = false;
+            s.Properties.ClientSideEvents.GotFocus = "OnEmailInputGotFocus";
+            s.Properties.ClientSideEvents.LostFocus = "OnEmailInputLostFocus";
+            s.Properties.ValidationSettings.Display = Display.Dynamic;
+            s.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+            s.Properties.ValidationSettings.RegularExpression.ErrorText = "Adres e-mail ma niepoprawny format!";
+        });
+    });
+    firstGroupItem.Items.Add(i => {
+        i.ColumnSpan = 1;
+        i.ShowCaption = DefaultBoolean.False;
+        i.NestedExtension().Button(bt => {
+            bt.Text = "Zapisz";
+            bt.Name = "chgEmailButton";
+            bt.ClientEnabled = false;
+            bt.Style.Add("float", "right");
+            bt.Width = Unit.Pixel(100);
+            bt.ClientSideEvents.Click = "ChangeEmailButtonClick";
+        });
+    });
+    firstGroupItem.Items.Add(m => m.About, i =>
+    {
+        i.ColumnSpan = 2;
+        i.Caption = "Dodatkowe informacje";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    if (DrivingSchoolDataProvider.IsUserStudent(userId))
+    {
+        firstGroupItem.Items.Add(m => m.AssignedDriverName, i =>
+        {
+            i.ColumnSpan = 2;
+            i.Caption = "Przypisany instruktor";
+            i.NestedExtension().TextBox(s =>
             {
-                fl.Width = Unit.Percentage(50);
-                fl.Style.Add("margin", "0 auto");
-                fl.Name = "AccountDetailsFormLayout";
-                fl.EncodeHtml = false;
-                var firstGroupItem = fl.Items.AddGroupItem(i =>
-                {
-                    i.Caption = "Dane użytkownika";
-                    i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
-                });
-                firstGroupItem.Items.Add(m => m.FirstName, i =>
-                {
-                    i.Caption = "Imię";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                firstGroupItem.Items.Add(m => m.LastName, i =>
-                {
-                    i.Caption = "Nazwisko";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                firstGroupItem.Items.Add(m => m.Login, i =>
-                {
-                    i.Caption = "Login";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                firstGroupItem.Items.Add(m => m.DateOfBirth, i =>
-                {
-                    i.Caption = "Data urodzenia";
-                    i.NestedExtension().DateEdit(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                        s.Properties.EditFormat = EditFormat.Custom;
-                        s.Properties.EditFormatString = "dd MMMM yyyy";
-                    });
-                });
-                firstGroupItem.Items.Add(m => m.PESEL, i =>
-                {
-                    i.Caption = "PESEL";
-                    i.NestedExtension().TextBox(s =>
-                        {
-                            s.Width = Unit.Percentage(100);
-                            s.ReadOnly = true;
-                        });
-                });
-                firstGroupItem.Items.Add(m => m.Email, i =>
-                {
-                    i.Caption = "Adres e-mail";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                firstGroupItem.Items.Add(m => m.About, i =>
-                {
-                    i.Caption = "Dodatkowe informacje";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                if (DrivingSchoolDataProvider.IsUserStudent(userId)) 
-                {
-                firstGroupItem.Items.Add(m => m.AssignedDriverName, i =>
-                {
-                    i.Caption = "Przypisany instruktor";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                firstGroupItem.Items.Add(m => m.CategoryName, i =>
-                {
-                    i.Caption = "Kategoria";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                }
-                if (DrivingSchoolDataProvider.IsUserDriver(userId)) 
-                {
-                firstGroupItem.Items.Add(m => m.AssignedStudentsCount, i =>
-                {
-                    i.Caption = "Ilość prowadzonych studentów";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                }
+                s.Width = Unit.Percentage(100);
+                s.ReadOnly = true;
+            });
+        });
+        firstGroupItem.Items.Add(m => m.CategoryName, i =>
+        {
+            i.ColumnSpan = 2;
+            i.Caption = "Kategoria";
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Width = Unit.Percentage(100);
+                s.ReadOnly = true;
+            });
+        });
+    }
+    if (DrivingSchoolDataProvider.IsUserDriver(userId))
+    {
+        firstGroupItem.Items.Add(m => m.AssignedStudentsCount, i =>
+        {
+            i.ColumnSpan = 2;
+            i.Caption = "Ilość prowadzonych studentów";
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Width = Unit.Percentage(100);
+                s.ReadOnly = true;
+            });
+        });
+    }
 
-                var secondGroupItem = fl.Items.AddGroupItem(i =>
-                {
-                    i.Caption = "Adres";
-                    i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
-                });
+    var secondGroupItem = fl.Items.AddGroupItem(i =>
+    {
+        i.Caption = "Adres";
+        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+    });
 
-                secondGroupItem.Items.Add(m => m.StreetName, i =>
-                {
-                    i.Caption = "Ulica";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                secondGroupItem.Items.Add(m => m.Number, i =>
-                {
-                    i.Caption = "Numer domu";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                secondGroupItem.Items.Add(m => m.PostalCode, i =>
-                {
-                    i.Caption = "Kod pocztowy";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                secondGroupItem.Items.Add(m => m.City, i =>
-                {
-                    i.Caption = "Miejscowość";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                secondGroupItem.Items.Add(m => m.Country, i =>
-                {
-                    i.Caption = "Państwo";
-                    i.NestedExtension().TextBox(s =>
-                    {
-                        s.Width = Unit.Percentage(100);
-                        s.ReadOnly = true;
-                    });
-                });
-                
-            }).Bind(Model).GetHtml();
+    secondGroupItem.Items.Add(m => m.StreetName, i =>
+    {
+        i.Caption = "Ulica";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.Number, i =>
+    {
+        i.Caption = "Numer domu";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.PostalCode, i =>
+    {
+        i.Caption = "Kod pocztowy";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.City, i =>
+    {
+        i.Caption = "Miejscowość";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.Country, i =>
+    {
+        i.Caption = "Państwo";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+
+}).Bind(Model).GetHtml();

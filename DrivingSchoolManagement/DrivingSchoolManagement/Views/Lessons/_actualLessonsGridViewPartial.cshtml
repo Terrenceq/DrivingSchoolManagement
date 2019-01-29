@@ -50,35 +50,37 @@
             column.SortOrder = ColumnSortOrder.Ascending;
             column.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy HH:mm";
         });
-        settings.Columns.Add(column =>
-        {
-            column.FieldName = "CancelButton";
-            column.Caption = " ";
-            column.Width = 50;
-
-            column.SetDataItemTemplateContent(tc =>
+        if(DrivingSchoolDataProvider.IsUserStudent(user)){
+            settings.Columns.Add(column =>
             {
-                var isActive = DataBinder.Eval(tc.DataItem, "CancelButton").ToString();
-                var lessonId = tc.KeyValue.ToString();
+                column.FieldName = "CancelButton";
+                column.Caption = " ";
+                column.Width = 50;
 
-                Html.DevExpress().Button(bt =>
+                column.SetDataItemTemplateContent(tc =>
                 {
-                    bt.Name = "CancelBtn" + lessonId;
-                    bt.Text = "Odwołaj spotkanie";
-                    bt.ClientSideEvents.Click = "function(s,e){CancelLessonButtonClick(s,e,'" + lessonId + "');}";
-                    switch (isActive)
+                    var isActive = DataBinder.Eval(tc.DataItem, "CancelButton").ToString();
+                    var lessonId = tc.KeyValue.ToString();
+
+                    Html.DevExpress().Button(bt =>
                     {
-                        case "True":
-                            bt.ClientEnabled = true;
-                            break;
-                        case "False":
-                            bt.ClientEnabled = false;
-                            bt.ControlStyle.CssClass = "buttonDisabled";
-                            break;
-                    }
-                }).Render();
+                        bt.Name = "CancelBtn" + lessonId;
+                        bt.Text = "Odwołaj spotkanie";
+                        bt.ClientSideEvents.Click = "function(s,e){CancelLessonButtonClick(s,e,'" + lessonId + "');}";
+                        switch (isActive)
+                        {
+                            case "True":
+                                bt.ClientEnabled = true;
+                                break;
+                            case "False":
+                                bt.ClientEnabled = false;
+                                bt.ControlStyle.CssClass = "buttonDisabled";
+                                break;
+                        }
+                    }).Render();
+                });
             });
-        });
+        }
 
     });
     if (ViewData["EditError"] != null)

@@ -1,5 +1,42 @@
-﻿@using DrivingSchoolManagement.Models
+﻿@model DrivingSchoolManagement.ViewModels.AdminPanelViewModel
+@using System.Reflection
+@using DrivingSchoolManagement.Models
 @{
     ViewBag.Title = "Panel administracyjny";
-    Layout = "~/Views/Shared/_root.cshtml";
+    Layout = "~/Views/Admin/_mainLayout.cshtml";
 }
+<style>
+    .admStatBtn {
+        display: inline-block;
+        margin: 0px 20px;
+    }
+</style>
+<div class="contentPane" style="margin: 50px;">
+
+    <h3>
+        Panel administracyjny <br /><br /><small style="font-weight: normal">Użytkownicy</small>
+    </h3>
+
+    @foreach (PropertyInfo prop in Model.GetType().GetProperties())
+    {
+        <div class="admStatBtn">
+            @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btn" + prop.Name;
+                    settings.Width = 200;
+                    settings.Height = 100;
+                    settings.EncodeHtml = false;
+                    settings.Text = Html.DisplayName(prop.Name) + "<br /><br />" + prop.GetValue(Model, null);
+                }).GetHtml()
+        </div>
+        if (prop.Name == "ManagersCount")
+        {
+            <h3><small style="font-weight: normal">Kategorie i pojazdy</small></h3>
+        }
+        if (prop.Name == "CategoriesCount")
+        {
+            <h3><small style="font-weight: normal">Nauki praktyczne</small></h3>
+        }
+    }
+</div>

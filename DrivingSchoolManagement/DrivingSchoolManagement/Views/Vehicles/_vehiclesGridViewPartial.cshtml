@@ -27,11 +27,8 @@
         settings.SettingsPager.Visible = true;
         settings.Settings.ShowFilterRow = true;
 
-        //DevExpress.Web.EditModeCommandLayoutItem commandButtons = new DevExpress.Web.EditModeCommandLayoutItem();
-        //commandButtons.HorizontalAlign = FormLayoutHorizontalAlign.Left;
-        //commandButtons.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
-        //commandButtons.Paddings.PaddingBottom = Unit.Pixel(20);
-        //settings.EditFormLayoutProperties.Items.Add(commandButtons);
+        settings.SettingsCommandButton.UpdateButton.Text = "Zatwierdź";
+        settings.SettingsCommandButton.CancelButton.Text = "Anuluj";
 
         settings.CellEditorInitialize = (s, e) =>
         {
