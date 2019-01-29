@@ -110,5 +110,26 @@ namespace DrivingSchoolManagement.Controllers
             }
         }
 
+        [HttpPost, ValidateInput(false)]
+        public void ChangeUserEmail(string newEmail)
+        {
+            try
+            {
+                var userId = (int)Session["UserID"];
+
+                var user = db.Users.FirstOrDefault(s => s.UserID == userId);
+
+                if (user != null)
+                {
+                    user.Email = newEmail;
+                    db.Users.AddOrUpdate(user);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+            }
+        }
+
     }
 }

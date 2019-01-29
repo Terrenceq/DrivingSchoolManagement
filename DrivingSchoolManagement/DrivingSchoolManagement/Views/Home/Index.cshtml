@@ -29,6 +29,11 @@
         var url = '@Url.Action("Index", "Lessons")';
         window.location.href = url;
     }
+
+    function AdminPanel(s, e) {
+    var url = '@Url.Action("Index", "Admin")';
+    window.location.href = url;
+    }
 </script>
 <link href="@Url.ContentVersioned("~/Content/materialize.min.css")" rel="stylesheet" />
 <script src="@Url.ContentVersioned("~/Scripts/materialize.min.js")"></script>

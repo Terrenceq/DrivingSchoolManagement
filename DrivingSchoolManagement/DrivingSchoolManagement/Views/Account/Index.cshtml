@@ -4,7 +4,38 @@
     Layout = "~/Views/Shared/_mainLayout.cshtml";
     var userId = (int)Session["UserID"];
 }
+<style>
+    .dxbButton_Material.dxbDisabled_Material {
+        background: #c9cbcc !important;
+        color: #7e7373 !important;
+    }
+</style>
+<script>
+    var oldEmail;
+    function OnEmailInputGotFocus() {
+        oldEmail = Email.GetValue();
+        chgEmailButton.SetEnabled(true);
+    }
 
+    function OnEmailInputLostFocus() {
+        if (oldEmail == Email.GetValue()) {
+            chgEmailButton.SetEnabled(false);
+        }
+    }
+
+    function ChangeEmailButtonClick() {
+        if (ASPxClientEdit.AreEditorsValid(AccountDetailsFormLayout_0)) {
+            $.ajax({
+            type: "POST",
+            url: '@Url.Action("ChangeUserEmail", "Account")',
+            data: { newEmail: Email.GetValue()},
+            success: function () {
+                location.reload();  
+            }
+            });
+        }
+    }
+</script>
 @Html.Action("UserAccountDetailsFormPartial")
 
 @if (DrivingSchoolDataProvider.IsUserDriver(userId))

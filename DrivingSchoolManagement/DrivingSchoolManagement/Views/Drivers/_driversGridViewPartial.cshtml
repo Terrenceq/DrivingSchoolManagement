@@ -287,6 +287,8 @@
         commandButtons.HorizontalAlign = FormLayoutHorizontalAlign.Right;
         commandButtons.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
         settings.EditFormLayoutProperties.Items.Add(commandButtons);
+        settings.SettingsCommandButton.UpdateButton.Text = "Zatwierdź";
+        settings.SettingsCommandButton.CancelButton.Text = "Anuluj";
     });
 
     if (ViewData["EditError"] != null) {
