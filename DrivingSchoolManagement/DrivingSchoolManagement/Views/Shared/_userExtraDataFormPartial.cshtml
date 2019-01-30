@@ -1,0 +1,91 @@
+﻿@using DrivingSchoolManagement.ViewModels
+@using System.Drawing
+@using DrivingSchoolManagement.Models
+@model AccountDetailsViewModel
+
+@Html.DevExpress().FormLayout(fl =>
+{
+    fl.Width = Unit.Percentage(50);
+    fl.Style.Add("margin", "0 auto");
+    fl.Name = "AccountDetailsFormLayout";
+    fl.EncodeHtml = false;
+    var firstGroupItem = fl.Items.AddGroupItem(i =>
+    {
+        i.Caption = "Dodatkowe dane użytkownika";
+        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+    });
+    firstGroupItem.Items.Add(m => m.PESEL, i =>
+    {
+        i.Caption = "PESEL";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    firstGroupItem.Items.Add(m => m.DateCreated, i =>
+    {
+        i.Caption = "Data utworzenia";
+        i.NestedExtension().DateEdit(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+            s.Properties.EditFormat = EditFormat.Custom;
+            s.Properties.EditFormatString = "dd MMMM yyyy";
+        });
+    });
+
+    var secondGroupItem = fl.Items.AddGroupItem(i =>
+    {
+        i.Caption = "Adres";
+        i.SettingsItemHelpTexts.Position = HelpTextPosition.Bottom;
+    });
+
+    secondGroupItem.Items.Add(m => m.StreetName, i =>
+    {
+        i.Caption = "Ulica";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.Number, i =>
+    {
+        i.Caption = "Numer domu";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.PostalCode, i =>
+    {
+        i.Caption = "Kod pocztowy";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.City, i =>
+    {
+        i.Caption = "Miejscowość";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+    secondGroupItem.Items.Add(m => m.Country, i =>
+    {
+        i.Caption = "Państwo";
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Width = Unit.Percentage(100);
+            s.ReadOnly = true;
+        });
+    });
+
+}).Bind(Model).GetHtml();
+

@@ -67,9 +67,47 @@ namespace DrivingSchoolManagement.Models
             return DB.Categories.ToList();
         }
 
+        public static IEnumerable GetDrivers()
+        {
+            var drivers = DB.DriverInfoes.Select(s => s.User).ToList();
+            var model = new List<Driver>();
+            foreach (var driver in drivers)
+            {
+                model.Add(new Driver() { FullName = driver.FirstName + " " + driver.LastName, AssignedDriverID = driver.UserID });
+            }
+
+            return model;
+        }
+
         public static IEnumerable GetVehiclesTypes()
         {
             return DB.VehicleTypes.ToList();
+        }
+
+        public static List<Driver> GetDriversForUserCategory(int? categoryId)
+        {
+            var drivers = new List<User>();
+            var model = new List<Driver>();
+
+            if (categoryId == null)
+            {
+                drivers = DB.DriverInfoes.Select(s => s.User).ToList();
+                foreach (var driver in drivers)
+                {
+                    model.Add(new Driver() { FullName = driver.FirstName + " " + driver.LastName, AssignedDriverID = driver.UserID, Category = driver.DriverInfo.Category.CategoryName});
+                }
+
+                return model;
+            }
+
+            drivers = DB.DriverInfoes.Where(w => w.CategoryID == categoryId).Select(s => s.User).ToList();
+            model = new List<Driver>();
+            foreach (var driver in drivers)
+            {
+                model.Add(new Driver() { FullName = driver.FirstName + " " + driver.LastName, AssignedDriverID = driver.UserID, Category = driver.DriverInfo.Category.CategoryName });
+            }
+
+            return model;
         }
 
         public static Category GetCategoryById(int id)
@@ -104,7 +142,7 @@ namespace DrivingSchoolManagement.Models
                 var lessonDateTime = GetLessonDateTime(lesson);
 
                 if (lessonDateTime < DateTime.Now) continue;
-                if (lessonDateTime < DateTime.Now.AddHours(14))
+                if (lessonDateTime < DateTime.Now.AddHours(12))
                     return true;
             }
 

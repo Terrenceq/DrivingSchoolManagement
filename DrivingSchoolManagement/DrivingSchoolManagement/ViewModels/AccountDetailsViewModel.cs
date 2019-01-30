@@ -12,6 +12,7 @@ namespace DrivingSchoolManagement.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public DateTime? DateCreated { get; set; }
         public string PESEL { get; set; }
         public string Email { get; set; }
         public string About { get; set; }

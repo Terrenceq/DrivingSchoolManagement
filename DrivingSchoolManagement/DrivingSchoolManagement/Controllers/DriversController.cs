@@ -35,6 +35,27 @@ namespace DrivingSchoolManagement.Controllers
             return PartialView("_driversGridViewPartial", model);
         }
 
+        public ActionResult UserExtraDataPartial(int userId)
+        {
+            var user = db.Users.FirstOrDefault(f => f.UserID == userId);
+            var model = new AccountDetailsViewModel();
+            if (user != null)
+            {
+                model = new AccountDetailsViewModel()
+                {
+                    DateCreated = user.DateCreated,
+                    PESEL = user.PESEL,
+                    StreetName = user.Address.StreetName,
+                    Number = user.Address.Number,
+                    PostalCode = user.Address.PostalCode,
+                    City = user.Address.City,
+                    Country = user.Address.Country
+                };
+            }
+
+            return PartialView("_userExtraDataFormPartial", model);
+        }
+
         [HttpPost, ValidateInput(false)]
         public ActionResult DriversGridViewPartialAddNew(DriverViewModel driver)
         {

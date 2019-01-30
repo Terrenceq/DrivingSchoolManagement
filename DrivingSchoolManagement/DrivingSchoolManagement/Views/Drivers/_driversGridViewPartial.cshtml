@@ -34,7 +34,11 @@
         };
 
         if (DrivingSchoolDataProvider.IsUserManager(userId))
+        {
             settings.CommandColumn.Visible = true;
+            settings.SettingsDetail.ShowDetailRow = true;
+            settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+        }
         else settings.CommandColumn.Visible = false;
 
         settings.Columns.Add(column =>
@@ -255,6 +259,17 @@
                 tx.ValidationSettings.RequiredField.IsRequired = true;
                 tx.ValidationSettings.Display = Display.Dynamic;
             });
+        });
+
+        settings.SetDetailRowTemplateContent(c =>
+        {
+            if (c.KeyValue.ToString() != "0")
+            {
+                Html.RenderAction("UserExtraDataPartial", new
+                {
+                    UserID = DataBinder.Eval(c.DataItem, "UserID"),
+                });
+            }
         });
 
         settings.EditFormLayoutProperties.Items.AddGroupItem(g =>

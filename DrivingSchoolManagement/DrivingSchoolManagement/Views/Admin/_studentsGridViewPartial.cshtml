@@ -1,19 +1,19 @@
 ﻿@using DrivingSchoolDb;
 @using DrivingSchoolManagement.Models;
 @using DrivingSchoolManagement.ViewModels;
-@model List<ManagerViewModel>
+@model List<StudentViewModel>
 
-@{ 
+@{
     var userId = (int)Session["UserID"];
 }
-@{ 
+@{
     var grid = Html.DevExpress().GridView(settings =>
     {
-        settings.Name = "ManagersGrid";
-        settings.CallbackRouteValues = new { Controller = "Managers", Action = "ManagersGridViewPartial" };
-        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Managers", Action = "ManagersGridViewPartialAddNew" };
-        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Managers", Action = "ManagersGridViewPartialUpdate" };
-        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Managers", Action = "ManagersGridViewPartialDelete" };
+        settings.Name = "StudentsGrid";
+        settings.CallbackRouteValues = new { Controller = "Admin", Action = "StudentsGridViewPartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Admin", Action = "StudentsGridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Admin", Action = "StudentsGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Admin", Action = "StudentsGridViewPartialDelete" };
         settings.Width = Unit.Percentage(100);
         settings.SettingsPager.PageSize = 25;
         settings.SettingsBehavior.ConfirmDelete = false;
@@ -21,26 +21,32 @@
         settings.CommandColumn.ShowEditButton = true;
         settings.CommandColumn.ShowNewButtonInHeader = true;
         settings.KeyFieldName = "UserID";
-        settings.SettingsCommandButton.NewButton.Text = "Dodaj menadżera";
+        settings.SettingsCommandButton.NewButton.Text = "Dodaj kursanta";
         settings.SettingsCommandButton.EditButton.Text = "Edytuj";
         settings.SettingsCommandButton.DeleteButton.Text = "Usuń";
         settings.SettingsPager.Visible = true;
         settings.Settings.ShowFilterRow = true;
+        settings.CommandColumn.Visible = true;
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
 
         settings.CellEditorInitialize = (s, e) =>
         {
             ASPxEdit editor = (ASPxEdit)e.Editor;
             editor.ValidationSettings.Display = Display.Dynamic;
         };
-
-        if (DrivingSchoolDataProvider.IsUserManager(userId))
+        settings.CellEditorInitialize = (s, e) =>
         {
-            settings.SettingsDetail.ShowDetailRow = true;
-            settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
-            settings.CommandColumn.Visible = true;
-        }
-        else settings.CommandColumn.Visible = false;
+            MVCxGridView gridView = s as MVCxGridView;
 
+            if (gridView.IsNewRowEditing)
+            {
+                if (e.Column.FieldName == "CategoryID")
+                {
+                    (e.Editor as ASPxComboBox).Value = "";
+                }
+            }
+        };
         settings.Columns.Add(column =>
         {
             column.FieldName = "UserID";
@@ -51,9 +57,9 @@
         {
             column.FieldName = "FirstName";
             column.Caption = "Imie";
-            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
             column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
             column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
             column.EditorProperties().TextBox(tx =>
             {
                 tx.ValidationSettings.RequiredField.IsRequired = true;
@@ -64,9 +70,9 @@
         {
             column.FieldName = "LastName";
             column.Caption = "Nazwisko";
-            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
             column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
             column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
             column.EditorProperties().TextBox(tx =>
             {
                 tx.ValidationSettings.RequiredField.IsRequired = true;
@@ -111,7 +117,63 @@
                 tx.ValidationSettings.RegularExpression.ErrorText = "Adres e-mail ma niepoprawny format!";
             });
         });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CategoryID";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            column.Caption = "Kategoria";
+            column.Width = 50;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().ComboBox(cb =>
+            {
+                cb.TextField = "CategoryName";
+                cb.ValueField = "CategoryID";
+                cb.ValueType = typeof(int);
+                cb.DataSource = DrivingSchoolDataProvider.GetCategories();
+                cb.ValidationSettings.Display = Display.Dynamic;
+                cb.ValidationSettings.RequiredField.IsRequired = true;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "AssignedDriverID";
+            column.Caption = "Przypisany instruktor";
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            ComboBoxProperties propertiesComboBox = column.PropertiesEdit as ComboBoxProperties;
+            propertiesComboBox.DataSource = DrivingSchoolDataProvider.GetDrivers();
+            propertiesComboBox.TextField = "FullName";
+            propertiesComboBox.ValueField = "AssignedDriverID";
+            propertiesComboBox.ValueType = typeof(int);
 
+            column.SetEditItemTemplateContent(p =>
+            {
+                var categoryId = (int?)DataBinder.Eval(p.DataItem, "CategoryID");
+                var actualDriver = (int?)DataBinder.Eval(p.DataItem, "AssignedDriverID");
+                if (actualDriver == 0) actualDriver = null;
+                var driversForCategory = DrivingSchoolDataProvider.GetDriversForUserCategory(categoryId);
+                Html.DevExpress().ComboBox(cb =>
+                {
+                    cb.Name = "AssignedDriverID";
+                    cb.Width = Unit.Percentage(100);
+                    cb.Properties.TextField = "FullName";
+                    cb.Properties.ValidationSettings.Display = Display.Dynamic;
+                    cb.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    cb.Properties.ValueField = "AssignedDriverID";
+                    cb.Properties.Columns.Add("FullName", "Imię i nazwisko", 50);
+                    cb.Properties.Columns.Add("Category", "Kategoria", 50);
+                    cb.Properties.TextFormatString = "{0}";
+                    cb.Properties.ValueType = typeof(int);
+                }).BindList(driversForCategory).Bind(actualDriver).GetHtml();
+            });
+        });
         settings.Columns.Add(column =>
         {
             column.FieldName = "About";
@@ -138,7 +200,6 @@
                 tx.ValidationSettings.RequiredField.IsRequired = true;
                 tx.ValidationSettings.Display = Display.Dynamic;
                 tx.MaskSettings.Mask = "00000000000";
-
             });
         });
 
@@ -230,6 +291,8 @@
             g.Items.Add("PESEL");
             g.Items.Add("Email");
             g.Items.Add("About");
+            g.Items.Add("CategoryID");
+            g.Items.Add("AssignedDriverID");
         });
 
         settings.EditFormLayoutProperties.Items.AddGroupItem(g =>
@@ -243,7 +306,6 @@
             g.Items.Add("PostalCode");
             g.Items.Add("Country");
         });
-
         DevExpress.Web.EditModeCommandLayoutItem commandButtons = new DevExpress.Web.EditModeCommandLayoutItem();
         commandButtons.HorizontalAlign = FormLayoutHorizontalAlign.Right;
         commandButtons.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
@@ -252,7 +314,8 @@
         settings.SettingsCommandButton.CancelButton.Text = "Anuluj";
     });
 
-    if (ViewData["EditError"] != null) {
+    if (ViewData["EditError"] != null)
+    {
         grid.SetEditErrorText((string)ViewData["EditError"]);
     }
 }
