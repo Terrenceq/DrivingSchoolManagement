@@ -11,6 +11,28 @@
         margin: 0px 20px;
     }
 </style>
+<script>
+    function StudentsCount(s, e) {
+        var url = '@Url.Action("Students", "Admin")';
+        window.location.href = url;
+    }
+    function DriversCount(s, e) {
+        var url = '@Url.Action("Drivers", "Admin")';
+        window.location.href = url;
+    }
+    function ManagersCount(s, e) {
+    var url = '@Url.Action("Managers", "Admin")';
+    window.location.href = url;
+    }
+    function VehiclesCount(s, e) {
+        var url = '@Url.Action("Vehicles", "Admin")';
+    window.location.href = url;
+    }
+        function CategoriesCount(s, e) {
+        var url = '@Url.Action("Categories", "Admin")';
+    window.location.href = url;
+    }
+</script>
 <div class="contentPane" style="margin: 50px;">
 
     <h3>
@@ -27,6 +49,7 @@
                     settings.Width = 200;
                     settings.Height = 100;
                     settings.EncodeHtml = false;
+                    settings.ClientSideEvents.Click = prop.Name;
                     settings.Text = Html.DisplayName(prop.Name) + "<br /><br />" + prop.GetValue(Model, null);
                 }).GetHtml()
         </div>

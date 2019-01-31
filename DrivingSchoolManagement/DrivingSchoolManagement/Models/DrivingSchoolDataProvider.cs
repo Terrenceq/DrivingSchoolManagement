@@ -120,6 +120,21 @@ namespace DrivingSchoolManagement.Models
             return DB.AssignedStudents.Count(s => s.DriverID == userId);
         }
 
+        public static int GetVehiclesForCategory(int categoryId)
+        {
+            return DB.Vehicles.Count(s => s.CategoryID == categoryId);
+        }
+
+        public static int GetDriversForCategory(int categoryId)
+        {
+            return DB.DriverInfoes.Count(s => s.CategoryID == categoryId);
+        }
+
+        public static int GetStudentsForCategory(int categoryId)
+        {
+            return DB.StudentInfoes.Count(s => s.CategoryID == categoryId);
+        }
+
         public static List<LessonTime> GetAvailableLessonTimesForSpecifiedDay(string lessonDate, int userId)
         {
             if (lessonDate == null)

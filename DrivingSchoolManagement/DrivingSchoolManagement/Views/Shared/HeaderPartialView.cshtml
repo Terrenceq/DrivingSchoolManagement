@@ -124,7 +124,7 @@ else
            if (DrivingSchoolDataProvider.IsUserManager((int)Session["UserID"])){
                settings.Items.Add(item =>
                {
-                   item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin" });
+                   item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "Index" });
                    item.Text = "Panel administracyjny";
                });
            }

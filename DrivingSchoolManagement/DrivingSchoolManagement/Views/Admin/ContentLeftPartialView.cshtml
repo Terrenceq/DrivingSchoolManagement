@@ -42,6 +42,19 @@
             item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "Managers" });
         });
     });
-
+    settings.Groups.Add(group =>
+    {
+        group.Text = "Kategorie i pojazdy";
+        group.Items.Add(item =>
+        {
+            item.Text = "Kategorie";
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "Categories" });
+        });
+        group.Items.Add(item =>
+        {
+            item.Text = "Pojazdy";
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "Vehicles" });
+        });
+    });
 }).GetHtml()
 </div>

@@ -1,0 +1,147 @@
+﻿@using DrivingSchoolDb;
+@using DrivingSchoolManagement.Models;
+@using DrivingSchoolManagement.ViewModels;
+@model List<CategoryViewModel>
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "CategoriesGrid";
+        settings.CallbackRouteValues = new { Controller = "Admin", Action = "CategoriesGridViewPartial" };
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Admin", Action = "CategoriesGridViewPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Admin", Action = "CategoriesGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Admin", Action = "CategoriesGridViewPartialDelete" };
+        settings.Width = Unit.Percentage(100);
+        settings.Style.Add("margin", "auto");
+        settings.SettingsPager.PageSize = 25;
+        settings.SettingsBehavior.ConfirmDelete = false;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.KeyFieldName = "CategoryID";
+        settings.SettingsCommandButton.NewButton.Text = "Dodaj kategorie";
+        settings.SettingsCommandButton.EditButton.Text = "Edytuj";
+        settings.SettingsCommandButton.DeleteButton.Text = "Usuń";
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.CommandColumn.Visible = true;
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CategoryID";
+            column.Width = 10;
+            column.Visible = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CategoryName";
+            column.Caption = "Kategoria";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.BeginsWith;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = true;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Students";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            column.Caption = "Ilość kursantów";
+            column.Width = 50;
+            column.ReadOnly = true;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.SetEditItemTemplateContent(c => { });
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(DrivingSchoolDataProvider.GetStudentsForCategory((int)DataBinder.Eval(c.DataItem, "CategoryID")));
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Drivers";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            column.Caption = "Ilość instruktorów";
+            column.Width = 50;
+            column.ReadOnly = true;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.SetEditItemTemplateContent(c => { });
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(DrivingSchoolDataProvider.GetDriversForCategory((int)DataBinder.Eval(c.DataItem, "CategoryID")));
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Vehicles";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            column.Caption = "Ilość pojazdów";
+            column.Width = 50;
+            column.ReadOnly = true;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.SetEditItemTemplateContent(c => { });
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(DrivingSchoolDataProvider.GetVehiclesForCategory((int)DataBinder.Eval(c.DataItem, "CategoryID")));
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "About";
+            column.Caption = "Dodatkowe informacje";
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.EditorProperties().TextBox(tx =>
+            {
+                tx.ValidationSettings.RequiredField.IsRequired = false;
+                tx.ValidationSettings.Display = Display.Dynamic;
+            });
+        });
+
+        settings.EditFormLayoutProperties.Items.AddGroupItem(g =>
+        {
+            g.Caption = "Informacje";
+            g.Items.Add("CategoryName");
+            g.Items.Add("About");
+        });
+
+        DevExpress.Web.EditModeCommandLayoutItem commandButtons = new DevExpress.Web.EditModeCommandLayoutItem();
+        commandButtons.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        commandButtons.RequiredMarkDisplayMode = FieldRequiredMarkMode.Hidden;
+        settings.EditFormLayoutProperties.Items.Add(commandButtons);
+        settings.SettingsCommandButton.UpdateButton.Text = "Zatwierdź";
+        settings.SettingsCommandButton.CancelButton.Text = "Anuluj";
+    });
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
+

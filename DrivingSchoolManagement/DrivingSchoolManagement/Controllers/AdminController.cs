@@ -39,6 +39,151 @@ namespace DrivingSchoolManagement.Controllers
             return View();
         }
 
+        [DSMAuthorize("Manager")]
+        public ActionResult Vehicles()
+        {
+            return View();
+        }
+
+        [DSMAuthorize("Manager")]
+        public ActionResult Categories()
+        {
+            return View();
+        }
+
+        [ValidateInput(false)]
+        public ActionResult CategoriesGridViewPartial()
+        {
+            var model = new List<CategoryViewModel>();
+            var categories = db.Categories.ToList();
+
+            foreach (var category in categories)
+            {
+                model.Add(new CategoryViewModel(category));
+            }
+
+            return PartialView("_categoriesGridViewPartial", model);
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult CategoriesGridViewPartialAddNew(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingCategory = db.Categories.FirstOrDefault(s => s.CategoryName == category.CategoryName);
+
+                    if (existingCategory == null)
+                    {
+                        var newCategory = new Category()
+                        {
+                            CategoryName = category.CategoryName,
+                            About = category.About
+                        };
+
+                        db.Categories.Add(newCategory);
+                        db.SaveChanges();
+                    }
+                    else
+                        ViewData["EditError"] = "Ta kategoria jest już dodana!";
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = "Coś poszło nie tak, popraw dane i spróbuj ponownie.";
+                }
+            }
+            else
+                ViewData["EditError"] = "Coś poszło nie tak, popraw dane i spróbuj ponownie.";
+
+            var model = new List<CategoryViewModel>();
+            var categories = db.Categories.ToList();
+
+            foreach (var singleCategory in categories)
+            {
+                model.Add(new CategoryViewModel(singleCategory));
+            }
+
+            return PartialView("_categoriesGridViewPartial", model);
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult CategoriesGridViewPartialUpdate(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var categoryToEdit = db.Categories.FirstOrDefault(s => s.CategoryID == category.CategoryID);
+
+                    if (categoryToEdit != null)
+                    {
+                        var existingCategory = db.Categories.FirstOrDefault(s => s.CategoryName == category.CategoryName && s.CategoryID != categoryToEdit.CategoryID);
+                        if (existingCategory == null)
+                        {
+                            categoryToEdit.CategoryName = category.CategoryName;
+                            categoryToEdit.About = category.About;
+
+                            db.Categories.AddOrUpdate(categoryToEdit);
+                            db.SaveChanges();
+                        }
+                        else
+                            ViewData["EditError"] = "Ta kategoria jest już dodana!";
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = "Coś poszło nie tak, popraw dane i spróbuj ponownie.";
+                }
+            }
+            else
+                ViewData["EditError"] = "Coś poszło nie tak, popraw dane i spróbuj ponownie.";
+
+            var model = new List<CategoryViewModel>();
+            var categories = db.Categories.ToList();
+
+            foreach (var singleCategory in categories)
+            {
+                model.Add(new CategoryViewModel(singleCategory));
+            }
+
+            return PartialView("_categoriesGridViewPartial", model);
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult CategoriesGridViewPartialDelete(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var categoryToDelete = db.Categories.FirstOrDefault(s => s.CategoryID == category.CategoryID);
+
+                    if (categoryToDelete != null)
+                    {
+                        db.Categories.Remove(categoryToDelete);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewData["EditError"] = "Coś poszło nie tak, popraw dane i spróbuj ponownie.";
+                }
+            }
+            else
+                ViewData["EditError"] = "Coś poszło nie tak, popraw dane i spróbuj ponownie.";
+
+            var model = new List<CategoryViewModel>();
+            var categories = db.Categories.ToList();
+
+            foreach (var singleCategory in categories)
+            {
+                model.Add(new CategoryViewModel(singleCategory));
+            }
+
+            return PartialView("_categoriesGridViewPartial", model);
+        }
+
         [ValidateInput(false)]
         public ActionResult StudentsGridViewPartial()
         {

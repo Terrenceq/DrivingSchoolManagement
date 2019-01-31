@@ -269,6 +269,9 @@
     <Content Include="Views\Admin\_studentsGridViewPartial.cshtml" />
     <Content Include="Views\Admin\Students.cshtml" />
     <Content Include="Views\Shared\_userExtraDataFormPartial.cshtml" />
+    <Content Include="Views\Admin\Vehicles.cshtml" />
+    <Content Include="Views\Admin\Categories.cshtml" />
+    <Content Include="Views\Admin\_categoriesGridViewPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -298,6 +301,7 @@
     <Compile Include="Services\DSMAuthorize.cs" />
     <Compile Include="ViewModels\AccountDetailsViewModel.cs" />
     <Compile Include="ViewModels\AdminPanelViewModel.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\LessonCreateViewModel.cs" />
     <Compile Include="ViewModels\AssignedStudentViewModel.cs" />
     <Compile Include="ViewModels\MyLessonsViewModel.cs" />
