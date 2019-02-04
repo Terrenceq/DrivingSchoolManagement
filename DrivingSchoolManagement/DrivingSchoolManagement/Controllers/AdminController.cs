@@ -351,5 +351,65 @@ namespace DrivingSchoolManagement.Controllers
 
             return PartialView("_studentsGridViewPartial", model);
         }
+
+        public ActionResult ActualLessons()
+        {
+            return View();
+        }
+
+        public ActionResult ActualLessonsGridViewPartial()
+        {
+            var model = new List<ActualLessonsViewModel>();
+
+            var lessons = db.Lessons.ToList();
+
+            foreach (var lesson in lessons)
+            {
+                if (DrivingSchoolDataProvider.GetLessonDateTime(lesson) > DateTime.Now)
+                    model.Add(new ActualLessonsViewModel(lesson));
+            }
+
+            return PartialView("_actualLessonsGridViewPartial", model);
+        }
+
+        public ActionResult AllLessons()
+        {
+            return View();
+        }
+
+        public ActionResult AllLessonsGridViewPartial()
+        {
+            var model = new List<ActualLessonsViewModel>();
+
+            var lessons = db.Lessons.ToList();
+
+            foreach (var lesson in lessons)
+            {
+                model.Add(new ActualLessonsViewModel(lesson));
+            }
+
+            return PartialView("_allLessonsGridViewPartial", model);
+        }
+
+        public ActionResult PastLessons()
+        {
+            return View();
+        }
+
+        public ActionResult PastLessonsGridViewPartial()
+        {
+            var model = new List<ActualLessonsViewModel>();
+
+            var lessons = db.Lessons.ToList();
+
+            foreach (var lesson in lessons)
+            {
+                if (DrivingSchoolDataProvider.GetLessonDateTime(lesson) < DateTime.Now)
+                    model.Add(new ActualLessonsViewModel(lesson));
+            }
+
+            return PartialView("_historicLessonsGridViewPartial", model);
+        }
+        
     }
 }

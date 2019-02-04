@@ -125,6 +125,22 @@ namespace DrivingSchoolManagement.Models
             return DB.Vehicles.Count(s => s.CategoryID == categoryId);
         }
 
+        public static string GetLessonsForUser(int userId)
+        {
+            var studentLessons = DB.Lessons.Where(w => w.StudentID == userId);
+            int allLessons = studentLessons.Count();
+            int incomingLessons = 0;
+            foreach (var lesson in studentLessons)
+            {
+                var lessonDateTime = GetLessonDateTime(lesson);
+
+                if (lessonDateTime > DateTime.Now)
+                    incomingLessons++;  
+            }
+
+            return $"{incomingLessons} ({allLessons})";
+        }
+
         public static int GetDriversForCategory(int categoryId)
         {
             return DB.DriverInfoes.Count(s => s.CategoryID == categoryId);

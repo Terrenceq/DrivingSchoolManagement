@@ -32,6 +32,21 @@
         var url = '@Url.Action("Categories", "Admin")';
     window.location.href = url;
     }
+
+        function IncomingLessonsCount(s, e) {
+            var url = '@Url.Action("ActualLessons", "Admin")';
+            window.location.href = url;
+        }
+        function PastLessonsCount(s, e) {
+            var url = '@Url.Action("PastLessons", "Admin")';
+            window.location.href = url;
+        }
+
+        function LessonsCount(s, e) {
+            var url = '@Url.Action("AllLessons", "Admin")';
+            window.location.href = url;
+        }
+        
 </script>
 <div class="contentPane" style="margin: 50px;">
 

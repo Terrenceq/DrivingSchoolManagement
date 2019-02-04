@@ -56,5 +56,24 @@
             item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "Vehicles" });
         });
     });
+    settings.Groups.Add(group =>
+    {
+        group.Text = "Nauki praktyczne";
+        group.Items.Add(item =>
+        {
+            item.Text = "Wszystkie";
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "AllLessons" });
+        });
+        group.Items.Add(item =>
+        {
+            item.Text = "Nadchodzące";
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "ActualLessons" });
+        });
+        group.Items.Add(item =>
+        {
+            item.Text = "Przeszłe";
+            item.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "Admin", Action = "PastLessons" });
+        });
+    });
 }).GetHtml()
 </div>

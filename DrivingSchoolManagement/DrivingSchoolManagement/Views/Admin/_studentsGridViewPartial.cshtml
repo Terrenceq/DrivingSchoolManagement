@@ -176,6 +176,26 @@
         });
         settings.Columns.Add(column =>
         {
+            column.FieldName = "Lessons";
+            column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+            column.Caption = "Nauki praktyczne";
+            column.ToolTip = "Przyszłe (wszystkie)";
+            column.Width = 50;
+            column.ReadOnly = true;
+            column.CellStyle.Font.Bold = true;
+            column.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            column.Settings.FilterMode = ColumnFilterMode.DisplayText;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Equals;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.SetEditItemTemplateContent(c => { });
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(DrivingSchoolDataProvider.GetLessonsForUser((int)DataBinder.Eval(c.DataItem, "UserID")));
+            });
+        });
+        settings.Columns.Add(column =>
+        {
             column.FieldName = "About";
             column.Caption = "Dodatkowe informacje";
             column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;

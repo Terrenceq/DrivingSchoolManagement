@@ -1,42 +1,43 @@
 ﻿@using DrivingSchoolManagement.Models;
 @using DevExpress.Data
 @using DrivingSchoolManagement.ViewModels;
-@model List<MyLessonsViewModel>
+@model List<ActualLessonsViewModel>
 @{
     var user = (int)Session["UserID"];
 }
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
-        settings.Name = "HistoryLessons";
-        settings.CallbackRouteValues = new { Controller = "Lessons", Action = "HistoryLessonsGridViewPartial" };
+        settings.Name = "ActualLessons";
+        settings.CallbackRouteValues = new { Controller = "Admin", Action = "ActualLessonsGridViewPartial" };
         settings.Width = Unit.Percentage(100);
-        settings.SettingsPager.PageSize = 5;
+        settings.SettingsPager.PageSize = 20;
         settings.Styles.CommandColumn.Wrap = DefaultBoolean.True;
         settings.CommandColumn.Visible = false;
         settings.KeyFieldName = "LessonID";
         settings.SettingsPager.Visible = true;
-        settings.SettingsText.Title = "Historyczne spotkania";
+        settings.SettingsText.Title = "Nadchodzące spotkania";
         settings.Settings.ShowTitlePanel = true;
 
-        if (DrivingSchoolDataProvider.IsUserStudent(user))
+        settings.Columns.Add(column =>
         {
-            settings.Columns.Add(column =>
-            {
-                column.FieldName = "Driver";
-                column.Caption = "Instruktor";
-                column.Settings.AllowCellMerge = DefaultBoolean.True;
-            });
-        }
-        if (DrivingSchoolDataProvider.IsUserDriver(user))
+            column.FieldName = "Driver";
+            column.Caption = "Instruktor";
+            column.Settings.AllowCellMerge = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(column =>
         {
-            settings.Columns.Add(column =>
-            {
-                column.FieldName = "Student";
-                column.Caption = "Kursant";
-                column.Settings.AllowCellMerge = DefaultBoolean.True;
-            });
-        }
+            column.FieldName = "Student";
+            column.Caption = "Kursant";
+            column.Settings.AllowCellMerge = DefaultBoolean.True;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Category";
+            column.Caption = "Kategoria";
+            column.Settings.AllowCellMerge = DefaultBoolean.True;   
+        });
         settings.Columns.Add(column =>
         {
             column.FieldName = "DateCreated";
@@ -49,7 +50,11 @@
             column.Caption = "Data spotkania";
             column.SortOrder = ColumnSortOrder.Ascending;
             column.PropertiesEdit.DisplayFormatString = "dd MMMM yyyy HH:mm";
-        });
+        });     
     });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
 }
 @grid.Bind(Model).GetHtml()

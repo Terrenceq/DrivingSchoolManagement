@@ -272,6 +272,12 @@
     <Content Include="Views\Admin\Vehicles.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
     <Content Include="Views\Admin\_categoriesGridViewPartial.cshtml" />
+    <Content Include="Views\Admin\_actualLessonsGridViewPartial.cshtml" />
+    <Content Include="Views\Admin\ActualLessons.cshtml" />
+    <Content Include="Views\Admin\_allLessonsGridViewPartial.cshtml" />
+    <Content Include="Views\Admin\AllLessons.cshtml" />
+    <Content Include="Views\Admin\_historicLessonsGridViewPartial.cshtml" />
+    <Content Include="Views\Admin\PastLessons.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -300,6 +306,7 @@
     <Compile Include="Models\DrivingSchoolDataProvider.cs" />
     <Compile Include="Services\DSMAuthorize.cs" />
     <Compile Include="ViewModels\AccountDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ActualLessonsViewModel.cs" />
     <Compile Include="ViewModels\AdminPanelViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\LessonCreateViewModel.cs" />
